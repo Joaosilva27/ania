@@ -74,7 +74,8 @@ npm run web            # browser (handy for layout checks; see limitations)
 | `npm test` | Jest suite for aggregation, dietary, recommendations, onboarding |
 | `npm run seed` | Seed Firestore with recipes + ingredients (idempotent) |
 | `npm run seed:dry` | Validate the catalogue and print a sample payload, no writes |
-| `npm run images:fetch` | Download recipe photography listed in `assets/image-sources.json` |
+| `npm run recipes:import` | Refetch every recipe + photo from TheMealDB and the Wikibooks Cookbook |
+| `npm run recipes:images` | Retry the photos that a rate-limited CDN refused |
 | `npm run images:build` | Regenerate `src/assets/recipeImages.ts` from `assets/recipes/` |
 | `npm run icons` | Regenerate icon / adaptive icon / splash PNGs |
 | `npm run verify:icons` | Fail if any MaterialCommunityIcons name is not in the glyphmap |
@@ -272,9 +273,12 @@ npm test
 - **No prices are invented.** Recipes carry a reviewed qualitative `budgetTier`
   (`budget` / `moderate` / `higher`) and a future-ready pricing interface, but no supermarket
   figures are displayed.
-- **Photography is AI-generated for this project** (44 unique dish images + welcome hero), bundled
-  locally so there are no broken or hotlinked URLs. Treat them as placeholders to be replaced with a
-  real shoot before launch.
+- **Photography is real, imported with the recipes.** Every dish photo is bundled locally, cropped
+  by `scripts/import-recipes.mjs` from TheMealDB or the Wikibooks Cookbook, and credited on the
+  recipe page. Nothing is hotlinked, and no generated image remains in the catalogue.
+- **Recipe metadata is partly derived.** Titles, ingredients, measures, steps, photos and servings
+  come from the source page, but prep/cook times, difficulty, tags and meal types are inferred from
+  the recipe text by the importer, because neither source publishes them consistently.
 - **The web build is a verification surface**, not a ship target: native modules (haptics, share
   sheet, OAuth redirect) behave differently there.
 - **Carnivore** is treated as a meat-inclusive preference, not a medical restriction (stated in the

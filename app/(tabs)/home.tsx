@@ -59,7 +59,7 @@ export default function HomeScreen() {
       preferences: data.preferences,
       planRecipeIds: data.plan.items.map((item) => item.recipeId),
       feedback: data.feedback,
-      limit: 16,
+      limit: 30,
     }).map((entry) => entry.recipe);
   }, [data]);
 

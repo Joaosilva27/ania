@@ -62,7 +62,10 @@ describe('dietary classification from ingredients', () => {
   });
 
   it('never lets a chicken dish through a vegetarian filter', () => {
-    const chicken = RECIPE_BY_ID['honey-garlic-chicken-broccoli-rice'];
+    const chicken = RECIPE_CATALOGUE.find(
+      (recipe) => recipe.dietaryClassification.length === 1 && recipe.tags.includes('high-protein'),
+    )!;
+    expect(chicken).toBeDefined();
     expect(isRecipeAllowedForDiet(chicken, 'vegetarian')).toBe(false);
     expect(filterRecipesByDiet(RECIPE_CATALOGUE, 'vegetarian')).not.toContainEqual(chicken);
   });
@@ -75,11 +78,12 @@ describe('dietary classification from ingredients', () => {
   });
 
   it('reports conflicts in a plan without mutating it', () => {
-    const conflicts = findDietConflicts(
-      [RECIPE_BY_ID['creamy-butter-chicken'], RECIPE_BY_ID['lentil-bolognese']],
-      'vegan',
-    );
-    expect(conflicts.map((recipe) => recipe.id)).toEqual(['creamy-butter-chicken']);
+    const meat = RECIPE_CATALOGUE.find((recipe) => recipe.dietaryClassification.length === 1)!;
+    const vegan = RECIPE_CATALOGUE.find((recipe) =>
+      recipe.dietaryClassification.includes('vegan'),
+    )!;
+    const conflicts = findDietConflicts([meat, vegan], 'vegan');
+    expect(conflicts.map((recipe) => recipe.id)).toEqual([meat.id]);
   });
 });
 

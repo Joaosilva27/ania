@@ -19,7 +19,7 @@ function buildQueue(data: NonNullable<ReturnType<typeof useUserStore.getState>['
     preferences: data.preferences,
     planRecipeIds: data.plan.items.map((item) => item.recipeId),
     feedback: data.feedback,
-    limit: 20,
+    limit: 60,
   }).map((entry) => entry.recipe);
 }
 

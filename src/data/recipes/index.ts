@@ -1,20 +1,15 @@
 import type { Recipe, ShoppingCategory } from '@/types';
-import { BEEF_RECIPES } from './beef';
-import { BREAKFAST_RECIPES } from './breakfast';
-import { CHICKEN_RECIPES } from './chicken';
-import { FISH_RECIPES } from './fish';
-import { VEGAN_RECIPES } from './vegan';
-import { VEGETARIAN_RECIPES } from './vegetarian';
+import importedRecipes from './imported.json';
 
-/** The single source of recipes for the app and for the Firestore seed script. */
-export const RECIPE_CATALOGUE: Recipe[] = [
-  ...CHICKEN_RECIPES,
-  ...BEEF_RECIPES,
-  ...FISH_RECIPES,
-  ...VEGETARIAN_RECIPES,
-  ...VEGAN_RECIPES,
-  ...BREAKFAST_RECIPES,
-];
+/**
+ * The single source of recipes for the app and for the Firestore seed script.
+ *
+ * Every entry is a real, published recipe imported from a public source by
+ * `scripts/import-recipes.mjs` (TheMealDB and the Wikibooks Cookbook). The
+ * importer guarantees each record has a bundled photograph, a source credit and
+ * an ingredient id for every line, so the catalogue can be trusted as data.
+ */
+export const RECIPE_CATALOGUE: Recipe[] = importedRecipes as unknown as Recipe[];
 
 export const RECIPE_BY_ID: Record<string, Recipe> = RECIPE_CATALOGUE.reduce(
   (acc, recipe) => {
@@ -75,5 +70,3 @@ export const SHOPPING_CATEGORY_ICONS: Record<ShoppingCategory, string> = {
   frozen: 'snowflake',
   other: 'basket-outline',
 };
-
-export { BEEF_RECIPES, BREAKFAST_RECIPES, CHICKEN_RECIPES, FISH_RECIPES, VEGAN_RECIPES, VEGETARIAN_RECIPES };

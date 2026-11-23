@@ -14,7 +14,8 @@
     "test": "jest",
     "seed": "tsx scripts/seed-recipes.ts",
     "seed:dry": "tsx scripts/seed-recipes.ts --dry-run",
-    "images:fetch": "node scripts/fetch-images.mjs",
+    "recipes:import": "node scripts/import-recipes.mjs --refresh",
+    "recipes:images": "node scripts/import-recipes.mjs --images-only",
     "images:build": "node scripts/build-image-registry.mjs",
     "icons": "node scripts/make-icon.mjs",
     "verify:icons": "tsx scripts/verify-icons.ts",
@@ -58,6 +59,7 @@
     "@types/react": "~19.0.10",
     "firebase-admin": "^13.4.0",
     "jest": "^29.7.0",
+    "sharp": "^0.35.5",
     "ts-jest": "^29.2.5",
     "tsx": "^4.19.2",
     "typescript": "~5.8.3"

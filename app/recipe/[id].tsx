@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Heart, Sparkle } from '@/components/cute/Decor';
 import { IngredientIcon } from '@/components/shopping/IngredientIcon';
@@ -120,7 +120,7 @@ export default function RecipeDetailScreen() {
           ) : null}
           {recipe.nutrition ? (
             <Text style={[type.caption, { color: colors.faint, marginTop: 4 }]}>
-              Nutrition values are editorial estimates, not laboratory measurements.
+              Nutrition is approximate — taken from the recipe source, not measured.
             </Text>
           ) : null}
 
@@ -208,6 +208,21 @@ export default function RecipeDetailScreen() {
                 : 'Best eaten fresh, though leftovers keep for a day in the fridge.'}
             </Text>
           </View>
+
+          {recipe.source ? (
+            <Pressable
+              accessibilityRole="link"
+              accessibilityLabel={`Open the original recipe on ${recipe.source.name}`}
+              onPress={() => Linking.openURL(recipe.source!.url)}
+              style={styles.credit}
+            >
+              <MaterialCommunityIcons name="heart-outline" size={13} color={colors.muted} />
+              <Text style={[type.caption, { color: colors.muted, flex: 1 }]}>
+                Recipe & photo from {recipe.source.name}
+                {recipe.source.author ? ` · ${recipe.source.author}` : ''} · {recipe.source.license}
+              </Text>
+            </Pressable>
+          ) : null}
         </View>
       </ScrollView>
 
@@ -296,6 +311,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 1,
+  },
+  credit: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: spacing.md,
+    paddingTop: spacing.sm,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
   },
   footerNote: {
     flexDirection: 'row',

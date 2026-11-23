@@ -1,3 +1,4 @@
+import { RECIPE_BY_ID, RECIPE_CATALOGUE } from '@/data/recipes';
 import {
   canAdvanceFrom,
   isStepReachable,
@@ -147,7 +148,7 @@ describe('onboarding progression', () => {
   it('sends a completed user straight to the app', () => {
     let data = answeredData();
     data = setOnboardingStep(data, 'complete');
-    data = completeOnboarding(data, ['honey-garlic-chicken-broccoli-rice']);
+    data = completeOnboarding(data, [RECIPE_CATALOGUE[0].id]);
     expect(resumeStep(data.onboarding)).toBe('complete');
     expect(data.onboarding.completed).toBe(true);
     expect(data.onboarding.completedAt).not.toBeNull();
@@ -155,11 +156,14 @@ describe('onboarding progression', () => {
 });
 
 describe('meal plan and shopping behaviour', () => {
-  const threeIds = [
-    'high-protein-chicken-burrito-bowl',
-    'creamy-butter-chicken',
-    'quick-beef-stir-fry',
-  ];
+  // Real catalogue recipes that share garlic and bring plenty of ingredients.
+  const threeIds = RECIPE_CATALOGUE.filter(
+    (recipe) =>
+      recipe.ingredients.length >= 8 &&
+      recipe.ingredients.some((ingredient) => ingredient.ingredientId === 'garlic'),
+  )
+    .slice(0, 3)
+    .map((recipe) => recipe.id);
 
   it('stores exactly the accepted recipes, without duplicates', () => {
     let data = answeredData();
@@ -192,26 +196,25 @@ describe('meal plan and shopping behaviour', () => {
     let data = answeredData();
     for (const id of threeIds) data = addRecipeToPlan(data, id, 'onboarding');
     data = setChecked(data, 'garlic', true);
-    data = setChecked(data, 'lime', true);
     expect(data.shopping.checked.garlic).toBe(true);
 
-    data = removeRecipeFromPlan(data, 'creamy-butter-chicken');
-    // Garlic is still needed by the burrito bowl, so it stays checked.
+    data = removeRecipeFromPlan(data, threeIds[0]);
+    // Garlic is still needed by the other two, so it stays checked.
     expect(data.shopping.checked.garlic).toBe(true);
-    // The whole plan still has lime from the burrito bowl.
-    expect(data.shopping.checked.lime).toBe(true);
 
-    data = updatePlanServings(data, 'quick-beef-stir-fry', 4);
-    const item = data.plan.items.find((entry) => entry.recipeId === 'quick-beef-stir-fry');
+    data = updatePlanServings(data, threeIds[1], 4);
+    const item = data.plan.items.find((entry) => entry.recipeId === threeIds[1]);
     expect(item?.servings).toBe(4);
   });
 
   it('clears checked state for ingredients no recipe needs any more', () => {
     let data = answeredData();
-    data = addRecipeToPlan(data, 'tuna-pasta-bake', 'onboarding');
-    data = setChecked(data, 'tinned-tuna', true);
-    data = removeRecipeFromPlan(data, 'tuna-pasta-bake');
-    expect(data.shopping.checked['tinned-tuna']).toBeUndefined();
+    const target = threeIds[2];
+    const ingredient = RECIPE_BY_ID[target].ingredients[0].ingredientId;
+    data = addRecipeToPlan(data, target, 'onboarding');
+    data = setChecked(data, ingredient, true);
+    data = removeRecipeFromPlan(data, target);
+    expect(data.shopping.checked[ingredient]).toBeUndefined();
   });
 
   it('serves the full catalogue without data problems', () => {

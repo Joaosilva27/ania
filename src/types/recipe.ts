@@ -113,6 +113,14 @@ export interface RecipeNutrition {
   isEstimate: true;
 }
 
+/** Where a bundled recipe came from — shown as a credit on the recipe page. */
+export interface RecipeSource {
+  name: string;
+  url: string;
+  license: string;
+  author?: string;
+}
+
 export interface Recipe {
   id: string;
   slug: string;
@@ -157,6 +165,9 @@ export interface Recipe {
 
   createdAt: string;
   updatedAt: string;
+
+  /** Present on imported recipes; absent on anything written by hand. */
+  source?: RecipeSource;
 }
 
 /* ------------------------------------------------------------------ */
