@@ -3,6 +3,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Heart, Sparkle } from '@/components/cute/Decor';
 import { IngredientIcon } from '@/components/shopping/IngredientIcon';
 import { RecipeImage } from '@/components/recipes/RecipeImage';
 import { RecipeStatsGrid } from '@/components/recipes/RecipeMeta';
@@ -64,14 +65,14 @@ export default function RecipeDetailScreen() {
                 icon="arrow-left"
                 accessibilityLabel="Go back"
                 onPress={() => router.back()}
-                background="rgba(250,248,242,0.92)"
+                background="rgba(255,249,247,0.92)"
               />
               <IconButton
                 icon={isFavorite ? 'heart' : 'heart-outline'}
                 accessibilityLabel={isFavorite ? 'Remove from favourites' : 'Save to favourites'}
-                color={isFavorite ? colors.coral : colors.ink}
+                color={isFavorite ? colors.danger : colors.ink}
                 onPress={() => toggleFavoriteRecipe(recipe.id)}
-                background="rgba(250,248,242,0.92)"
+                background="rgba(255,249,247,0.92)"
               />
             </View>
           </SafeAreaView>
@@ -83,13 +84,13 @@ export default function RecipeDetailScreen() {
               .filter((tag) => ['high-protein', 'budget', 'meal-prep', 'under-30', 'comfort'].includes(tag))
               .slice(0, 3)
               .map((tag) => (
-                <TagBadge key={tag} label={TAG_LABELS[tag] ?? tag} tone="green" />
+                <TagBadge key={tag} label={TAG_LABELS[tag] ?? tag} tone="primary" />
               ))}
             {recipe.dietaryClassification
               .filter((diet) => diet !== 'carnivore')
               .slice(0, 1)
               .map((diet) => (
-                <TagBadge key={diet} label={DIETARY_LABELS[diet] ?? diet} tone="orange" />
+                <TagBadge key={diet} label={DIETARY_LABELS[diet] ?? diet} tone="accent" />
               ))}
           </View>
 
@@ -157,7 +158,10 @@ export default function RecipeDetailScreen() {
           </View>
 
           {/* Ingredients */}
-          <Text style={[type.sectionTitle, styles.sectionTitle]}>Ingredients</Text>
+          <View style={styles.sectionTitleRow}>
+            <Heart size={13} color={colors.primary} />
+            <Text style={[type.sectionTitle, styles.sectionTitle]}>Ingredients</Text>
+          </View>
           <View style={styles.ingredientList}>
             {ingredients.map((ingredient) => (
               <View key={`${ingredient.ingredientId}-${ingredient.unit}-${ingredient.preparation ?? ''}`} style={styles.ingredientRow}>
@@ -181,12 +185,15 @@ export default function RecipeDetailScreen() {
           </View>
 
           {/* Method */}
-          <Text style={[type.sectionTitle, styles.sectionTitle]}>Method</Text>
+          <View style={styles.sectionTitleRow}>
+            <Sparkle size={13} color={colors.butter} />
+            <Text style={[type.sectionTitle, styles.sectionTitle]}>Method</Text>
+          </View>
           <View style={{ gap: spacing.md }}>
             {recipe.instructions.map((instruction) => (
               <View key={instruction.step} style={styles.stepRow}>
                 <View style={styles.stepNumber}>
-                  <Text style={[type.label, { color: colors.greenInk }]}>{instruction.step}</Text>
+                  <Text style={[type.label, { color: colors.white }]}>{instruction.step}</Text>
                 </View>
                 <Text style={[type.body, { color: colors.inkSoft, flex: 1 }]}>{instruction.text}</Text>
               </View>
@@ -194,7 +201,7 @@ export default function RecipeDetailScreen() {
           </View>
 
           <View style={styles.footerNote}>
-            <MaterialCommunityIcons name="lightbulb-on-outline" size={16} color={colors.greenDeep} />
+            <MaterialCommunityIcons name="lightbulb-on-outline" size={16} color={colors.primaryDeep} />
             <Text style={[type.caption, { color: colors.inkSoft, flex: 1 }]}>
               {recipe.mealPrepSuitable
                 ? 'Good for meal prep — cool quickly and store in the fridge for up to 3 days.'
@@ -218,14 +225,14 @@ export default function RecipeDetailScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  hero: { height: 400, backgroundColor: colors.surfaceMuted },
+  hero: { height: 410, backgroundColor: colors.surfaceMuted },
   heroOverlay: { flex: 1, paddingHorizontal: spacing.md },
   heroButtons: { flexDirection: 'row', justifyContent: 'space-between', paddingTop: spacing.xs },
   content: {
-    marginTop: -radius.xl,
+    marginTop: -radius.xxl,
     backgroundColor: colors.background,
-    borderTopLeftRadius: radius.xl,
-    borderTopRightRadius: radius.xl,
+    borderTopLeftRadius: radius.xxl,
+    borderTopRightRadius: radius.xxl,
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.lg,
   },
@@ -233,8 +240,8 @@ const styles = StyleSheet.create({
   nutritionRow: {
     flexDirection: 'row',
     marginTop: spacing.md,
-    backgroundColor: colors.surfaceMuted,
-    borderRadius: radius.md,
+    backgroundColor: colors.lavenderSoft,
+    borderRadius: radius.lg,
     paddingVertical: spacing.sm,
   },
   nutritionItem: { flex: 1, alignItems: 'center' },
@@ -243,7 +250,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.surface,
     borderRadius: radius.lg,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: colors.border,
     padding: spacing.md,
     marginTop: spacing.lg,
@@ -257,11 +264,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  sectionTitle: { color: colors.ink, marginTop: spacing.xl, marginBottom: spacing.sm },
+  sectionTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 7,
+    marginTop: spacing.xl,
+    marginBottom: spacing.sm,
+  },
+  sectionTitle: { color: colors.ink },
   ingredientList: {
     backgroundColor: colors.surface,
-    borderRadius: radius.lg,
-    borderWidth: 1,
+    borderRadius: radius.xl,
+    borderWidth: 2,
     borderColor: colors.border,
     paddingHorizontal: spacing.md,
   },
@@ -275,10 +289,10 @@ const styles = StyleSheet.create({
   },
   stepRow: { flexDirection: 'row', gap: spacing.sm, alignItems: 'flex-start' },
   stepNumber: {
-    width: 26,
-    height: 26,
+    width: 28,
+    height: 28,
     borderRadius: radius.pill,
-    backgroundColor: colors.sage,
+    backgroundColor: colors.primaryDeep,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 1,
@@ -286,8 +300,8 @@ const styles = StyleSheet.create({
   footerNote: {
     flexDirection: 'row',
     gap: spacing.xs,
-    backgroundColor: colors.surfaceMuted,
-    borderRadius: radius.md,
+    backgroundColor: colors.mintSoft,
+    borderRadius: radius.lg,
     padding: spacing.md,
     marginTop: spacing.xl,
   },
@@ -299,8 +313,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.md,
     paddingBottom: spacing.xl,
-    backgroundColor: colors.background,
-    borderTopWidth: StyleSheet.hairlineWidth,
+    backgroundColor: 'rgba(255, 247, 250, 0.96)',
+    borderTopWidth: 1,
     borderTopColor: colors.border,
   },
 });

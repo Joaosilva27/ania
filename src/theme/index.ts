@@ -1,1 +1,11 @@
-export { colors, spacing, radius, fonts, type, shadows, layout, durations } from './tokens';
+export {
+  colors,
+  gradients,
+  spacing,
+  radius,
+  fonts,
+  type,
+  shadows,
+  layout,
+  durations,
+} from './tokens';

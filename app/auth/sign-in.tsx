@@ -32,7 +32,7 @@ export default function SignInScreen() {
 
       <View style={styles.body}>
         <View style={styles.badge}>
-          <MaterialCommunityIcons name="silverware-fork-knife" size={26} color={colors.greenInk} />
+          <MaterialCommunityIcons name="silverware-fork-knife" size={26} color={colors.primaryInk} />
         </View>
         <Text style={[type.onboardingTitle, styles.title]}>Welcome to ania</Text>
         <Text style={[type.body, styles.subtitle]}>
@@ -62,7 +62,7 @@ export default function SignInScreen() {
             { icon: 'credit-card-off-outline' as const, text: 'No subscription, ever.' },
           ].map((point) => (
             <View key={point.text} style={styles.point}>
-              <MaterialCommunityIcons name={point.icon} size={17} color={colors.greenDeep} />
+              <MaterialCommunityIcons name={point.icon} size={17} color={colors.primaryDeep} />
               <Text style={[type.caption, { color: colors.inkSoft, flex: 1 }]}>{point.text}</Text>
             </View>
           ))}
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     width: 58,
     height: 58,
     borderRadius: radius.pill,
-    backgroundColor: colors.sage,
+    backgroundColor: colors.primarySoft,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: spacing.sm,

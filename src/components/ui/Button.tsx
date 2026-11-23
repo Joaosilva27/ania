@@ -1,7 +1,8 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
-import { colors, radius, shadows, spacing, type } from '@/theme';
+import { colors, gradients, radius, shadows, spacing, type } from '@/theme';
 
 type IconName = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
 
@@ -26,12 +27,22 @@ export function PrimaryButton({
   fullWidth = true,
 }: PrimaryButtonProps) {
   const isDisabled = Boolean(disabled) || Boolean(loading);
+
   const palette = {
-    primary: { background: colors.ink, text: colors.background, border: colors.ink },
-    secondary: { background: colors.surface, text: colors.ink, border: colors.borderStrong },
-    ghost: { background: 'transparent', text: colors.ink, border: 'transparent' },
-    danger: { background: colors.coralSoft, text: colors.coral, border: colors.coralSoft },
+    primary: { text: colors.white, border: 'transparent' },
+    secondary: { text: colors.primaryInk, border: colors.borderStrong },
+    ghost: { text: colors.primaryDeep, border: 'transparent' },
+    danger: { text: colors.danger, border: 'transparent' },
   }[variant];
+
+  const gradient =
+    variant === 'primary'
+      ? gradients.button
+      : variant === 'secondary'
+        ? ([colors.surface, colors.surface] as const)
+        : variant === 'danger'
+          ? ([colors.dangerSoft, colors.dangerSoft] as const)
+          : ([colors.surface, colors.surface] as const);
 
   return (
     <Pressable
@@ -39,27 +50,42 @@ export function PrimaryButton({
       accessibilityState={{ disabled: isDisabled, busy: Boolean(loading) }}
       onPress={isDisabled ? undefined : onPress}
       style={({ pressed }) => [
-        styles.base,
+        styles.shell,
         {
-          backgroundColor: palette.background,
-          borderColor: palette.border,
           opacity: isDisabled ? 0.45 : 1,
           width: fullWidth ? '100%' : undefined,
-          transform: [{ scale: pressed && !isDisabled ? 0.985 : 1 }],
+          transform: [{ scale: pressed && !isDisabled ? 0.975 : 1 }],
         },
-        variant === 'primary' && !isDisabled ? shadows.soft : null,
+        variant === 'primary' && !isDisabled ? shadows.card : null,
+        variant === 'ghost' ? styles.transparent : null,
       ]}
     >
-      {loading ? (
-        <ActivityIndicator color={palette.text} />
-      ) : (
-        <>
-          {icon ? (
-            <MaterialCommunityIcons name={icon} size={19} color={palette.text} style={styles.icon} />
-          ) : null}
-          <Text style={[type.button, { color: palette.text }]}>{label}</Text>
-        </>
-      )}
+      <LinearGradient
+        colors={gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={[
+          styles.inner,
+          {
+            borderColor: palette.border,
+            borderWidth: palette.border === 'transparent' ? 0 : 1.5,
+          },
+        ]}
+      >
+        {loading ? (
+          <ActivityIndicator color={palette.text} />
+        ) : (
+          <>
+            {icon ? (
+              <MaterialCommunityIcons name={icon} size={19} color={palette.text} style={styles.icon} />
+            ) : null}
+            <Text style={[type.button, { color: palette.text }]}>{label}</Text>
+            {variant === 'primary' ? (
+              <Text style={[styles.sparkle, { color: palette.text }]}>✦</Text>
+            ) : null}
+          </>
+        )}
+      </LinearGradient>
     </Pressable>
   );
 }
@@ -79,11 +105,11 @@ export function IconButton({
   icon,
   onPress,
   size = 22,
-  color = colors.ink,
+  color = colors.primaryInk,
   background = colors.surface,
   accessibilityLabel,
   disabled,
-  bordered,
+  bordered = true,
 }: IconButtonProps) {
   return (
     <Pressable
@@ -98,8 +124,9 @@ export function IconButton({
           backgroundColor: background,
           borderColor: bordered ? colors.border : 'transparent',
           opacity: disabled ? 0.4 : pressed ? 0.75 : 1,
-          transform: [{ scale: pressed ? 0.94 : 1 }],
+          transform: [{ scale: pressed ? 0.92 : 1 }],
         },
+        shadows.soft,
       ]}
     >
       <MaterialCommunityIcons name={icon} size={size} color={color} />
@@ -110,7 +137,7 @@ export function IconButton({
 export function TextButton({
   label,
   onPress,
-  color = colors.inkSoft,
+  color = colors.primaryDeep,
 }: {
   label: string;
   onPress: () => void;
@@ -128,22 +155,32 @@ export function TextButton({
   );
 }
 
+const PILL_TONES = {
+  primary: { backgroundColor: colors.primarySoft, color: colors.primaryInk },
+  accent: { backgroundColor: colors.accentSoft, color: colors.accentInk },
+  peach: { backgroundColor: colors.accentSoft, color: colors.accentInk },
+  lavender: { backgroundColor: colors.lavenderSoft, color: colors.lavenderInk },
+  mint: { backgroundColor: colors.mintSoft, color: colors.mintInk },
+  butter: { backgroundColor: colors.butterSoft, color: colors.butterInk },
+  neutral: { backgroundColor: colors.surfaceMuted, color: colors.inkSoft },
+  dark: { backgroundColor: colors.ink, color: colors.white },
+} as const;
+
 export function Pill({
   label,
-  tone = 'sage',
+  tone = 'primary',
+  icon,
 }: {
   label: string;
-  tone?: 'sage' | 'orange' | 'neutral' | 'dark';
+  tone?: keyof typeof PILL_TONES;
+  icon?: IconName;
 }) {
-  const toneStyles = {
-    sage: { backgroundColor: colors.sage, color: colors.greenInk },
-    orange: { backgroundColor: colors.orangeSoft, color: '#7A4A17' },
-    neutral: { backgroundColor: colors.surfaceMuted, color: colors.inkSoft },
-    dark: { backgroundColor: colors.ink, color: colors.background },
-  }[tone];
-
+  const toneStyles = PILL_TONES[tone];
   return (
     <View style={[styles.pill, { backgroundColor: toneStyles.backgroundColor }]}>
+      {icon ? (
+        <MaterialCommunityIcons name={icon} size={12} color={toneStyles.color} style={{ marginRight: 5 }} />
+      ) : null}
       <Text style={[type.caption, { color: toneStyles.color, fontFamily: type.label.fontFamily }]}>
         {label}
       </Text>
@@ -152,23 +189,29 @@ export function Pill({
 }
 
 const styles = StyleSheet.create({
-  base: {
-    minHeight: 54,
+  shell: {
     borderRadius: radius.pill,
-    borderWidth: 1,
+    overflow: 'visible',
+  },
+  transparent: { backgroundColor: 'transparent' },
+  inner: {
+    minHeight: 56,
+    borderRadius: radius.pill,
     paddingHorizontal: spacing.xl,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
+    overflow: 'hidden',
   },
   icon: { marginRight: spacing.xs },
+  sparkle: { fontSize: 13, marginLeft: spacing.xs, opacity: 0.85 },
   iconButton: {
     width: 44,
     height: 44,
     borderRadius: radius.pill,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
+    borderWidth: 1.5,
   },
   textButton: { paddingVertical: spacing.xs, alignSelf: 'center' },
   pill: {
@@ -176,5 +219,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     borderRadius: radius.pill,
     alignSelf: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });

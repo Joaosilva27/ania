@@ -3,32 +3,44 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, fonts } from '@/theme';
+import { colors, fonts, radius } from '@/theme';
 
 export default function TabsLayout() {
   const insets = useSafeAreaInsets();
-  const bottom = Platform.OS === 'web' ? 12 : Math.max(insets.bottom, 10);
+  const bottom = Platform.OS === 'web' ? 14 : Math.max(insets.bottom, 10);
+  const height = 64 + bottom;
 
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: colors.greenInk,
-        tabBarInactiveTintColor: colors.faint,
+        tabBarActiveTintColor: colors.primaryDeep,
+        tabBarInactiveTintColor: colors.muted,
         tabBarLabelStyle: {
-          fontFamily: fonts.medium,
+          fontFamily: fonts.semibold,
           fontSize: 11,
           marginTop: 1,
         },
         tabBarStyle: {
-          backgroundColor: colors.background,
-          borderTopColor: colors.border,
-          borderTopWidth: 1,
-          height: 58 + bottom,
+          position: 'absolute',
+          left: 16,
+          right: 16,
+          bottom: 10,
+          backgroundColor: colors.surface,
+          borderTopWidth: 0,
+          borderWidth: 2,
+          borderColor: colors.border,
+          borderRadius: radius.xl,
+          height,
           paddingBottom: bottom,
-          paddingTop: 6,
+          paddingTop: 8,
+          shadowColor: '#D0698F',
+          shadowOpacity: 0.18,
+          shadowRadius: 20,
+          shadowOffset: { width: 0, height: 10 },
+          elevation: 10,
         },
-        sceneStyle: { backgroundColor: colors.background },
+        sceneStyle: { backgroundColor: 'transparent' },
       }}
     >
       <Tabs.Screen
@@ -36,7 +48,7 @@ export default function TabsLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home-variant-outline" size={size} color={color} />
+            <MaterialCommunityIcons name="home-heart" size={size} color={color} />
           ),
         }}
       />
@@ -45,7 +57,7 @@ export default function TabsLayout() {
         options={{
           title: 'Discover',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="cards-outline" size={size} color={color} />
+            <MaterialCommunityIcons name="cards-heart" size={size} color={color} />
           ),
         }}
       />
@@ -54,7 +66,7 @@ export default function TabsLayout() {
         options={{
           title: 'Plan',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="calendar-month-outline" size={size} color={color} />
+            <MaterialCommunityIcons name="calendar-heart" size={size} color={color} />
           ),
         }}
       />
@@ -63,7 +75,7 @@ export default function TabsLayout() {
         options={{
           title: 'Profile',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account-circle-outline" size={size} color={color} />
+            <MaterialCommunityIcons name="account-heart" size={size} color={color} />
           ),
         }}
       />

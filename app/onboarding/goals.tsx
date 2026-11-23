@@ -40,7 +40,7 @@ export default function GoalsScreen() {
           />
           {index === 0 ? (
             <View style={styles.badge}>
-              <TagBadge label="Most popular" tone="green" />
+              <TagBadge label="Most popular" tone="primary" />
             </View>
           ) : null}
         </View>

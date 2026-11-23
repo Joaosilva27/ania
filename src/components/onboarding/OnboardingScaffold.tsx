@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { Heart } from '@/components/cute/Decor';
 import { IconButton } from '@/components/ui/Button';
 import { ScreenContainer } from '@/components/ui/Screen';
 import { ONBOARDING_TITLES, progressFor } from '@/services/onboarding';
@@ -51,14 +52,21 @@ export function OnboardingScaffold({
         ) : (
           <View style={{ width: 44 }} />
         )}
-        <Text style={[type.caption, styles.stepLabel]}>
-          Step {index} of {total}
+        <Text style={[type.scriptTiny, styles.stepLabel]}>
+          step {index} of {total}
         </Text>
         <View style={styles.headerRight}>{headerRight}</View>
       </View>
 
-      <View style={styles.progressTrack}>
-        <View style={[styles.progressFill, { width: `${(index / total) * 100}%` }]} />
+      <View style={styles.heartRow}>
+        {Array.from({ length: total }).map((_, stepIndex) => (
+          <Heart
+            key={stepIndex}
+            size={14}
+            filled={stepIndex < index}
+            color={stepIndex < index ? colors.primaryDeep : colors.borderStrong}
+          />
+        ))}
       </View>
 
       <Text style={[type.onboardingTitle, styles.title]}>{meta.title}</Text>
@@ -78,16 +86,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingTop: spacing.xs,
   },
-  stepLabel: { color: colors.muted, letterSpacing: 0.3 },
+  stepLabel: { color: colors.primaryDeep, letterSpacing: 0.2 },
   headerRight: { width: 44, alignItems: 'flex-end' },
-  progressTrack: {
-    height: 4,
-    backgroundColor: colors.surfaceMuted,
-    borderRadius: radius.pill,
+  heartRow: {
+    flexDirection: 'row',
+    gap: 6,
     marginTop: spacing.sm,
-    overflow: 'hidden',
+    alignItems: 'center',
   },
-  progressFill: { height: '100%', backgroundColor: colors.green, borderRadius: radius.pill },
   title: { color: colors.ink, marginTop: spacing.xl },
   subtitle: { color: colors.muted, marginTop: spacing.xs },
   content: { marginTop: spacing.xl, gap: spacing.sm, flex: 1 },

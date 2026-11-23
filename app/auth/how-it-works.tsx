@@ -43,7 +43,7 @@ export default function HowItWorksScreen() {
         {STEPS.map((step, index) => (
           <View key={step.title} style={styles.step}>
             <View style={styles.stepIcon}>
-              <MaterialCommunityIcons name={step.icon} size={22} color={colors.greenInk} />
+              <MaterialCommunityIcons name={step.icon} size={22} color={colors.primaryInk} />
             </View>
             <View style={{ flex: 1 }}>
               <Text style={[type.caption, { color: colors.muted }]}>Step {index + 1}</Text>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: radius.pill,
-    backgroundColor: colors.sage,
+    backgroundColor: colors.primarySoft,
     alignItems: 'center',
     justifyContent: 'center',
   },

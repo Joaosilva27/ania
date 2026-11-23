@@ -25,7 +25,7 @@ export function RecipeImage({
         style={[styles.fallback, style as StyleProp<ViewStyle>]}
         accessibilityLabel={`${recipe.title} image unavailable`}
       >
-        <MaterialCommunityIcons name="silverware-fork-knife" size={26} color={colors.greenDeep} />
+        <MaterialCommunityIcons name="silverware-fork-knife" size={26} color={colors.primaryDeep} />
       </View>
     );
   }
@@ -47,7 +47,7 @@ export function RecipeImage({
 
 const styles = StyleSheet.create({
   fallback: {
-    backgroundColor: colors.sage,
+    backgroundColor: colors.primarySoft,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: radius.lg,

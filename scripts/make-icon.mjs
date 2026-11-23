@@ -4,7 +4,7 @@ import zlib from 'node:zlib';
 
 /**
  * Tiny deterministic PNG writer so the app ships a real icon instead of a
- * missing asset. Draws the cream/charcoal/sage bowl mark used in the app.
+ * missing asset. Draws the blush/rose heart mark used in the app.
  */
 
 const CRC_TABLE = (() => {
@@ -56,14 +56,14 @@ function drawIcon(size) {
   const pixels = Buffer.alloc(size * size * 4);
   const cx = size / 2;
   const cy = size / 2;
-  const cream = [250, 248, 242];
-  const charcoal = [36, 39, 32];
-  const sage = [140, 191, 116];
+  const blush = [255, 246, 243];
+  const rose = [198, 63, 110];
+  const petal = [255, 255, 255];
 
   for (let y = 0; y < size; y += 1) {
     for (let x = 0; x < size; x += 1) {
       const index = (y * size + x) * 4;
-      let color = cream;
+      let color = blush;
 
       // Round background (adaptive icons get a square canvas).
       const cornerRadius = size * 0.22;
@@ -79,11 +79,13 @@ function drawIcon(size) {
       }
 
       const distance = Math.hypot(x - cx, y - cy);
-      if (distance < size * 0.34) color = charcoal;
+      if (distance < size * 0.36) color = rose;
 
-      // Bowl: lower half circle in sage sitting inside the charcoal disc.
-      const bowl = Math.hypot(x - cx, y - (cy - size * 0.02)) < size * 0.2 && y > cy - size * 0.05;
-      if (bowl) color = sage;
+      // Heart mark inside the rose disc.
+      const nx = (x - cx) / (size * 0.19);
+      const ny = -(y - (cy + size * 0.035)) / (size * 0.19);
+      const heart = Math.pow(nx * nx + ny * ny - 1, 3) - nx * nx * Math.pow(ny, 3);
+      if (distance < size * 0.36 && heart <= 0) color = petal;
 
       pixels[index] = color[0];
       pixels[index + 1] = color[1];

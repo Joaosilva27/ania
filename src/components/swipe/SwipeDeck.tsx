@@ -150,12 +150,12 @@ function SwipeDeckInner<T>(
         <Animated.View style={[styles.cardLayer, cardStyle]}>
           {renderCard(current)}
           <Animated.View style={[styles.decisionBadge, styles.yesBadge, yesStyle, styles.noTouch]}>
-            <MaterialCommunityIcons name="check-bold" size={14} color={colors.greenInk} />
-            <Text style={[type.label, { color: colors.greenInk }]}>{yesLabel}</Text>
+            <MaterialCommunityIcons name="check-bold" size={14} color={colors.primaryInk} />
+            <Text style={[type.label, { color: colors.primaryInk }]}>{yesLabel}</Text>
           </Animated.View>
           <Animated.View style={[styles.decisionBadge, styles.noBadge, noStyle, styles.noTouch]}>
-            <MaterialCommunityIcons name="close-thick" size={14} color={colors.coral} />
-            <Text style={[type.label, { color: colors.coral }]}>{noLabel}</Text>
+            <MaterialCommunityIcons name="close-thick" size={14} color={colors.danger} />
+            <Text style={[type.label, { color: colors.danger }]}>{noLabel}</Text>
           </Animated.View>
         </Animated.View>
       </GestureDetector>
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.pill,
     ...shadows.soft,
   },
-  yesBadge: { right: spacing.lg, backgroundColor: colors.sage },
-  noBadge: { left: spacing.lg, backgroundColor: colors.coralSoft },
+  yesBadge: { right: spacing.lg, backgroundColor: colors.primarySoft },
+  noBadge: { left: spacing.lg, backgroundColor: colors.dangerSoft },
   noTouch: { pointerEvents: 'none' },
 });

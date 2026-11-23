@@ -7,12 +7,15 @@ import { colors, radius, shadows, spacing, type } from '@/theme';
 import type { Recipe } from '@/types';
 
 export function SwipeRecipeCard({ recipe }: { recipe: Recipe }) {
-  const badges: Array<{ label: string; tone: 'green' | 'orange' | 'neutral' }> = [];
-  if (recipe.tags.includes('high-protein')) badges.push({ label: 'High protein', tone: 'green' });
-  if (recipe.dietaryClassification.includes('vegan')) badges.push({ label: 'Vegan', tone: 'green' });
+  const badges: Array<{
+    label: string;
+    tone: 'primary' | 'accent' | 'lavender' | 'mint' | 'butter' | 'neutral';
+  }> = [];
+  if (recipe.tags.includes('high-protein')) badges.push({ label: 'High protein', tone: 'primary' });
+  if (recipe.dietaryClassification.includes('vegan')) badges.push({ label: 'Vegan', tone: 'mint' });
   else if (recipe.dietaryClassification.includes('vegetarian'))
-    badges.push({ label: 'Veggie', tone: 'green' });
-  if (recipe.budgetTier === 'budget') badges.push({ label: 'Budget', tone: 'orange' });
+    badges.push({ label: 'Veggie', tone: 'mint' });
+  if (recipe.budgetTier === 'budget') badges.push({ label: 'Budget', tone: 'butter' });
 
   return (
     <View style={styles.card}>
@@ -35,10 +38,12 @@ export function SwipeRecipeCard({ recipe }: { recipe: Recipe }) {
 const styles = StyleSheet.create({
   card: {
     flex: 1,
-    borderRadius: radius.xl,
+    borderRadius: radius.xxl,
     overflow: 'hidden',
-    backgroundColor: colors.surfaceMuted,
-    ...shadows.card,
+    backgroundColor: colors.surface,
+    borderWidth: 3,
+    borderColor: colors.white,
+    ...shadows.floating,
   },
   image: { ...StyleSheet.absoluteFillObject },
   info: {
@@ -46,8 +51,10 @@ const styles = StyleSheet.create({
     left: spacing.sm,
     right: spacing.sm,
     bottom: spacing.sm,
-    backgroundColor: 'rgba(250, 248, 242, 0.96)',
-    borderRadius: radius.lg,
+    backgroundColor: 'rgba(255, 255, 255, 0.96)',
+    borderRadius: radius.xl,
+    borderWidth: 1,
+    borderColor: colors.border,
     padding: spacing.md,
   },
   badgeRow: { flexDirection: 'row', flexWrap: 'wrap', marginBottom: spacing.xxs },

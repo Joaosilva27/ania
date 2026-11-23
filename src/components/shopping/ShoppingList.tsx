@@ -2,6 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { IngredientIcon } from './IngredientIcon';
+import { Heart } from '@/components/cute/Decor';
 import type { ShoppingListItem, ShoppingListSection } from '@/services/shopping/aggregate';
 import { colors, radius, spacing, type } from '@/theme';
 
@@ -24,7 +25,9 @@ export function ShoppingProgress({
         <Text style={[type.caption, { color: colors.muted }]}>{Math.round(ratio * 100)}%</Text>
       </View>
       <View style={styles.track}>
-        <View style={[styles.fill, { width: `${ratio * 100}%` }]} />
+        <View style={[styles.fill, { width: `${Math.max(ratio * 100, checked > 0 ? 6 : 0)}%` }]}>
+          {checked > 0 ? <Heart size={10} color={colors.white} style={styles.fillHeart} /> : null}
+        </View>
       </View>
     </View>
   );
@@ -79,12 +82,16 @@ export function ShoppingItemRow({
           style={[
             styles.checkbox,
             {
-              backgroundColor: item.checked ? colors.green : 'transparent',
-              borderColor: item.checked ? colors.greenDeep : colors.borderStrong,
+              backgroundColor: item.checked ? colors.primaryDeep : 'transparent',
+              borderColor: item.checked ? colors.primaryDeep : colors.borderStrong,
             },
           ]}
         >
-          {item.checked ? <MaterialCommunityIcons name="check" size={15} color={colors.white} /> : null}
+          <MaterialCommunityIcons
+            name={item.checked ? 'heart' : 'heart-outline'}
+            size={16}
+            color={item.checked ? colors.white : colors.borderStrong}
+          />
         </Pressable>
         {onRemove ? (
           <Pressable
@@ -131,7 +138,9 @@ export function ShoppingCategoryBlock({
         onPress={() => setExpanded((value) => !value)}
         style={styles.sectionHeader}
       >
-        <Text style={[type.cardTitle, { color: colors.ink, flex: 1 }]}>{section.label}</Text>
+        <Text style={[type.cardTitle, { color: colors.ink, flex: 1 }]}>
+          {section.label}
+        </Text>
         <Text style={[type.caption, { color: colors.muted, marginRight: spacing.xs }]}>
           {checked}/{section.items.length}
         </Text>
@@ -160,12 +169,20 @@ export function ShoppingCategoryBlock({
 const styles = StyleSheet.create({
   progressWrap: { gap: spacing.xs },
   progressHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  track: { height: 6, borderRadius: radius.pill, backgroundColor: colors.surfaceMuted, overflow: 'hidden' },
-  fill: { height: '100%', backgroundColor: colors.green, borderRadius: radius.pill },
+  track: { height: 12, borderRadius: radius.pill, backgroundColor: colors.primarySoft, overflow: 'hidden' },
+  fill: {
+    height: '100%',
+    backgroundColor: colors.primaryDeep,
+    borderRadius: radius.pill,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    paddingRight: 3,
+  },
+  fillHeart: { opacity: 0.95 },
   section: {
     backgroundColor: colors.surface,
-    borderRadius: radius.lg,
-    borderWidth: 1,
+    borderRadius: radius.xl,
+    borderWidth: 2,
     borderColor: colors.border,
     overflow: 'hidden',
     marginBottom: spacing.sm,
@@ -175,14 +192,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm + 2,
+    backgroundColor: colors.surfaceMuted,
   },
   sectionBody: { paddingHorizontal: spacing.md, paddingBottom: spacing.sm },
   itemWrap: { paddingVertical: spacing.xs + 2, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: colors.border },
   itemRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
   checkbox: {
-    width: 26,
-    height: 26,
-    borderRadius: 8,
+    width: 30,
+    height: 30,
+    borderRadius: radius.pill,
     borderWidth: 1.5,
     alignItems: 'center',
     justifyContent: 'center',

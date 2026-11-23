@@ -69,16 +69,19 @@ export default function DiscoverScreen() {
   const activeIngredientIndex = queue.length;
 
   return (
-    <ScreenContainer>
+    <ScreenContainer bottomSpace={104}>
       <View style={styles.header}>
         <View style={{ flex: 1 }}>
-          <Text style={[type.screenTitle, { color: colors.ink }]}>Discover something delicious.</Text>
+          <Text style={[type.scriptSmall, { color: colors.primaryDeep }]}>swipe right if it's a yes ♡</Text>
+          <Text style={[type.screenTitle, { color: colors.ink, marginTop: -2 }]}>
+            Discover something delicious.
+          </Text>
           <Text style={[type.caption, { color: colors.muted, marginTop: 4 }]}>
             Swipe right to add it to your plan.
           </Text>
         </View>
         <View style={styles.countBadge}>
-          <Text style={[type.caption, { color: colors.greenInk }]}>{data.plan.items.length} planned</Text>
+          <Text style={[type.caption, { color: colors.primaryInk }]}>{data.plan.items.length} planned</Text>
         </View>
       </View>
 
@@ -117,9 +120,9 @@ export default function DiscoverScreen() {
           <MaterialCommunityIcons
             name={toast.startsWith('Added') ? 'check-circle' : 'close-circle-outline'}
             size={16}
-            color={toast.startsWith('Added') ? colors.greenInk : colors.inkSoft}
+            color={toast.startsWith('Added') ? colors.primaryInk : colors.inkSoft}
           />
-          <Text style={[type.label, { color: toast.startsWith('Added') ? colors.greenInk : colors.inkSoft }]}>
+          <Text style={[type.label, { color: toast.startsWith('Added') ? colors.primaryInk : colors.inkSoft }]}>
             {toast}
           </Text>
         </View>
@@ -138,7 +141,7 @@ export default function DiscoverScreen() {
           onPress={() => deckRef.current?.swipe('no')}
           style={({ pressed }) => [styles.round, styles.skip, { transform: [{ scale: pressed ? 0.94 : 1 }] }]}
         >
-          <MaterialCommunityIcons name="close-thick" size={25} color={colors.coral} />
+          <MaterialCommunityIcons name="close-thick" size={25} color={colors.danger} />
         </Pressable>
 
         <Pressable
@@ -160,7 +163,7 @@ export default function DiscoverScreen() {
           onPress={() => deckRef.current?.swipe('yes')}
           style={({ pressed }) => [styles.round, styles.add, { transform: [{ scale: pressed ? 0.94 : 1 }] }]}
         >
-          <MaterialCommunityIcons name="plus" size={27} color={colors.greenInk} />
+          <MaterialCommunityIcons name="heart" size={26} color={colors.white} />
         </Pressable>
       </View>
     </ScreenContainer>
@@ -170,7 +173,7 @@ export default function DiscoverScreen() {
 const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing.sm, paddingTop: spacing.sm },
   countBadge: {
-    backgroundColor: colors.sage,
+    backgroundColor: colors.primarySoft,
     paddingHorizontal: spacing.sm,
     paddingVertical: 6,
     borderRadius: radius.pill,
@@ -190,8 +193,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
   },
-  skip: { backgroundColor: colors.coralSoft, borderColor: 'rgba(224,107,81,0.25)' },
-  add: { backgroundColor: colors.sage, borderColor: 'rgba(90,138,69,0.25)' },
+  skip: { backgroundColor: colors.dangerSoft, borderColor: 'rgba(219, 84, 97, 0.24)' },
+  add: { backgroundColor: colors.primaryDeep, borderColor: colors.primaryDeep },
   infoButton: { alignItems: 'center', gap: 2, paddingHorizontal: spacing.md },
   toast: {
     position: 'absolute',

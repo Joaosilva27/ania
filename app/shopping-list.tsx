@@ -96,7 +96,8 @@ export default function ShoppingListScreen() {
           size={20}
         />
         <View style={{ flex: 1 }}>
-          <Text style={[type.screenTitle, { color: colors.ink }]}>Your shopping list</Text>
+          <Text style={[type.scriptSmall, { color: colors.primaryDeep }]}>one trip, sorted ♡</Text>
+          <Text style={[type.screenTitle, { color: colors.ink, marginTop: -2 }]}>Your shopping list</Text>
           <Text style={[type.caption, { color: colors.muted, marginTop: 2 }]}>
             {list.recipeCount} {list.recipeCount === 1 ? 'recipe' : 'recipes'} ·{' '}
             {list.totalCount} items
@@ -131,8 +132,8 @@ export default function ShoppingListScreen() {
           onPress={() => setAdding((value) => !value)}
           style={styles.toolButton}
         >
-          <MaterialCommunityIcons name={adding ? 'close' : 'plus'} size={16} color={colors.greenInk} />
-          <Text style={[type.label, { color: colors.greenInk }]}>{adding ? 'Cancel' : 'Add item'}</Text>
+          <MaterialCommunityIcons name={adding ? 'close' : 'plus'} size={16} color={colors.primaryInk} />
+          <Text style={[type.label, { color: colors.primaryInk }]}>{adding ? 'Cancel' : 'Add item'}</Text>
         </Pressable>
         <Pressable
           accessibilityRole="button"
@@ -264,7 +265,7 @@ const styles = StyleSheet.create({
     width: 46,
     height: 46,
     borderRadius: radius.md,
-    backgroundColor: colors.greenDeep,
+    backgroundColor: colors.primaryDeep,
     alignItems: 'center',
     justifyContent: 'center',
   },

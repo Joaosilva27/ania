@@ -2,6 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import React, { useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Flower } from '@/components/cute/Decor';
 import { OnboardingScaffold } from '@/components/onboarding/OnboardingScaffold';
 import { SwipeDeck, type SwipeDeckHandle } from '@/components/swipe/SwipeDeck';
 import { STATEMENTS, type StatementDefinition } from '@/data/taxonomy';
@@ -44,7 +45,7 @@ export default function StatementsScreen() {
       scroll={false}
       onBack={goBack}
       headerRight={
-        <Text style={[type.label, { color: colors.greenDeep }]}>
+        <Text style={[type.label, { color: colors.primaryDeep }]}>
           {current} / {STATEMENTS.length}
         </Text>
       }
@@ -56,7 +57,7 @@ export default function StatementsScreen() {
             onPress={() => deckRef.current?.swipe('no')}
             style={({ pressed }) => [styles.action, styles.noAction, { transform: [{ scale: pressed ? 0.94 : 1 }] }]}
           >
-            <MaterialCommunityIcons name="close-thick" size={26} color={colors.coral} />
+            <MaterialCommunityIcons name="close-thick" size={26} color={colors.danger} />
           </Pressable>
           <Pressable
             accessibilityRole="button"
@@ -64,7 +65,7 @@ export default function StatementsScreen() {
             onPress={() => deckRef.current?.swipe('yes')}
             style={({ pressed }) => [styles.action, styles.yesAction, { transform: [{ scale: pressed ? 0.94 : 1 }] }]}
           >
-            <MaterialCommunityIcons name="check-bold" size={26} color={colors.greenInk} />
+            <MaterialCommunityIcons name="heart" size={26} color={colors.white} />
           </Pressable>
         </View>
       }
@@ -80,10 +81,11 @@ export default function StatementsScreen() {
           renderCard={(statement) => (
             <View style={styles.card}>
               <Text style={styles.quoteMark}>“</Text>
+              <Flower size={22} color={colors.primarySoft} center={colors.butter} style={styles.cardFlower} />
               <Text style={styles.statement}>{statement.text}</Text>
               <View style={styles.cardFooter}>
-                <Text style={[type.caption, { color: colors.muted, letterSpacing: 1.4 }]}>
-                  SWIPE OR TAP
+                <Text style={[type.scriptTiny, { color: colors.primaryDeep }]}>
+                  tap the heart if that's you ♡
                 </Text>
               </View>
             </View>
@@ -120,7 +122,7 @@ const styles = StyleSheet.create({
     fontFamily: type.display.fontFamily,
     fontSize: 56,
     lineHeight: 56,
-    color: colors.sage,
+    color: colors.primarySoft,
     marginBottom: spacing.sm,
   },
   statement: {
@@ -140,7 +142,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
   },
-  noAction: { backgroundColor: colors.coralSoft, borderColor: 'rgba(224,107,81,0.25)' },
-  yesAction: { backgroundColor: colors.sage, borderColor: 'rgba(90,138,69,0.25)' },
+  noAction: { backgroundColor: colors.dangerSoft, borderColor: 'rgba(219, 84, 97, 0.24)' },
+  yesAction: { backgroundColor: colors.primaryDeep, borderColor: colors.primaryDeep },
+  cardFlower: { position: 'absolute', right: spacing.lg, top: spacing.lg },
   empty: { alignItems: 'center', gap: spacing.xs, padding: spacing.xl },
 });

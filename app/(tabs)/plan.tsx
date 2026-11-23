@@ -36,10 +36,11 @@ export default function PlanScreen() {
   };
 
   return (
-    <ScreenContainer scroll contentStyle={{ paddingTop: spacing.sm, paddingBottom: spacing.xxl }}>
-      <View style={styles.header}>
+    <ScreenContainer scroll bottomSpace={104} contentStyle={{ paddingTop: spacing.sm, paddingBottom: spacing.xxl }}>
+                <View style={styles.header}>
         <View style={{ flex: 1 }}>
-          <Text style={[type.screenTitle, { color: colors.ink }]}>Your meal plan</Text>
+          <Text style={[type.script, { color: colors.primaryDeep }]}>your week, sorted</Text>
+          <Text style={[type.screenTitle, { color: colors.ink, marginTop: -2 }]}>Your meal plan</Text>
           <Text style={[type.caption, { color: colors.muted, marginTop: 4 }]}>
             {items.length} {items.length === 1 ? 'recipe' : 'recipes'} · {ingredientCount} unique
             ingredients
@@ -51,17 +52,17 @@ export default function PlanScreen() {
         <>
           <View style={styles.summary}>
             <View style={styles.summaryItem}>
-              <Text style={[type.sectionTitle, { color: colors.greenInk }]}>{items.length}</Text>
+              <Text style={[type.sectionTitle, { color: colors.primaryInk }]}>{items.length}</Text>
               <Text style={[type.caption, { color: colors.inkSoft }]}>recipes</Text>
             </View>
             <View style={styles.divider} />
             <View style={styles.summaryItem}>
-              <Text style={[type.sectionTitle, { color: colors.greenInk }]}>{ingredientCount}</Text>
+              <Text style={[type.sectionTitle, { color: colors.primaryInk }]}>{ingredientCount}</Text>
               <Text style={[type.caption, { color: colors.inkSoft }]}>ingredients</Text>
             </View>
             <View style={styles.divider} />
             <View style={styles.summaryItem}>
-              <Text style={[type.sectionTitle, { color: colors.greenInk }]}>
+              <Text style={[type.sectionTitle, { color: colors.primaryInk }]}>
                 {items.reduce((acc, item) => acc + item.servings, 0)}
               </Text>
               <Text style={[type.caption, { color: colors.inkSoft }]}>servings</Text>
@@ -123,7 +124,7 @@ export default function PlanScreen() {
                       hitSlop={6}
                       style={styles.removeButton}
                     >
-                      <MaterialCommunityIcons name="trash-can-outline" size={18} color={colors.coral} />
+                      <MaterialCommunityIcons name="trash-can-outline" size={18} color={colors.danger} />
                     </Pressable>
                   </View>
                 </View>
@@ -165,12 +166,12 @@ const styles = StyleSheet.create({
   summary: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.surfaceSage,
+    backgroundColor: colors.surfaceTint,
     borderRadius: radius.lg,
     paddingVertical: spacing.md,
   },
   summaryItem: { flex: 1, alignItems: 'center' },
-  divider: { width: 1, height: 30, backgroundColor: 'rgba(36,39,32,0.12)' },
+  divider: { width: 1, height: 30, backgroundColor: 'rgba(59, 39, 51, 0.12)' },
   card: {
     backgroundColor: colors.surface,
     borderRadius: radius.lg,

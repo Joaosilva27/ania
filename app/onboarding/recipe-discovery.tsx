@@ -87,7 +87,7 @@ export default function RecipeDiscoveryScreen() {
         router.replace('/onboarding/dietary');
       }}
       headerRight={
-        <Text style={[type.label, { color: colors.greenDeep }]}>
+        <Text style={[type.label, { color: colors.primaryDeep }]}>
           {selectedCount} / {INITIAL_PLAN_SIZE}
         </Text>
       }
@@ -103,7 +103,7 @@ export default function RecipeDiscoveryScreen() {
               onPress={() => deckRef.current?.swipe('no')}
               style={({ pressed }) => [styles.round, styles.skip, { transform: [{ scale: pressed ? 0.94 : 1 }] }]}
             >
-              <MaterialCommunityIcons name="close-thick" size={24} color={colors.coral} />
+              <MaterialCommunityIcons name="close-thick" size={24} color={colors.danger} />
             </Pressable>
             <View style={styles.pips}>
               {pips.map((filled, index) => (
@@ -111,7 +111,7 @@ export default function RecipeDiscoveryScreen() {
                   key={index}
                   style={[
                     styles.pip,
-                    { backgroundColor: filled ? colors.greenDeep : colors.borderStrong },
+                    { backgroundColor: filled ? colors.primaryDeep : colors.borderStrong },
                   ]}
                 />
               ))}
@@ -122,7 +122,7 @@ export default function RecipeDiscoveryScreen() {
               onPress={() => deckRef.current?.swipe('yes')}
               style={({ pressed }) => [styles.round, styles.add, { transform: [{ scale: pressed ? 0.94 : 1 }] }]}
             >
-              <MaterialCommunityIcons name="plus" size={26} color={colors.greenInk} />
+              <MaterialCommunityIcons name="heart" size={26} color={colors.white} />
             </Pressable>
           </View>
         </View>
@@ -166,8 +166,8 @@ export default function RecipeDiscoveryScreen() {
 
       {toast ? (
         <View style={[styles.toast, styles.noTouch]}>
-          <MaterialCommunityIcons name="check-circle" size={16} color={colors.greenInk} />
-          <Text style={[type.label, { color: colors.greenInk }]}>{toast}</Text>
+          <MaterialCommunityIcons name="check-circle" size={16} color={colors.primaryInk} />
+          <Text style={[type.label, { color: colors.primaryInk }]}>{toast}</Text>
         </View>
       ) : null}
     </OnboardingScaffold>
@@ -186,8 +186,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
   },
-  skip: { backgroundColor: colors.coralSoft, borderColor: 'rgba(224,107,81,0.25)' },
-  add: { backgroundColor: colors.sage, borderColor: 'rgba(90,138,69,0.25)' },
+  skip: { backgroundColor: colors.dangerSoft, borderColor: 'rgba(219, 84, 97, 0.24)' },
+  add: { backgroundColor: colors.primaryDeep, borderColor: colors.primaryDeep },
   pips: { flexDirection: 'row', gap: 8 },
   pip: { width: 26, height: 4, borderRadius: radius.pill },
   toast: {
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    backgroundColor: colors.sage,
+    backgroundColor: colors.primarySoft,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs + 2,
     borderRadius: radius.pill,

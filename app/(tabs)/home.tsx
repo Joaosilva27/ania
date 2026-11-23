@@ -10,6 +10,8 @@ import {
   View,
   useWindowDimensions,
 } from 'react-native';
+import { Flower, Heart, Sparkle } from '@/components/cute/Decor';
+import { Sticker } from '@/components/cute/Sticker';
 import { RecipeCard } from '@/components/recipes/RecipeCard';
 import { RecipeImage } from '@/components/recipes/RecipeImage';
 import { PrimaryButton } from '@/components/ui/Button';
@@ -75,7 +77,7 @@ export default function HomeScreen() {
   const ingredientCount = useMemo(() => (plan ? countPlanIngredients(plan) : 0), [plan]);
   const selectedInterests = (preferences?.interests ?? []).slice(0, 6);
   const firstName = data?.profile.displayName?.split(' ')[0] ?? 'there';
-  const cardWidth = Math.min(268, width * 0.68);
+  const cardWidth = Math.min(246, width * 0.64);
 
   const toggleInterest = (id: InterestId) => {
     setActiveInterests((current) =>
@@ -86,14 +88,15 @@ export default function HomeScreen() {
   if (!data) return null;
 
   return (
-    <ScreenContainer scroll contentStyle={{ paddingTop: spacing.sm }}>
+    <ScreenContainer scroll bottomSpace={104} contentStyle={{ paddingTop: spacing.xl }}>
       {/* Header */}
-      <View style={styles.header}>
-        <View style={{ flex: 1 }}>
-          <Text style={[type.caption, { color: colors.muted, letterSpacing: 0.4 }]}>
-            {greeting()}, {firstName}.
+              <View style={styles.header}>
+          <Flower size={22} color={colors.primarySoft} center={colors.butter} style={styles.headerFlower} />
+          <View style={{ flex: 1 }}>
+          <Text style={[type.script, { color: colors.primaryDeep }]}>
+            {greeting().toLowerCase()}, {firstName}
           </Text>
-          <Text style={[type.screenTitle, { color: colors.ink, marginTop: 2 }]}>
+          <Text style={[type.screenTitle, { color: colors.ink, marginTop: -2 }]}>
             What are we cooking today?
           </Text>
         </View>
@@ -103,9 +106,10 @@ export default function HomeScreen() {
           onPress={() => router.push('/(tabs)/profile')}
           style={({ pressed }) => [styles.avatar, { opacity: pressed ? 0.8 : 1 }]}
         >
-          <Text style={[type.bodyMedium, { color: colors.greenInk }]}>
+          <Text style={[type.bodyMedium, { color: colors.primaryInk }]}>
             {initials(data.profile.displayName || 'You')}
           </Text>
+          <Sparkle size={13} color={colors.butter} style={styles.avatarSparkle} />
         </Pressable>
       </View>
 
@@ -137,14 +141,17 @@ export default function HomeScreen() {
         </ScrollView>
       ) : null}
 
-      <View style={styles.goalRow}>
-        <MaterialCommunityIcons name="target" size={14} color={colors.greenDeep} />
-        <Text style={[type.caption, { color: colors.muted }]}>
-          {preferences?.primaryGoal
-            ? `Focus: ${GOAL_LABELS[preferences.primaryGoal]}`
-            : 'Add a goal in your profile to refine suggestions'}
+      <Sticker
+        tone="candy"
+        tape
+        style={{ marginTop: spacing.sm }}
+        title={preferences?.primaryGoal ? GOAL_LABELS[preferences.primaryGoal] : 'Set a goal in your profile'}
+        icon={<Heart size={12} color={colors.primaryDeep} />}
+      >
+        <Text style={[type.scriptTiny, { color: colors.primaryDeep }]}>
+          {planRecipes.length} meals planned · {ingredientCount} ingredients ready to tick off ♡
         </Text>
-      </View>
+      </Sticker>
 
       {/* Recommendations */}
       <View style={{ marginTop: spacing.lg }}>
@@ -162,7 +169,7 @@ export default function HomeScreen() {
               onPress={() => router.push('/(tabs)/discover')}
               hitSlop={8}
             >
-              <Text style={[type.label, { color: colors.greenDeep }]}>Swipe mode</Text>
+              <Text style={[type.label, { color: colors.primaryDeep }]}>Swipe mode</Text>
             </Pressable>
           }
         />
@@ -182,7 +189,7 @@ export default function HomeScreen() {
                 width={cardWidth}
                 badges={item.tags
                   .filter((tag) => ['high-protein', 'budget', 'meal-prep'].includes(tag))
-                  .slice(0, 2)
+                  .slice(0, 1)
                   .map((tag) => TAG_LABELS[tag] ?? tag)}
                 onPress={() => router.push(`/recipe/${item.id}`)}
                 onAdd={() => addToPlan(item, 'home')}
@@ -242,7 +249,7 @@ export default function HomeScreen() {
                 onPress={() => router.push('/shopping-list')}
                 style={styles.listLink}
               >
-                <MaterialCommunityIcons name="basket-outline" size={18} color={colors.greenInk} />
+                <MaterialCommunityIcons name="basket-outline" size={18} color={colors.primaryInk} />
               </Pressable>
             </View>
 
@@ -271,37 +278,49 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  header: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm },
+  header: { flexDirection: 'row', alignItems: 'center', gap: spacing.sm, paddingTop: spacing.xs },
   avatar: {
     width: 44,
     height: 44,
     borderRadius: radius.pill,
-    backgroundColor: colors.sage,
+    backgroundColor: colors.primarySoft,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: 'rgba(90,138,69,0.25)',
+    borderColor: 'rgba(198, 63, 110, 0.22)',
   },
   chipRow: { gap: spacing.xs, paddingVertical: spacing.sm, paddingRight: spacing.lg },
-  goalRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: spacing.xs },
-  planThumb: { borderRadius: radius.md, overflow: 'hidden' },
-  planThumbImage: { width: 72, height: 72, borderRadius: radius.md },
+  goalRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: spacing.xs,
+    alignSelf: 'flex-start',
+    backgroundColor: colors.primarySoft,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 6,
+    borderRadius: radius.pill,
+  },
+  avatarSparkle: { position: 'absolute', top: -2, right: -4 },
+  headerFlower: { position: 'absolute', left: -6, top: -10, opacity: 0.9 },
+  planThumb: { borderRadius: radius.lg, overflow: 'hidden' },
+  planThumbImage: { width: 76, height: 76, borderRadius: radius.lg },
   planSummary: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
     backgroundColor: colors.surface,
-    borderRadius: radius.md,
-    borderWidth: 1,
+    borderRadius: radius.lg,
+    borderWidth: 2,
     borderColor: colors.border,
-    padding: spacing.sm + 2,
+    padding: spacing.md,
     marginTop: spacing.sm,
   },
   listLink: {
     width: 40,
     height: 40,
     borderRadius: radius.pill,
-    backgroundColor: colors.sage,
+    backgroundColor: colors.primarySoft,
     alignItems: 'center',
     justifyContent: 'center',
   },

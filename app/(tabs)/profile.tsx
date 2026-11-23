@@ -1,4 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React from 'react';
@@ -10,7 +11,7 @@ import { DIETARY_LABELS, GOAL_LABELS, INTEREST_LABELS } from '@/data/taxonomy';
 import { confirmAction } from '@/lib/dialogs';
 import { useAuthStore } from '@/store/authStore';
 import { useUserStore } from '@/store/userStore';
-import { colors, radius, spacing, type } from '@/theme';
+import { colors, gradients, radius, spacing, type } from '@/theme';
 
 export default function ProfileScreen() {
   const router = useRouter();
@@ -40,17 +41,18 @@ export default function ProfileScreen() {
   };
 
   return (
-    <ScreenContainer scroll contentStyle={{ paddingTop: spacing.sm, paddingBottom: spacing.xxl }}>
+    <ScreenContainer scroll bottomSpace={104} contentStyle={{ paddingTop: spacing.sm, paddingBottom: spacing.xxl }}>
       <View style={styles.header}>
         {profile.avatarUrl ? (
           <Image source={{ uri: profile.avatarUrl }} style={styles.avatar} contentFit="cover" />
         ) : (
           <View style={[styles.avatar, styles.avatarFallback]}>
-            <Text style={[type.sectionTitle, { color: colors.greenInk }]}>{initial || 'A'}</Text>
+            <Text style={[type.sectionTitle, { color: colors.primaryInk }]}>{initial || 'A'}</Text>
           </View>
         )}
         <View style={{ flex: 1 }}>
-          <Text style={[type.screenTitle, { color: colors.ink }]} numberOfLines={1}>
+          <Text style={[type.scriptSmall, { color: colors.primaryDeep }]}>hi again, lovely</Text>
+          <Text style={[type.screenTitle, { color: colors.ink, marginTop: -2 }]} numberOfLines={1}>
             {profile.displayName}
           </Text>
           <Text style={[type.caption, { color: colors.muted }]} numberOfLines={1}>
@@ -70,9 +72,27 @@ export default function ProfileScreen() {
       ) : null}
 
       <View style={styles.statsRow}>
-        <Stat label="Recipes planned" value={String(plan.items.length)} />
-        <Stat label="Favourites" value={String(Object.keys(favorites).length)} />
-        <Stat label="Interests" value={String(preferences.interests.length)} />
+        <Stat
+          label="Recipes planned"
+          value={String(plan.items.length)}
+          icon="silverware-fork-knife"
+          tone={gradients.candy}
+          ink={colors.primaryInk}
+        />
+        <Stat
+          label="Favourites"
+          value={String(Object.keys(favorites).length)}
+          icon="heart"
+          tone={gradients.hero}
+          ink={colors.primaryInk}
+        />
+        <Stat
+          label="Interests"
+          value={String(preferences.interests.length)}
+          icon="flower"
+          tone={gradients.lavender}
+          ink={colors.lavenderInk}
+        />
       </View>
 
       <View style={{ marginTop: spacing.xl }}>
@@ -132,7 +152,7 @@ export default function ProfileScreen() {
           onPress={() => router.push('/settings')}
           style={{ marginTop: spacing.xs }}
         >
-          <Text style={[type.caption, { color: colors.greenDeep, textDecorationLine: 'underline' }]}>
+          <Text style={[type.caption, { color: colors.primaryDeep, textDecorationLine: 'underline' }]}>
             Manage preferences and privacy
           </Text>
         </Pressable>
@@ -141,12 +161,30 @@ export default function ProfileScreen() {
   );
 }
 
-function Stat({ label, value }: { label: string; value: string }) {
+function Stat({
+  label,
+  value,
+  icon,
+  tone,
+  ink,
+}: {
+  label: string;
+  value: string;
+  icon: React.ComponentProps<typeof MaterialCommunityIcons>['name'];
+  tone: readonly [string, string];
+  ink: string;
+}) {
   return (
-    <View style={styles.stat}>
-      <Text style={[type.sectionTitle, { color: colors.ink }]}>{value}</Text>
-      <Text style={[type.caption, { color: colors.muted }]}>{label}</Text>
-    </View>
+    <LinearGradient
+      colors={tone}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.stat}
+    >
+      <MaterialCommunityIcons name={icon} size={16} color={ink} />
+      <Text style={[type.sectionTitle, { color: ink }]}>{value}</Text>
+      <Text style={[type.caption, { color: ink, opacity: 0.8, textAlign: 'center' }]}>{label}</Text>
+    </LinearGradient>
   );
 }
 
@@ -161,7 +199,7 @@ function Row({
 }) {
   return (
     <View style={styles.row}>
-      <MaterialCommunityIcons name={icon} size={17} color={colors.greenDeep} />
+      <MaterialCommunityIcons name={icon} size={17} color={colors.primaryDeep} />
       <Text style={[type.body, { color: colors.inkSoft, flex: 1 }]}>{label}</Text>
       <Text style={[type.label, { color: colors.ink }]} numberOfLines={1}>
         {value}
@@ -173,17 +211,18 @@ function Row({
 const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
   avatar: { width: 64, height: 64, borderRadius: radius.pill, backgroundColor: colors.surfaceMuted },
-  avatarFallback: { alignItems: 'center', justifyContent: 'center', backgroundColor: colors.sage },
-  statsRow: {
-    flexDirection: 'row',
-    backgroundColor: colors.surface,
-    borderRadius: radius.lg,
-    borderWidth: 1,
-    borderColor: colors.border,
-    marginTop: spacing.md,
+  avatarFallback: { alignItems: 'center', justifyContent: 'center', backgroundColor: colors.primarySoft },
+  statsRow: { flexDirection: 'row', gap: spacing.xs, marginTop: spacing.md },
+  stat: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 2,
     paddingVertical: spacing.md,
+    paddingHorizontal: spacing.xs,
+    borderRadius: radius.lg,
+    borderWidth: 2.5,
+    borderColor: colors.white,
   },
-  stat: { flex: 1, alignItems: 'center', gap: 2 },
   card: {
     backgroundColor: colors.surface,
     borderRadius: radius.lg,

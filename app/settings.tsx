@@ -64,7 +64,10 @@ export default function SettingsScreen() {
   return (
     <ScreenContainer scroll contentStyle={{ paddingTop: spacing.sm, paddingBottom: spacing.xxl }}>
       <View style={styles.header}>
-        <Text style={[type.screenTitle, { color: colors.ink, flex: 1 }]}>Settings</Text>
+        <View style={{ flex: 1 }}>
+          <Text style={[type.scriptSmall, { color: colors.primaryDeep }]}>make it yours</Text>
+          <Text style={[type.screenTitle, { color: colors.ink, marginTop: -2 }]}>Settings</Text>
+        </View>
         <TextButton label="Done" onPress={() => void done()} />
       </View>
 
@@ -121,7 +124,7 @@ export default function SettingsScreen() {
       {conflicts.length ? (
         <View style={styles.conflictCard}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: spacing.xs }}>
-            <MaterialCommunityIcons name="alert-outline" size={18} color={colors.coral} />
+            <MaterialCommunityIcons name="alert-outline" size={18} color={colors.danger} />
             <Text style={[type.cardTitle, { color: colors.ink }]}>
               {conflicts.length} {conflicts.length === 1 ? 'recipe' : 'recipes'} conflict
             </Text>
@@ -178,7 +181,7 @@ const styles = StyleSheet.create({
   sectionLabel: { color: colors.muted, marginTop: spacing.lg, marginBottom: spacing.xs },
   conflictCard: {
     marginTop: spacing.lg,
-    backgroundColor: colors.coralSoft,
+    backgroundColor: colors.dangerSoft,
     borderRadius: radius.lg,
     padding: spacing.md,
   },

@@ -16,19 +16,19 @@ type MciName = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
  * so no row can ever render a blank icon.
  */
 const FAMILY_TINTS: Record<IngredientFamily, string> = {
-  meat: '#F6E4DA',
-  fish: '#DDE9EC',
-  dairy: '#FBF0DC',
-  egg: '#FBF0DC',
-  vegetable: '#E4EEDC',
-  fruit: '#F7E7D8',
-  grain: '#F1EADB',
-  spice: '#F3E3D6',
-  sauce: '#EFE7DA',
-  pantry: '#EDEAE0',
-  bakery: '#F4EBDD',
-  frozen: '#E3EDF0',
-  other: '#EDEAE0',
+  meat: '#FFE0E6',
+  fish: '#E4E9FB',
+  dairy: '#FFF0D9',
+  egg: '#FFF3DC',
+  vegetable: '#E6F0DE',
+  fruit: '#FFE3EA',
+  grain: '#F7EBDD',
+  spice: '#FBE4DC',
+  sauce: '#FBE6F0',
+  pantry: '#F3E9E4',
+  bakery: '#FDEBD9',
+  frozen: '#E2EEF5',
+  other: '#F6E7EC',
 };
 
 export function IngredientIcon({

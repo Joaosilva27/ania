@@ -81,18 +81,20 @@ export default function InitialPlanScreen() {
                   accessibilityLabel={`Open ${recipe.title}`}
                   onPress={() => router.push(`/recipe/${recipe.id}`)}
                   hitSlop={6}
+                  style={styles.viewPill}
                 >
-                  <Text style={[type.caption, { color: colors.inkSoft, textDecorationLine: 'underline' }]}>
-                    View recipe
-                  </Text>
+                  <MaterialCommunityIcons name="eye-outline" size={13} color={colors.primaryInk} />
+                  <Text style={[type.caption, { color: colors.primaryInk }]}>View recipe</Text>
                 </Pressable>
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel={`Remove ${recipe.title} from the plan`}
                   onPress={() => remove(recipe.id)}
                   hitSlop={6}
+                  style={styles.removePill}
                 >
-                  <Text style={[type.caption, { color: colors.coral }]}>Remove</Text>
+                  <MaterialCommunityIcons name="close" size={13} color={colors.danger} />
+                  <Text style={[type.caption, { color: colors.danger }]}>Remove</Text>
                 </Pressable>
               </View>
             </View>
@@ -101,7 +103,7 @@ export default function InitialPlanScreen() {
       </View>
 
       <View style={styles.summary}>
-        <MaterialCommunityIcons name="check-circle-outline" size={18} color={colors.greenDeep} />
+        <MaterialCommunityIcons name="check-circle-outline" size={18} color={colors.primaryDeep} />
         <Text style={[type.caption, { color: colors.inkSoft, flex: 1 }]}>
           {recipes.length} recipes · {countPlanIngredients(data?.plan ?? { items: [], version: 0, updatedAt: '' })}{' '}
           unique ingredients already on your list
@@ -123,12 +125,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   image: { width: 74, height: 74, borderRadius: radius.md },
+  viewPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: colors.primarySoft,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 5,
+    borderRadius: radius.pill,
+  },
+  removePill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: colors.dangerSoft,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 5,
+    borderRadius: radius.pill,
+  },
   cardActions: { flexDirection: 'row', gap: spacing.md, marginTop: spacing.xs },
   summary: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.xs,
-    backgroundColor: colors.surfaceSage,
+    backgroundColor: colors.surfaceTint,
     borderRadius: radius.md,
     padding: spacing.sm,
     marginTop: spacing.sm,

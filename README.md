@@ -34,9 +34,10 @@ Every button on screen is wired to a real state transition. There are no placeho
 - **Expo Router** (file-based routes, groups, typed guards)
 - **React Native Reanimated 3** + **Gesture Handler** for the swipe decks (UI-thread animations)
 - **Zustand** for client state, **TanStack Query** configured at the root for future server data
-- **expo-image** (disk/memory caching, blurhash placeholder), **expo-font** with DM Sans + DM Serif Display
+- **expo-image** (disk/memory caching, blurhash placeholder), **expo-font** with Fredoka (display), Quicksand (UI) and Caveat (handwritten notes)
+- **expo-linear-gradient** + **react-native-svg** for the candy gradients, hearts, sparkles and scalloped edges
 - **Firebase Auth** (Google) + **Cloud Firestore**, with security rules in `firestore.rules`
-- **Jest + ts-jest** for the pure business logic (57 tests)
+- **Jest + ts-jest** for the pure business logic (60 tests)
 
 ---
 
@@ -245,7 +246,7 @@ It is deterministic and explainable — not machine learning, and the code says 
 npm test
 ```
 
-57 assertions across four suites:
+60 assertions across four suites:
 
 - **shopping** — merging across recipes, `g`+`kg`, `ml`+`l`, tbsp→ml, incompatible units, serving
   scaling, removals, zero/negative quantities, missing recipes, manual items, checked-state

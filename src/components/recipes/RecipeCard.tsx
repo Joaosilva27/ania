@@ -1,9 +1,11 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Flower } from '@/components/cute/Decor';
 import { RecipeImage } from './RecipeImage';
 import { RecipeMetaRow } from './RecipeMeta';
-import { colors, radius, shadows, spacing, type } from '@/theme';
+import { colors, gradients, radius, shadows, spacing, type } from '@/theme';
 import type { Recipe } from '@/types';
 
 export function RecipeCard({
@@ -38,30 +40,38 @@ export function RecipeCard({
           <View style={styles.badgeRow}>
             {badges.slice(0, 2).map((badge) => (
               <View key={badge} style={styles.badge}>
-                <Text style={[type.caption, { color: colors.greenInk }]}>{badge}</Text>
+                <View style={styles.badgeDot} />
+                <Text style={[type.caption, { color: colors.primaryInk }]}>{badge}</Text>
               </View>
             ))}
           </View>
         ) : null}
+        <Flower
+          size={16}
+          color="rgba(255,255,255,0.95)"
+          center={colors.primarySoft}
+          style={styles.cardFlower}
+        />
         {onAdd ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={added ? `${recipe.title} is already in your plan` : `Add ${recipe.title} to your plan`}
             onPress={added ? undefined : onAdd}
             hitSlop={8}
-            style={({ pressed }) => [
-              styles.addButton,
-              {
-                backgroundColor: added ? colors.sage : colors.surface,
-                transform: [{ scale: pressed ? 0.92 : 1 }],
-              },
-            ]}
+            style={({ pressed }) => [styles.addShell, { transform: [{ scale: pressed ? 0.9 : 1 }] }]}
           >
-            <MaterialCommunityIcons
-              name={added ? 'check' : 'plus'}
-              size={20}
-              color={added ? colors.greenInk : colors.ink}
-            />
+            <LinearGradient
+              colors={added ? gradients.buttonSoft : gradients.button}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.addButton}
+            >
+              <MaterialCommunityIcons
+                name={added ? 'heart' : 'heart-plus'}
+                size={19}
+                color={added ? colors.primaryDeep : colors.white}
+              />
+            </LinearGradient>
           </Pressable>
         ) : null}
       </View>
@@ -103,43 +113,55 @@ export function RecipeRow({ recipe, onPress, right }: { recipe: Recipe; onPress:
 const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
-    borderRadius: radius.xl,
-    overflow: 'hidden',
+    borderRadius: radius.xxl,
+    borderWidth: 2,
+    borderColor: colors.border,
+    padding: 6,
     ...shadows.card,
   },
-  imageWrap: { position: 'relative' },
+  imageWrap: { position: 'relative', borderRadius: radius.xl, overflow: 'hidden' },
   imagePress: { width: '100%' },
-  image: { width: '100%', height: 300, backgroundColor: colors.surfaceMuted },
+  image: { width: '100%', height: 214, backgroundColor: colors.surfaceMuted },
   badgeRow: {
     position: 'absolute',
-    left: spacing.sm,
-    top: spacing.sm,
+    left: spacing.xs + 2,
+    top: spacing.xs + 2,
     flexDirection: 'row',
     gap: 6,
   },
   badge: {
-    backgroundColor: 'rgba(250, 248, 242, 0.94)',
-    paddingHorizontal: spacing.xs + 2,
-    paddingVertical: 3,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    paddingHorizontal: spacing.xs + 4,
+    paddingVertical: 4,
     borderRadius: radius.pill,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  badgeDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: colors.primary },
+  cardFlower: { position: 'absolute', top: 12, right: 12, opacity: 0.9 },
+  addShell: {
+    position: 'absolute',
+    right: spacing.xs + 2,
+    bottom: spacing.xs + 2,
+    borderRadius: radius.pill,
+    ...shadows.soft,
   },
   addButton: {
-    position: 'absolute',
-    right: spacing.sm,
-    bottom: spacing.sm,
-    width: 40,
-    height: 40,
+    width: 42,
+    height: 42,
     borderRadius: radius.pill,
     alignItems: 'center',
     justifyContent: 'center',
-    ...shadows.soft,
+    borderWidth: 2,
+    borderColor: colors.white,
   },
-  body: { padding: spacing.md, paddingTop: spacing.sm + 2 },
+  body: { paddingHorizontal: spacing.sm, paddingTop: spacing.sm, paddingBottom: spacing.xs + 2 },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
     paddingVertical: spacing.xs,
   },
-  rowImage: { width: 62, height: 62, borderRadius: radius.md, backgroundColor: colors.surfaceMuted },
+  rowImage: { width: 64, height: 64, borderRadius: radius.md, backgroundColor: colors.surfaceMuted },
 });
