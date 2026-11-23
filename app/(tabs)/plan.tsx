@@ -1,0 +1,201 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import React, { useMemo } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { RecipeImage } from '@/components/recipes/RecipeImage';
+import { PrimaryButton } from '@/components/ui/Button';
+import { EmptyState, ScreenContainer } from '@/components/ui/Screen';
+import { RECIPE_BY_ID } from '@/data/recipes';
+import { useRecipeActions } from '@/hooks/useRecipeActions';
+import { countPlanIngredients } from '@/services/shopping/aggregate';
+import { confirmAction } from '@/lib/dialogs';
+import { useUserStore } from '@/store/userStore';
+import { colors, radius, spacing, type } from '@/theme';
+
+export default function PlanScreen() {
+  const router = useRouter();
+  const data = useUserStore((state) => state.data);
+  const { removeFromPlan, setServings } = useRecipeActions();
+
+  const items = data?.plan.items ?? [];
+  const ingredientCount = useMemo(
+    () => (data ? countPlanIngredients(data.plan) : 0),
+    [data],
+  );
+
+  const confirmRemove = (recipeId: string, title: string) => {
+    void confirmAction({
+      title: 'Remove recipe?',
+      message: `This will update your shopping list for “${title}”.`,
+      confirmLabel: 'Remove',
+      cancelLabel: 'Keep it',
+      destructive: true,
+    }).then((confirmed) => {
+      if (confirmed) removeFromPlan(recipeId);
+    });
+  };
+
+  return (
+    <ScreenContainer scroll contentStyle={{ paddingTop: spacing.sm, paddingBottom: spacing.xxl }}>
+      <View style={styles.header}>
+        <View style={{ flex: 1 }}>
+          <Text style={[type.screenTitle, { color: colors.ink }]}>Your meal plan</Text>
+          <Text style={[type.caption, { color: colors.muted, marginTop: 4 }]}>
+            {items.length} {items.length === 1 ? 'recipe' : 'recipes'} · {ingredientCount} unique
+            ingredients
+          </Text>
+        </View>
+      </View>
+
+      {items.length ? (
+        <>
+          <View style={styles.summary}>
+            <View style={styles.summaryItem}>
+              <Text style={[type.sectionTitle, { color: colors.greenInk }]}>{items.length}</Text>
+              <Text style={[type.caption, { color: colors.inkSoft }]}>recipes</Text>
+            </View>
+            <View style={styles.divider} />
+            <View style={styles.summaryItem}>
+              <Text style={[type.sectionTitle, { color: colors.greenInk }]}>{ingredientCount}</Text>
+              <Text style={[type.caption, { color: colors.inkSoft }]}>ingredients</Text>
+            </View>
+            <View style={styles.divider} />
+            <View style={styles.summaryItem}>
+              <Text style={[type.sectionTitle, { color: colors.greenInk }]}>
+                {items.reduce((acc, item) => acc + item.servings, 0)}
+              </Text>
+              <Text style={[type.caption, { color: colors.inkSoft }]}>servings</Text>
+            </View>
+          </View>
+
+          <View style={{ gap: spacing.sm, marginTop: spacing.md }}>
+            {items.map((item) => {
+              const recipe = RECIPE_BY_ID[item.recipeId];
+              if (!recipe) return null;
+              return (
+                <View key={item.recipeId} style={styles.card}>
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel={`Open ${recipe.title}`}
+                    onPress={() => router.push(`/recipe/${recipe.id}`)}
+                    style={{ flexDirection: 'row', gap: spacing.sm, alignItems: 'center' }}
+                  >
+                    <RecipeImage recipe={recipe} style={styles.image} />
+                    <View style={{ flex: 1 }}>
+                      <Text style={[type.cardTitle, { color: colors.ink }]} numberOfLines={2}>
+                        {recipe.title}
+                      </Text>
+                      <Text style={[type.caption, { color: colors.muted, marginTop: 2 }]}>
+                        {recipe.totalTimeMinutes} min · {recipe.ingredients.length} ingredients
+                      </Text>
+                    </View>
+                  </Pressable>
+
+                  <View style={styles.cardFooter}>
+                    <View style={styles.stepper}>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={`Fewer servings for ${recipe.title}`}
+                        onPress={() => setServings(recipe.id, item.servings - 1)}
+                        style={styles.stepperButton}
+                        hitSlop={4}
+                      >
+                        <MaterialCommunityIcons name="minus" size={16} color={colors.ink} />
+                      </Pressable>
+                      <Text style={[type.label, { color: colors.ink, minWidth: 62, textAlign: 'center' }]}>
+                        {item.servings} {item.servings === 1 ? 'serving' : 'servings'}
+                      </Text>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={`More servings for ${recipe.title}`}
+                        onPress={() => setServings(recipe.id, item.servings + 1)}
+                        style={styles.stepperButton}
+                        hitSlop={4}
+                      >
+                        <MaterialCommunityIcons name="plus" size={16} color={colors.ink} />
+                      </Pressable>
+                    </View>
+
+                    <Pressable
+                      accessibilityRole="button"
+                      accessibilityLabel={`Remove ${recipe.title} from the plan`}
+                      onPress={() => confirmRemove(recipe.id, recipe.title)}
+                      hitSlop={6}
+                      style={styles.removeButton}
+                    >
+                      <MaterialCommunityIcons name="trash-can-outline" size={18} color={colors.coral} />
+                    </Pressable>
+                  </View>
+                </View>
+              );
+            })}
+          </View>
+
+          <View style={{ gap: spacing.xs, marginTop: spacing.lg }}>
+            <PrimaryButton
+              label="View shopping list"
+              icon="basket-outline"
+              onPress={() => router.push('/shopping-list')}
+            />
+            <PrimaryButton
+              label="Add another recipe"
+              variant="secondary"
+              icon="plus"
+              onPress={() => router.push('/(tabs)/discover')}
+            />
+          </View>
+        </>
+      ) : (
+        <View style={{ marginTop: spacing.lg }}>
+          <EmptyState
+            icon="calendar-blank-outline"
+            title="No meals planned yet"
+            message="Swipe through Discover or add a recommendation from Home to start your plan."
+            actionLabel="Discover recipes"
+            onAction={() => router.push('/(tabs)/discover')}
+          />
+        </View>
+      )}
+    </ScreenContainer>
+  );
+}
+
+const styles = StyleSheet.create({
+  header: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.md },
+  summary: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.surfaceSage,
+    borderRadius: radius.lg,
+    paddingVertical: spacing.md,
+  },
+  summaryItem: { flex: 1, alignItems: 'center' },
+  divider: { width: 1, height: 30, backgroundColor: 'rgba(36,39,32,0.12)' },
+  card: {
+    backgroundColor: colors.surface,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: spacing.sm,
+  },
+  image: { width: 76, height: 76, borderRadius: radius.md },
+  cardFooter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: spacing.sm,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: colors.border,
+    paddingTop: spacing.xs + 2,
+  },
+  stepper: { flexDirection: 'row', alignItems: 'center', gap: spacing.xxs },
+  stepperButton: {
+    width: 30,
+    height: 30,
+    borderRadius: radius.pill,
+    backgroundColor: colors.surfaceMuted,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  removeButton: { padding: spacing.xs },
+});

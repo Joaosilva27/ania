@@ -1,0 +1,73 @@
+rules_version = '2';
+
+// Ania — Firestore security rules
+//
+// users/{uid}                  private profile, preferences, onboarding, plan, shopping
+// users/{uid}/feedback/{id}    private swipe history
+// users/{uid}/favorites/{id}   private saved recipes
+// recipes/{id}                 public catalogue, read-only for clients
+// ingredients/{id}             public ingredient taxonomy, read-only for clients
+//
+// Writes come from the signed-in client (and from the seed script using an
+// admin service account, which bypasses these rules by design).
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+
+    // Minimal structural validation so a client cannot swap its own identity
+    // or write an unusable document shape.
+    function validUserDocument(uid) {
+      return request.resource.data.profile.uid == uid
+        && request.resource.data.schemaVersion is int
+        && request.resource.data.preferences is map
+        && request.resource.data.onboarding is map
+        && request.resource.data.plan.items is list
+        && request.resource.data.shopping is map;
+    }
+
+    match /users/{uid} {
+      allow read: if isOwner(uid);
+      allow create: if isOwner(uid) && validUserDocument(uid);
+      allow update: if isOwner(uid) && validUserDocument(uid);
+      allow delete: if isOwner(uid);
+
+      match /feedback/{recipeId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      match /favorites/{recipeId} {
+        allow read, write: if isOwner(uid);
+      }
+
+      // Nothing else may be nested under a user document.
+      match /{document=**} {
+        allow read, write: if false;
+      }
+    }
+
+    // Public catalogue: readable by anyone using the app, writable only by
+    // trusted server tooling (the Admin SDK bypasses rules).
+    match /recipes/{recipeId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /ingredients/{ingredientId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Deny everything that is not explicitly allowed above.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

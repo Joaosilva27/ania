@@ -1,0 +1,51 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Local tooling (portable Node used on this machine)
+.tools/
+.freebuff/
+
+# Expo / React Native build output
+.expo/
+.expo-shared/
+dist/
+web-build/
+expo-env.d.ts
+*.orig.*
+
+# Native projects are generated from app.json
+android/
+ios/
+
+# Signing material
+*.jks
+*.p8
+*.p12
+*.key
+*.keystore
+*.mobileprovision
+
+# Environment and credentials — never commit these
+.env
+.env.local
+.env.*.local
+google-service-account.json
+service-account*.json
+
+# Logs and build/test artefacts
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+tsconfig.tsbuildinfo
+coverage/
+.eslintcache
+
+# Editors and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
