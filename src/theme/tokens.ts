@@ -4,7 +4,8 @@
  * Blush paper, bubblegum rose, berry ink, plus a supporting set of candy
  * pastels (lavender, mint, butter) so screens can be layered and playful
  * without losing contrast. Headlines are chunky rounded (Fredoka), body copy is
- * soft rounded (Quicksand) and tiny handwritten notes borrow Caveat.
+ * soft rounded (Quicksand), and small asides stay in a lighter Fredoka so they
+ * feel handwritten without being hard to read.
  */
 
 export const colors = {
@@ -104,8 +105,6 @@ export const fonts = {
   display: 'Fredoka_600SemiBold',
   displayBold: 'Fredoka_700Bold',
   displayLight: 'Fredoka_500Medium',
-  script: 'Caveat_600SemiBold',
-  scriptBold: 'Caveat_700Bold',
 } as const;
 
 export const type = {
@@ -120,9 +119,10 @@ export const type = {
   label: { fontFamily: fonts.semibold, fontSize: 13, lineHeight: 18 },
   caption: { fontFamily: fonts.medium, fontSize: 12, lineHeight: 17 },
   button: { fontFamily: fonts.bold, fontSize: 16, lineHeight: 20, letterSpacing: 0.2 },
-  script: { fontFamily: fonts.script, fontSize: 25, lineHeight: 32 },
-  scriptSmall: { fontFamily: fonts.script, fontSize: 20, lineHeight: 26 },
-  scriptTiny: { fontFamily: fonts.script, fontSize: 18, lineHeight: 24 },
+  // Small friendly asides ("3 meals planned ♡") — rounded but easy to read.
+  note: { fontFamily: fonts.displayLight, fontSize: 20, lineHeight: 27, letterSpacing: 0.1 },
+  noteSmall: { fontFamily: fonts.displayLight, fontSize: 17, lineHeight: 24, letterSpacing: 0.1 },
+  noteTiny: { fontFamily: fonts.displayLight, fontSize: 16, lineHeight: 22, letterSpacing: 0.1 },
 } as const;
 
 export const shadows = {

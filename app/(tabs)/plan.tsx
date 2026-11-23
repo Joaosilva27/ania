@@ -39,7 +39,7 @@ export default function PlanScreen() {
     <ScreenContainer scroll bottomSpace={104} contentStyle={{ paddingTop: spacing.sm, paddingBottom: spacing.xxl }}>
                 <View style={styles.header}>
         <View style={{ flex: 1 }}>
-          <Text style={[type.script, { color: colors.primaryDeep }]}>your week, sorted</Text>
+          <Text style={[type.note, { color: colors.primaryDeep }]}>your week, sorted</Text>
           <Text style={[type.screenTitle, { color: colors.ink, marginTop: -2 }]}>Your meal plan</Text>
           <Text style={[type.caption, { color: colors.muted, marginTop: 4 }]}>
             {items.length} {items.length === 1 ? 'recipe' : 'recipes'} · {ingredientCount} unique

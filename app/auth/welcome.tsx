@@ -44,7 +44,7 @@ export default function WelcomeScreen() {
           <View style={styles.grabber} />
           <View style={styles.kickerRow}>
             <Sparkle size={13} color={colors.primary} />
-            <Text style={[type.scriptSmall, { color: colors.primaryDeep }]}>cooking, but cuter</Text>
+            <Text style={[type.noteSmall, { color: colors.primaryDeep }]}>cooking, but cuter</Text>
             <Sparkle size={13} color={colors.butter} />
           </View>
           <Text style={[type.display, styles.headline]}>

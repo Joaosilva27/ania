@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Caveat_600SemiBold, Caveat_700Bold } from '@expo-google-fonts/caveat';
 import {
   Fredoka_500Medium,
   Fredoka_600SemiBold,
@@ -115,8 +114,6 @@ export default function RootLayout() {
     Fredoka_500Medium,
     Fredoka_600SemiBold,
     Fredoka_700Bold,
-    Caveat_600SemiBold,
-    Caveat_700Bold,
   });
 
   if (!fontsLoaded && !fontError) {

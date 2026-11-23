@@ -91,7 +91,7 @@ export function ScriptNote({
 }) {
   return (
     <View style={[align === 'center' ? styles.centeredRow : null, style]}>
-      <Text style={[type.scriptSmall, { color: colors.primaryDeep }]}>{children}</Text>
+      <Text style={[type.noteSmall, { color: colors.primaryDeep }]}>{children}</Text>
     </View>
   );
 }
@@ -100,7 +100,7 @@ export function LoadingState({ label = 'Loading…' }: { label?: string }) {
   return (
     <View style={styles.centered}>
       <ActivityIndicator color={colors.primaryDeep} size="large" />
-      <Text style={[type.scriptSmall, { color: colors.muted }]}>{label}</Text>
+      <Text style={[type.noteSmall, { color: colors.muted }]}>{label}</Text>
     </View>
   );
 }

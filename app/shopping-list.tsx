@@ -96,7 +96,7 @@ export default function ShoppingListScreen() {
           size={20}
         />
         <View style={{ flex: 1 }}>
-          <Text style={[type.scriptSmall, { color: colors.primaryDeep }]}>one trip, sorted ♡</Text>
+          <Text style={[type.noteSmall, { color: colors.primaryDeep }]}>one trip, sorted ♡</Text>
           <Text style={[type.screenTitle, { color: colors.ink, marginTop: -2 }]}>Your shopping list</Text>
           <Text style={[type.caption, { color: colors.muted, marginTop: 2 }]}>
             {list.recipeCount} {list.recipeCount === 1 ? 'recipe' : 'recipes'} ·{' '}

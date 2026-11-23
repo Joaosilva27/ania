@@ -84,7 +84,7 @@ export default function StatementsScreen() {
               <Flower size={22} color={colors.primarySoft} center={colors.butter} style={styles.cardFlower} />
               <Text style={styles.statement}>{statement.text}</Text>
               <View style={styles.cardFooter}>
-                <Text style={[type.scriptTiny, { color: colors.primaryDeep }]}>
+                <Text style={[type.noteTiny, { color: colors.primaryDeep }]}>
                   tap the heart if that's you ♡
                 </Text>
               </View>

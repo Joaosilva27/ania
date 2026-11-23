@@ -21,7 +21,6 @@
     "prebuild": "expo prebuild"
   },
   "dependencies": {
-    "@expo-google-fonts/caveat": "^0.4.2",
     "@expo-google-fonts/fredoka": "^0.4.1",
     "@expo-google-fonts/quicksand": "^0.4.1",
     "@expo/vector-icons": "^14.1.0",

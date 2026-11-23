@@ -51,7 +51,7 @@ export default function ProfileScreen() {
           </View>
         )}
         <View style={{ flex: 1 }}>
-          <Text style={[type.scriptSmall, { color: colors.primaryDeep }]}>hi again, lovely</Text>
+          <Text style={[type.noteSmall, { color: colors.primaryDeep }]}>welcome back</Text>
           <Text style={[type.screenTitle, { color: colors.ink, marginTop: -2 }]} numberOfLines={1}>
             {profile.displayName}
           </Text>

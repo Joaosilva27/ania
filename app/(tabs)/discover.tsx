@@ -72,7 +72,7 @@ export default function DiscoverScreen() {
     <ScreenContainer bottomSpace={104}>
       <View style={styles.header}>
         <View style={{ flex: 1 }}>
-          <Text style={[type.scriptSmall, { color: colors.primaryDeep }]}>swipe right if it's a yes ♡</Text>
+          <Text style={[type.noteSmall, { color: colors.primaryDeep }]}>swipe right if it's a yes ♡</Text>
           <Text style={[type.screenTitle, { color: colors.ink, marginTop: -2 }]}>
             Discover something delicious.
           </Text>

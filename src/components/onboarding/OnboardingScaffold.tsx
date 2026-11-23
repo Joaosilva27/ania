@@ -52,7 +52,7 @@ export function OnboardingScaffold({
         ) : (
           <View style={{ width: 44 }} />
         )}
-        <Text style={[type.scriptTiny, styles.stepLabel]}>
+        <Text style={[type.noteTiny, styles.stepLabel]}>
           step {index} of {total}
         </Text>
         <View style={styles.headerRight}>{headerRight}</View>

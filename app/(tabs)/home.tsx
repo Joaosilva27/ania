@@ -93,7 +93,7 @@ export default function HomeScreen() {
               <View style={styles.header}>
           <Flower size={22} color={colors.primarySoft} center={colors.butter} style={styles.headerFlower} />
           <View style={{ flex: 1 }}>
-          <Text style={[type.script, { color: colors.primaryDeep }]}>
+          <Text style={[type.note, { color: colors.primaryDeep }]}>
             {greeting().toLowerCase()}, {firstName}
           </Text>
           <Text style={[type.screenTitle, { color: colors.ink, marginTop: -2 }]}>
@@ -148,8 +148,8 @@ export default function HomeScreen() {
         title={preferences?.primaryGoal ? GOAL_LABELS[preferences.primaryGoal] : 'Set a goal in your profile'}
         icon={<Heart size={12} color={colors.primaryDeep} />}
       >
-        <Text style={[type.scriptTiny, { color: colors.primaryDeep }]}>
-          {planRecipes.length} meals planned · {ingredientCount} ingredients ready to tick off ♡
+        <Text style={[type.noteTiny, { color: colors.primaryDeep }]}>
+          {planRecipes.length} meals · {ingredientCount} ingredients to tick off ♡
         </Text>
       </Sticker>
 

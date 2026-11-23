@@ -65,7 +65,7 @@ export default function SettingsScreen() {
     <ScreenContainer scroll contentStyle={{ paddingTop: spacing.sm, paddingBottom: spacing.xxl }}>
       <View style={styles.header}>
         <View style={{ flex: 1 }}>
-          <Text style={[type.scriptSmall, { color: colors.primaryDeep }]}>make it yours</Text>
+          <Text style={[type.noteSmall, { color: colors.primaryDeep }]}>make it yours</Text>
           <Text style={[type.screenTitle, { color: colors.ink, marginTop: -2 }]}>Settings</Text>
         </View>
         <TextButton label="Done" onPress={() => void done()} />

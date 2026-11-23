@@ -34,7 +34,7 @@ Every button on screen is wired to a real state transition. There are no placeho
 - **Expo Router** (file-based routes, groups, typed guards)
 - **React Native Reanimated 3** + **Gesture Handler** for the swipe decks (UI-thread animations)
 - **Zustand** for client state, **TanStack Query** configured at the root for future server data
-- **expo-image** (disk/memory caching, blurhash placeholder), **expo-font** with Fredoka (display), Quicksand (UI) and Caveat (handwritten notes)
+- **expo-image** (disk/memory caching, blurhash placeholder), **expo-font** with Fredoka (display + small asides) and Quicksand (UI)
 - **expo-linear-gradient** + **react-native-svg** for the candy gradients, hearts, sparkles and scalloped edges
 - **Firebase Auth** (Google) + **Cloud Firestore**, with security rules in `firestore.rules`
 - **Jest + ts-jest** for the pure business logic (60 tests)
