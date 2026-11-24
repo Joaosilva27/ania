@@ -50,6 +50,14 @@ async function http(url, { json = true, binary = false, tries = 5 } = {}) {
       // Wikimedia's media CDN is friendlier when the request looks like a
       // reader following a link from the wiki page.
       if (/wikimedia/.test(url)) headers.Referer = 'https://en.wikibooks.org/';
+      // Fandom's media CDN answers 403 unless the request looks like the wiki
+      // page loading its own image.
+      if (/nocookie\.net|wikia/.test(url)) {
+        headers['User-Agent'] =
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
+        headers.Referer = 'https://recipes.fandom.com/';
+        headers.Accept = 'image/avif,image/webp,image/apng,*/*';
+      }
       const res = await fetch(url, { headers, signal: AbortSignal.timeout(25000) });
       if (res.status === 429) {
         // Wikimedia asks clients to back off rather than hammer the endpoint;
@@ -486,6 +494,150 @@ async function cookbookImageInfo(files) {
   return info;
 }
 
+/* ------------------------------------------------------------------ */
+/* Fandom Recipes Wiki (CC BY-SA, its own media CDN)                    */
+/* ------------------------------------------------------------------ */
+
+const FANDOM = 'https://recipes.fandom.com/api.php';
+
+function fandomUrl(params) {
+  return `${FANDOM}?${new URLSearchParams({ format: 'json', formatversion: '2', ...params })}`;
+}
+
+/** The searches that surface modern, batch-friendly cooking rather than
+ * 1970s casseroles: each one is a real query against the wiki. */
+const FANDOM_QUERIES = [
+  'meal prep',
+  'meal prep chicken',
+  'batch cooking',
+  'sheet pan dinner',
+  'air fryer chicken',
+  'air fryer salmon',
+  'buddha bowl',
+  'grain bowl',
+  'burrito bowl',
+  'protein bowl',
+  'overnight oats',
+  'high protein',
+  'slow cooker chicken',
+  'instant pot chicken',
+  'one pot pasta',
+  'stir fry',
+  'lunch box',
+  'quinoa salad',
+  'chicken rice bowl',
+  'make ahead breakfast',
+  'chicken breast meal prep',
+  'egg muffins',
+  'protein pancakes',
+  'smoothie bowl',
+  'zucchini noodles',
+  'cauliflower rice',
+  'turkey meatballs',
+  'sheet pan chicken and vegetables',
+  'freezer meals',
+  'chicken salad',
+  'tuna salad',
+  'pasta salad',
+  'rice cooker',
+  'teriyaki chicken',
+  'korean beef',
+  'poke bowl',
+  'salmon rice bowl',
+  'vegetarian meal prep',
+];
+
+async function fandomTitles() {
+  return cached('fandom-titles', async () => {
+    const titles = [];
+    const seen = new Set();
+    for (const term of FANDOM_QUERIES) {
+      for (let offset = 0; offset < 200; offset += 50) {
+        const data = await http(
+          fandomUrl({ action: 'query', list: 'search', srsearch: term, srlimit: '50', sroffset: String(offset), srnamespace: '0' }),
+          { json: true, tries: 5 },
+        );
+        const hits = data.query?.search ?? [];
+        for (const hit of hits) {
+          if (!seen.has(hit.title)) {
+            seen.add(hit.title);
+            titles.push(hit.title);
+          }
+        }
+        if (hits.length < 50) break;
+        await sleep(700);
+      }
+      process.stdout.write(`\rfandom search ${term}: ${titles.length}`);
+      await sleep(700);
+    }
+    process.stdout.write('\n');
+    return titles;
+  });
+}
+
+async function fandomPages(titles, offset = 0) {
+  const pages = {};
+  for (let i = 0; i < titles.length; i += 20) {
+    const batch = titles.slice(i, i + 20);
+    const key = `fandom-pages-${offset + i}`;
+    const file = path.join(CACHE, `${key}.json`);
+    let data;
+    if (!REFRESH && fs.existsSync(file)) {
+      data = JSON.parse(fs.readFileSync(file, 'utf8'));
+    } else {
+      data = await http(
+        fandomUrl({ action: 'query', prop: 'revisions', rvslots: 'main', rvprop: 'content', redirects: '1', titles: batch.join('|') }),
+        { json: true, tries: 5 },
+      );
+      fs.writeFileSync(file, JSON.stringify(data));
+      await sleep(900);
+    }
+    for (const page of data.query?.pages ?? []) {
+      if (page.missing) continue;
+      const content = page.revisions?.[0]?.slots?.main?.content;
+      if (content) pages[page.title] = content;
+    }
+    process.stdout.write(`\rfandom text ${Math.min(i + 20, titles.length)}/${titles.length}`);
+  }
+  process.stdout.write('\n');
+  return pages;
+}
+
+async function fandomImageInfo(files) {
+  const cacheFile = path.join(CACHE, 'fandom-imageinfo.json');
+  if (!REFRESH && fs.existsSync(cacheFile)) {
+    const cachedInfo = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
+    if (files.every((file) => cachedInfo[file])) return cachedInfo;
+  }
+  const info = {};
+  for (let i = 0; i < files.length; i += 40) {
+    const batch = files.slice(i, i + 40);
+    const data = await http(
+      fandomUrl({
+        action: 'query',
+        prop: 'imageinfo',
+        iiprop: 'url|extmetadata',
+        iiurlwidth: '760',
+        titles: batch.map((file) => `File:${file}`).join('|'),
+      }),
+      { json: true, tries: 5 },
+    );
+    for (const page of data.query?.pages ?? []) {
+      const image = page.imageinfo?.[0];
+      if (!image) continue;
+      const meta = image.extmetadata ?? {};
+      info[page.title.replace(/^File:/, '')] = {
+        url: image.thumburl || image.url,
+        license: meta.LicenseShortName?.value ?? 'CC BY-SA',
+        artist: (meta.Artist?.value ?? '').replace(/<[^>]+>/g, '').trim() || undefined,
+      };
+    }
+    await sleep(800);
+  }
+  fs.writeFileSync(cacheFile, JSON.stringify(info));
+  return info;
+}
+
 /* ---- wikitext parsing -------------------------------------------- */
 
 function stripTemplates(text) {
@@ -558,9 +710,17 @@ function parseCookbook(wikitext) {
     .filter((line) => line && line.length > 8);
 
   const intro = sections[0]?.lines
-    .filter((line) => !/^\s*[|{]/.test(line) && !/^\[\[Category:/.test(line) && !/^__/.test(line))
+    .filter(
+      (line) =>
+        !/^\s*[|{]/.test(line) &&
+        !/^\[\[Category:/.test(line) &&
+        !/^__/.test(line) &&
+        // Fandom pages often open with a bare [[File:…|right|300px|link=]] line.
+        !/\[\[(?:Image|File):/i.test(line),
+    )
     .map((line) => stripWiki(line))
-    .filter(Boolean)
+    .filter((text) => text && !/^(right|left|center|thumb|frame|\d+px|link=|alt=)(\||$)/i.test(text))
+    .filter((text) => !/\|\s*(?:\d+px|link=|alt=|thumb)\b/i.test(text))
     .join(' ');
 
   const categories = [...wikitext.matchAll(/\[\[Category:([^\]|]+)/g)].map((m) => m[1]);
@@ -712,7 +872,19 @@ function deriveTags({ recipe, origins, ingredientIds }) {
   if (recipe.ingredients.length <= 8 && recipe.instructions.length <= 6) tags.add('simple');
   if (recipe.instructions.length <= 5) tags.add('low-effort');
   if (['roast', 'slow-cook', 'simmer'].includes(recipe.cookingMethod)) tags.add('one-pan');
-  if (recipe.servings >= 4) tags.add('meal-prep');
+  const titleText = String(recipe.title).toLowerCase();
+  // "Meal prep" should mean a dish you can portion out for the week, not every
+  // recipe that happens to serve four.
+  const prepWords = /meal[- ]prep|batch|make[- ]ahead|freezer|lunch ?box|bento/.test(titleText);
+  const portionable =
+    /bowl|salad|soup|stew|curry|bake|tray ?bake|casserole|chilli|chili|pasta|pie|rice|roast|skillet|sheet ?pan|loaf|muffin|oats|gratin|pilaf|tagine|stir[- ]?fry|noodle/.test(
+      titleText,
+    );
+  if (prepWords || (recipe.servings >= 4 && portionable)) tags.add('meal-prep');
+  if (/air[- ]?fryer/.test(titleText)) {
+    tags.add('quick');
+    tags.add('low-effort');
+  }
   if (/stew|pie|curry|roast|soup|bake|mac|lasagne|risotto|dumpling|pudding|braise/i.test(recipe.title)) tags.add('comfort');
   if (origins.has('meat') || origins.has('fish') || origins.has('egg') || origins.has('dairy')) tags.add('high-protein');
   if (ingredientIds.some((id) => /tofu|bean|lentil|chickpea|yogurt|cheese|egg/.test(id)) && !origins.has('meat')) tags.add('high-protein');
@@ -814,6 +986,138 @@ async function downloadPendingImages() {
     await sleep(2500);
   }
   process.stdout.write(`\npending images saved: ${saved}/${missing.length}\n`);
+}
+
+/**
+ * Shared builder for both MediaWiki sources (Wikibooks Cookbook and Fandom's
+ * Recipes Wiki): same section layout, different wording and credit.
+ */
+function makeWikiRecipe({ title, parsed, info, index, source, descriptionFallback }) {
+  const slug = slugify(title);
+  if (!slug) return null;
+
+  const ingredientIds = [];
+  const ingredientEntries = [];
+  for (const line of parsed.ingredients.slice(0, 20)) {
+    // "2 cups plain flour" → quantity 2, unit cup, name "plain flour".
+    const words = stripWiki(line).replace(/^[-,;\s]+/, '').replace(/\s+/g, ' ').trim().split(' ');
+    let cursor = 0;
+    let numberText = '';
+    while (cursor < words.length && /^[\d½¼¾⅓⅔⅛⅜⅝⅞.,/]+$/.test(words[cursor])) {
+      numberText += ` ${words[cursor]}`;
+      cursor += 1;
+    }
+    const unitWord = (words[cursor] ?? '').toLowerCase().replace(/[.,]$/, '');
+    const unit = numberText ? UNIT_LOOKUP[unitWord] : undefined;
+    if (unit) cursor += 1;
+    const name = words
+      .slice(cursor)
+      .join(' ')
+      .replace(/\([^)]*\)/g, ' ')
+      .replace(/^[-,;\s]+/, '')
+      .trim();
+    if (!name || name.length < 2) continue;
+    const parsedMeasure = numberText
+      ? { quantity: toNumber(numberText) ?? 1, unit: unit ?? 'unit', note: undefined }
+      : parseMeasure('');
+    const ingredientId = index.resolve(name);
+    ingredientIds.push(ingredientId);
+    const entry = { ingredientId, quantity: parsedMeasure.quantity, unit: parsedMeasure.unit };
+    if (parsedMeasure.note) entry.preparation = titleCase(parsedMeasure.note).slice(0, 60);
+    ingredientEntries.push(entry);
+  }
+  if (ingredientEntries.length < 4) return null;
+
+  const instructions = parseSteps(parsed.steps);
+  if (instructions.length < 3) return null;
+
+  const meta = deriveMeta({
+    title,
+    instructions: instructions.map((step) => step.text),
+    ingredientCount: ingredientEntries.length,
+    categories: parsed.categories,
+    category: parsed.category,
+  });
+
+  const origins = new Set(ingredientIds.map((id) => index.byId.get(id)?.origin ?? 'none'));
+  const classification = origins.has('meat')
+    ? ['carnivore']
+    : origins.has('fish')
+      ? ['pescatarian', 'carnivore']
+      : origins.has('dairy') || origins.has('egg') || origins.has('honey')
+        ? ['vegetarian', 'pescatarian', 'carnivore']
+        : ['vegan', 'vegetarian', 'pescatarian', 'carnivore'];
+
+  const primary = ingredientIds[0] ?? 'other';
+  const budgetTier = BUDGET_HIGHER.has(primary)
+    ? 'higher'
+    : BUDGET_LOW.has(primary) || classification.includes('vegan')
+      ? 'budget'
+      : 'moderate';
+  const cuisine =
+    parsed.categories.find((category) => /cuisine of/i.test(category))?.replace(/cuisine of the /i, '') ??
+    meta.area ??
+    'World';
+
+  const nutrition =
+    parsed.nutrition && parsed.nutrition.calories && parsed.nutrition.calories > 20
+      ? {
+          calories: Math.round(parsed.nutrition.calories),
+          proteinGrams: Math.round(parsed.nutrition.protein ?? 0),
+          carbsGrams: Math.round(parsed.nutrition.carbs ?? 0),
+          fatGrams: Math.round(parsed.nutrition.fat ?? 0),
+          isEstimate: true,
+        }
+      : undefined;
+
+  const recipe = {
+    id: slug,
+    slug,
+    title,
+    description: (() => {
+      const intro = parsed.intro?.trim() ?? '';
+      if (intro.length > 30) return intro.slice(0, 200);
+      const names = ingredientEntries
+        .slice(0, 3)
+        .map((entry) => cleanName(index.byId.get(entry.ingredientId)?.name ?? ''))
+        .filter(Boolean);
+      const base = descriptionFallback.replace(/\.$/, '');
+      return `${base}${names.length ? `, made with ${names.join(', ')}` : ''}.`.slice(0, 200);
+    })(),
+    imageUrl: '',
+    galleryImages: [],
+    imageKey: slug,
+    preparationTimeMinutes: meta.preparationTimeMinutes,
+    cookingTimeMinutes: meta.cookingTimeMinutes,
+    totalTimeMinutes: meta.totalTimeMinutes,
+    difficulty: parsed.difficulty
+      ? parsed.difficulty <= 2
+        ? 'easy'
+        : 'medium'
+      : meta.difficulty,
+    servings: Math.min(12, Math.max(1, Math.round(parsed.servings ?? 4))),
+    ingredients: ingredientEntries,
+    instructions,
+    tags: [],
+    dietaryClassification: classification,
+    mealTypes: meta.mealTypes,
+    mealPrepSuitable: meta.mealTypes.includes('dinner') && (parsed.servings ?? 4) >= 4,
+    nutrition,
+    budgetTier,
+    cuisine: titleCase(String(cuisine)),
+    primaryIngredient: primary,
+    cookingMethod: meta.cookingMethod,
+    createdAt: '2026-11-20T00:00:00.000Z',
+    updatedAt: '2026-11-20T00:00:00.000Z',
+    source: {
+      name: source.name,
+      url: source.url,
+      license: info.license ?? source.license,
+      author: info.artist,
+    },
+  };
+  recipe.tags = deriveTags({ recipe, origins, ingredientIds });
+  return recipe;
 }
 
 async function main() {
@@ -1090,6 +1394,63 @@ async function main() {
   }
   console.log(`wikibooks recipes: ${recipes.length}`);
 
+  /* ---- Fandom Recipes Wiki ---- */
+  if (recipes.length < LIMIT) {
+    const titles = await fandomTitles();
+    const candidates = [];
+    for (let i = 0; i < titles.length && candidates.length < 420; i += 100) {
+      const pages = await fandomPages(titles.slice(i, i + 100), i);
+      for (const [pageTitle, wikitext] of Object.entries(pages)) {
+        if (candidates.length >= 420) break;
+        const title = pageTitle.trim();
+        if (!title || usedTitles.has(cleanName(title))) continue;
+        if (/^(category|template|file|user|help|project|mediawiki):/i.test(title)) continue;
+        const parsed = parseCookbook(wikitext);
+        if (!parsed.image) continue;
+        if (parsed.ingredients.length < 5 || parsed.steps.length < 3) continue;
+        if (candidates.some((candidate) => cleanName(candidate.title) === cleanName(title))) continue;
+        candidates.push({ title, parsed });
+      }
+      console.log(`fandom candidates: ${candidates.length}`);
+    }
+
+    const fandomOffline = process.argv.includes('--offline');
+    const fandomFileInfo = fandomOffline
+      ? {}
+      : await fandomImageInfo([...new Set(candidates.map((candidate) => candidate.parsed.image))]);
+    const manifestPath = path.join(CACHE, 'pending-images.json');
+    const manifest = fandomOffline && fs.existsSync(manifestPath)
+      ? new Map(JSON.parse(fs.readFileSync(manifestPath, 'utf8')).map((job) => [job.id, job.url]))
+      : null;
+
+    for (const candidate of candidates) {
+      if (recipes.length >= LIMIT) break;
+      const info = fandomOffline
+        ? { url: manifest?.get(slugify(candidate.title)), license: 'CC BY-SA', artist: undefined }
+        : fandomFileInfo[candidate.parsed.image];
+      if (!info?.url) continue;
+
+      const recipe = makeWikiRecipe({
+        title: candidate.title,
+        parsed: candidate.parsed,
+        info,
+        index,
+        source: {
+          name: 'Recipes Wiki',
+          url: `https://recipes.fandom.com/wiki/${encodeURIComponent(candidate.title.replace(/ /g, '_'))}`,
+          license: 'CC BY-SA',
+        },
+        descriptionFallback: candidate.parsed.category
+          ? `${titleCase(String(candidate.parsed.category))} from the community Recipes Wiki.`
+          : 'A community recipe from the Recipes Wiki.',
+      });
+      if (!recipe) continue;
+      usedTitles.add(cleanName(candidate.title));
+      addRecipe(recipe, info.url, null);
+    }
+  }
+  console.log(`fandom recipes: ${recipes.length}`);
+
   fs.writeFileSync(path.join(CACHE, 'pending-images.json'), JSON.stringify(imagesToFetch));
   if (process.argv.includes('--manifest-only')) {
     console.log(`manifest written: ${imagesToFetch.length} images`);
@@ -1131,7 +1492,7 @@ async function main() {
     await Promise.all(workers);
   };
   await drain(queue, 8);
-  await drain(wikiQueue, 3);
+  if (!process.argv.includes('--no-wiki-images')) await drain(wikiQueue, 3);
   process.stdout.write(`\nimages downloaded: ${downloaded}\n`);
 
   writeCatalogue(recipes, index);

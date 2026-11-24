@@ -74,7 +74,7 @@ npm run web            # browser (handy for layout checks; see limitations)
 | `npm test` | Jest suite for aggregation, dietary, recommendations, onboarding |
 | `npm run seed` | Seed Firestore with recipes + ingredients (idempotent) |
 | `npm run seed:dry` | Validate the catalogue and print a sample payload, no writes |
-| `npm run recipes:import` | Refetch every recipe + photo from TheMealDB and the Wikibooks Cookbook |
+| `npm run recipes:import` | Refetch every recipe + photo from TheMealDB, the Wikibooks Cookbook and the Recipes Wiki |
 | `npm run recipes:images` | Retry the photos that a rate-limited CDN refused |
 | `npm run images:build` | Regenerate `src/assets/recipeImages.ts` from `assets/recipes/` |
 | `npm run icons` | Regenerate icon / adaptive icon / splash PNGs |
@@ -274,8 +274,13 @@ npm test
   (`budget` / `moderate` / `higher`) and a future-ready pricing interface, but no supermarket
   figures are displayed.
 - **Photography is real, imported with the recipes.** Every dish photo is bundled locally, cropped
-  by `scripts/import-recipes.mjs` from TheMealDB or the Wikibooks Cookbook, and credited on the
-  recipe page. Nothing is hotlinked, and no generated image remains in the catalogue.
+  by `scripts/import-recipes.mjs` from TheMealDB, the Wikibooks Cookbook or Fandom's Recipes Wiki,
+  and credited on the recipe page. Nothing is hotlinked, and no generated image remains in the
+  catalogue.
+- **The catalogue is ~1,090 recipes** (732 TheMealDB, 250 Recipes Wiki, 110 Wikibooks). The wiki
+  sources are CC BY-SA; the importer only keeps a page when it has real ingredients, real steps and
+  a real photo. Recipes on TikTok, Instagram and chef blogs are **not** imported: those sites forbid
+  bulk scraping and their text/photos are copyrighted, so they cannot be bundled in a shipped app.
 - **Recipe metadata is partly derived.** Titles, ingredients, measures, steps, photos and servings
   come from the source page, but prep/cook times, difficulty, tags and meal types are inferred from
   the recipe text by the importer, because neither source publishes them consistently.
