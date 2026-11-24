@@ -17,6 +17,7 @@ import {
   setDietaryPattern,
   setInitialRecipeIds,
   setOnboardingStep,
+  setDisplayName,
   setPrimaryGoal,
   setStatements,
   setInterests,
@@ -57,18 +58,31 @@ function answeredData(): UserData {
 }
 
 describe('onboarding progression', () => {
-  it('starts a new user on the first question', () => {
+  it('starts a new user on the name question', () => {
     const data = createUserData(profile);
-    expect(data.onboarding.currentStep).toBe('goals');
-    expect(resumeStep(data.onboarding)).toBe('goals');
-    expect(progressFor('goals')).toEqual({ index: 1, total: 8 });
+    expect(data.onboarding.currentStep).toBe('name');
+    expect(resumeStep(data.onboarding)).toBe('name');
+    expect(progressFor('name')).toEqual({ index: 1, total: 9 });
+    expect(progressFor('goals')).toEqual({ index: 2, total: 9 });
   });
 
   it('walks forward and backward through every step', () => {
+    expect(nextStep('name')).toBe('goals');
     expect(nextStep('goals')).toBe('obstacles');
     expect(nextStep('shopping-preview')).toBe('complete');
+    expect(previousStep('goals')).toBe('name');
     expect(previousStep('obstacles')).toBe('goals');
-    expect(previousStep('goals')).toBeNull();
+    expect(previousStep('name')).toBeNull();
+  });
+
+  it('needs a name before the first question', () => {
+    const data = createUserData(profile);
+    const blank = { preferences: data.preferences, selectedRecipeIds: [] };
+    expect(canAdvanceFrom('name', { ...blank, displayName: '' })).toBe(false);
+    expect(canAdvanceFrom('name', { ...blank, displayName: '   ' })).toBe(false);
+    expect(canAdvanceFrom('name', { ...blank, displayName: 'Mia' })).toBe(true);
+    expect(setDisplayName(data, 'Mia').profile.displayName).toBe('Mia');
+    expect(setDisplayName(data, 'x'.repeat(40)).profile.displayName).toHaveLength(30);
   });
 
   it('requires a goal before continuing', () => {
@@ -128,12 +142,15 @@ describe('onboarding progression', () => {
     const data = createUserData(profile);
     const draft = { preferences: data.preferences, selectedRecipeIds: [] };
     expect(isStepReachable('dietary', draft)).toBe(false);
-    expect(isStepReachable('goals', draft)).toBe(true);
+    // The name is the first gate, so nothing past it opens without one.
+    expect(isStepReachable('goals', draft)).toBe(false);
+    expect(isStepReachable('goals', { ...draft, displayName: 'Mia' })).toBe(true);
     const answered = answeredData();
     expect(
       isStepReachable('dietary', {
         preferences: answered.preferences,
         selectedRecipeIds: [],
+        displayName: answered.profile.displayName,
       }),
     ).toBe(true);
   });

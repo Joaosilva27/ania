@@ -20,11 +20,18 @@ export function useOnboardingNav(step: OnboardingStep) {
       updatedAt: '',
     },
     selectedRecipeIds: data?.onboarding.initialRecipeIds ?? [],
+    displayName: data?.profile.displayName ?? '',
   };
 
   const canContinue = canAdvanceFrom(step, draft);
 
   const goNext = useCallback(() => {
+    // The name step also serves people who already finished setup, so it returns
+    // them to the app instead of restarting the questions.
+    if (step === 'name' && data?.onboarding.completed) {
+      router.replace('/(tabs)/home');
+      return;
+    }
     const target = nextStep(step);
     mutate((current) => setOnboardingStep(current, target));
     if (target === 'complete') {
@@ -32,7 +39,7 @@ export function useOnboardingNav(step: OnboardingStep) {
       return;
     }
     router.push(ONBOARDING_ROUTE[target] as never);
-  }, [mutate, router, step]);
+  }, [data?.onboarding.completed, mutate, router, step]);
 
   const goBack = useCallback(() => {
     const target = previousStep(step);

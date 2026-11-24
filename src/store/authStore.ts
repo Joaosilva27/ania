@@ -32,7 +32,7 @@ interface AuthState {
 let unsubscribeAuth: (() => void) | null = null;
 let bootstrapPromise: Promise<void> | null = null;
 
-function previewProfile(displayName = 'Alex'): UserProfile {
+function previewProfile(displayName = ''): UserProfile {
   const now = new Date().toISOString();
   return {
     uid: PREVIEW_UID,
@@ -45,11 +45,24 @@ function previewProfile(displayName = 'Alex'): UserProfile {
   };
 }
 
+/** The name older preview builds stamped on every demo profile. It is not a
+ * real answer, so it is treated as "no name yet" and the name step asks again. */
+const LEGACY_PLACEHOLDER_NAME = 'Alex';
+
+const withoutPlaceholder = (profile: UserProfile): string => {
+  const name = profile.displayName.trim();
+  if (profile.isPreview && name === LEGACY_PLACEHOLDER_NAME) return '';
+  return name;
+};
+
 async function startSession(profile: UserProfile): Promise<UserData> {
   const existing = await loadUserData(profile.uid);
   const base = existing ?? createUserData(profile);
   const merged = replaceProfile(base, {
     ...profile,
+    // A session without a name (preview mode) must not wipe the name the user
+    // picked during onboarding.
+    displayName: withoutPlaceholder(profile) || withoutPlaceholder(base.profile),
     createdAt: base.profile.createdAt || profile.createdAt,
     lastLoginAt: new Date().toISOString(),
   });

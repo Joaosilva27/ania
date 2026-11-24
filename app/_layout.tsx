@@ -61,19 +61,34 @@ function RouteGuard() {
     }
 
     const completed = data?.onboarding.completed ?? false;
-    const step = data?.onboarding.currentStep ?? 'goals';
+    const step = data?.onboarding.currentStep ?? 'name';
 
     if (!completed) {
       if (!inOnboarding && !isDetailRoute) {
-        go(ONBOARDING_ROUTE[step] ?? ONBOARDING_ROUTE.goals);
+        go(ONBOARDING_ROUTE[step] ?? ONBOARDING_ROUTE.name);
       }
       return;
     }
 
-    if (inAuth || inOnboarding) {
+    // The name screen stays open while it is on screen (typing must not yank
+    // anyone away); everyone else without a name is sent there.
+    const onNameStep = inOnboarding && segments.join('/') === 'onboarding/name';
+    if (!(data?.profile.displayName ?? '').trim()) {
+      if (!onNameStep) go('/onboarding/name');
+      return;
+    }
+
+    if (inAuth || (inOnboarding && !onNameStep)) {
       go('/(tabs)/home');
     }
-  }, [status, segments, router, data?.onboarding.completed, data?.onboarding.currentStep]);
+  }, [
+    status,
+    segments,
+    router,
+    data?.onboarding.completed,
+    data?.onboarding.currentStep,
+    data?.profile.displayName,
+  ]);
 
   return null;
 }

@@ -42,7 +42,7 @@ export function createUserData(profile: UserProfile): UserData {
     profile,
     preferences: defaultPreferences(),
     onboarding: {
-      currentStep: 'goals',
+      currentStep: 'name',
       completed: false,
       initialRecipeIds: [],
       startedAt: now,
@@ -58,6 +58,13 @@ export function createUserData(profile: UserProfile): UserData {
 
 function touch(preferences: UserPreferences): UserPreferences {
   return { ...preferences, updatedAt: new Date().toISOString() };
+}
+
+export function setDisplayName(data: UserData, displayName: string): UserData {
+  return {
+    ...data,
+    profile: { ...data.profile, displayName: displayName.slice(0, 30) },
+  };
 }
 
 export function setPrimaryGoal(data: UserData, goal: GoalId | null): UserData {

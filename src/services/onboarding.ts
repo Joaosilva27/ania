@@ -2,6 +2,7 @@ import type { OnboardingState, OnboardingStep, UserPreferences } from '@/types';
 import { INITIAL_PLAN_SIZE } from './recommendations';
 
 export const ONBOARDING_STEPS: OnboardingStep[] = [
+  'name',
   'goals',
   'obstacles',
   'statements',
@@ -13,6 +14,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
 ];
 
 export const ONBOARDING_ROUTE: Record<OnboardingStep, string> = {
+  name: '/onboarding/name',
   goals: '/onboarding/goals',
   obstacles: '/onboarding/obstacles',
   statements: '/onboarding/statements',
@@ -58,12 +60,16 @@ export function progressFor(step: OnboardingStep): { index: number; total: numbe
 export interface OnboardingDraft {
   preferences: UserPreferences;
   selectedRecipeIds: string[];
+  /** Only the name step cares; optional so data-only callers stay simple. */
+  displayName?: string;
 }
 
 /** Gate for the Continue button on each step. */
 export function canAdvanceFrom(step: OnboardingStep, draft: OnboardingDraft): boolean {
   const { preferences, selectedRecipeIds } = draft;
   switch (step) {
+    case 'name':
+      return (draft.displayName ?? '').trim().length > 0;
     case 'goals':
       return Boolean(preferences.primaryGoal);
     case 'obstacles':
@@ -98,6 +104,10 @@ export function isStepReachable(step: OnboardingStep, draft: OnboardingDraft): b
 }
 
 export const ONBOARDING_TITLES: Record<OnboardingStep, { title: string; subtitle?: string }> = {
+  name: {
+    title: "First things first — what's your name?",
+    subtitle: 'So the app can say hi properly.',
+  },
   goals: { title: 'What are you trying to achieve?' },
   obstacles: { title: 'What prevents you from doing that?', subtitle: 'Choose everything that sounds familiar.' },
   statements: { title: 'Which statements do you relate to?' },

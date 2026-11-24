@@ -22,7 +22,13 @@ export default function IndexScreen() {
   }
 
   if (!data?.onboarding.completed) {
-    return <Redirect href={(ONBOARDING_ROUTE[data?.onboarding.currentStep ?? 'goals']) as never} />;
+    return <Redirect href={(ONBOARDING_ROUTE[data?.onboarding.currentStep ?? 'name']) as never} />;
+  }
+
+  // Finished setup but still no name (fresh profile, or an old demo profile that
+  // only had the placeholder): ask for it before showing the app.
+  if (!data.profile.displayName.trim()) {
+    return <Redirect href="/onboarding/name" />;
   }
 
   return <Redirect href="/(tabs)/home" />;

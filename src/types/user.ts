@@ -27,6 +27,7 @@ export interface UserPreferences {
 }
 
 export type OnboardingStep =
+  | 'name'
   | 'goals'
   | 'obstacles'
   | 'statements'

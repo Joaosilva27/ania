@@ -93,7 +93,7 @@ app/                          # Expo Router routes only
   _layout.tsx                 # providers, fonts, splash, route guard
   index.tsx                   # auth/onboarding resolver
   auth/                       # welcome, sign-in, how-it-works
-  onboarding/                 # the 8 onboarding steps
+  onboarding/                 # the 9 onboarding steps (name first)
   (tabs)/                     # home, discover, plan, profile
   recipe/[id].tsx             # recipe detail
   shopping-list.tsx

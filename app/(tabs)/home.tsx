@@ -92,7 +92,7 @@ export default function HomeScreen() {
     .filter(Boolean);
   const ingredientCount = useMemo(() => (plan ? countPlanIngredients(plan) : 0), [plan]);
   const selectedInterests = (preferences?.interests ?? []).slice(0, 6);
-  const firstName = data?.profile.displayName?.split(' ')[0] ?? 'there';
+  const firstName = data?.profile.displayName.trim().split(' ')[0] || 'there';
   const cardWidth = Math.min(246, width * 0.64);
 
   const toggleInterest = (id: InterestId) => {
