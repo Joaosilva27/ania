@@ -13,12 +13,16 @@ import { STORES, STORE_BY_ID, bestMatch, normaliseProducts } from './stores.mjs'
 
 // Bumped whenever matching changes, so an old cached pick is never served as if
 // it were today's answer.
-const CACHE_VERSION = 6;
+const CACHE_VERSION = 13;
 
 // Ignore a generic PORT=0 exported by some shells; this service owns PRICE_PORT.
 const PORT = Number(process.env.PRICE_PORT ?? 8788) || 8788;
 const HOST = process.env.HOST ?? '127.0.0.1';
 const VERSION = '1.0.0';
+
+// No single shop may hold the whole answer hostage: whatever it has not priced
+// by then is reported as unread, and the other chains still get compared.
+const STORE_BUDGET_MS = 45000;
 
 const inflight = new Map();
 
@@ -34,12 +38,18 @@ async function lookup(store, term, need = {}) {
 
   const task = (async () => {
     const products = normaliseProducts(await store.search(term));
+    // An empty catalogue is the shop refusing or failing, not "we don't sell it":
+    // never turn that into a cached gap.
+    if (!products.length) throw new Error(`${store.name} returned no products`);
     const match = bestMatch(term, products, { grams, count });
-    const value = match
-      ? { ...match, term, need: { grams, count }, store: store.id, fetchedAt: new Date().toISOString() }
-      : { term, need: { grams, count }, store: store.id, missing: true, fetchedAt: new Date().toISOString() };
-    await cacheSet(key, value);
-    return value;
+    if (match) {
+      const value = { ...match, term, need: { grams, count }, store: store.id, fetchedAt: new Date().toISOString() };
+      await cacheSet(key, value);
+      return value;
+    }
+    // A real miss is not cached either: assortments change, and a stale gap must
+    // never decide which shop looks cheaper.
+    return { term, need: { grams, count }, store: store.id, missing: true, fetchedAt: new Date().toISOString() };
   })();
 
   inflight.set(pendingKey, task);
@@ -81,14 +91,17 @@ async function priceStore(store, terms) {
   let throttled = false;
   // Lidl gets one request at a time (its gateway counts them); the others are
   // happy with a few in flight, which turns a two-minute basket into seconds.
-  const concurrency = store.id === 'lidl' ? 1 : store.id === 'pingo-doce' ? 2 : 4;
-  const gap = store.id === 'lidl' ? 2500 : 250;
+  // Lidl's pages are heavier, so two at a time with a shorter gap; the others
+  // take a few at a time.
+  const concurrency = store.id === 'lidl' ? 2 : store.id === 'pingo-doce' ? 3 : 4;
+  const gap = store.id === 'lidl' ? 400 : 250;
+  const deadline = started + STORE_BUDGET_MS;
   await mapLimit(terms, concurrency, async (term) => {
-    if (throttled) {
+    if (throttled || Date.now() > deadline) {
       items[term.id] = {
         term: term.q,
         store: store.id,
-        error: 'throttled',
+        error: throttled ? 'throttled' : 'not read in time',
         fetchedAt: new Date().toISOString(),
       };
       return;
@@ -100,7 +113,7 @@ async function priceStore(store, terms) {
       if (/throttl/i.test(error.message)) throttled = true;
       items[term.id] = { term: term.q, store: store.id, error: error.message, fetchedAt: new Date().toISOString() };
     }
-    await new Promise((resolve) => setTimeout(resolve, gap));
+    if (Date.now() < deadline) await new Promise((resolve) => setTimeout(resolve, gap));
   });
   return {
     id: store.id,

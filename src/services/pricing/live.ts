@@ -1,11 +1,11 @@
 import { INGREDIENT_MAP } from '@/data/ingredients';
-import { SUPERMARKET_BY_ID } from '@/data/supermarkets';
 import { searchTermFor } from '@/data/ingredient-terms.pt';
 import { RECIPE_BY_ID } from '@/data/recipes';
+import { SUPERMARKET_BY_ID } from '@/data/supermarkets';
 import type { MealPlanItem, Recipe, ShoppingCategory, SupermarketId, Unit } from '@/types';
-import { gramsFor } from '@/services/pricing';
-import { dimensionOf } from '@/services/shopping/units';
 import { scaledIngredients } from '@/services/recipes/servings';
+import { dimensionOf } from '@/services/shopping/units';
+import { gramsFor } from '@/services/pricing/weights';
 
 /**
  * Live supermarket pricing.
@@ -14,8 +14,8 @@ import { scaledIngredients } from '@/services/recipes/servings';
  * place for secrets), so the numbers come from the small `price-service/` in this
  * repository, which reads the shops' own public catalogues server-side. This
  * module builds the basket, asks that service for the current shelf price of each
- * ingredient, and adds up what you would actually pay: whole packs, because a
- * shop sells packs, not grams.
+ * ingredient, and adds up what you would actually pay: whole packs for packaged
+ * goods, the exact weight for loose produce.
  *
  * Nothing here guesses a price. If a shop has no catalogue online (Mercadona in
  * Portugal) or does not list the ingredient, the line is reported as unpriced.
@@ -50,14 +50,20 @@ export interface LiveProduct {
   /** Packs and pack cost for the quantity asked for, priced by the service. */
   packs: number | null;
   cost: number | null;
+  /** Loose produce: charged by the gram, not as a whole kilo. */
+  soldByKg: boolean;
+  /** Weight actually billed for loose produce. */
+  billedGrams: number | null;
   url: string;
 }
 
 export interface LiveLine {
   ingredientId: string;
   name: string;
-  /** Packs you must buy at this shop. */
-  packs: number;
+  /** Packs you must buy at this shop (null when billed by weight). */
+  packs: number | null;
+  /** Grams billed, for loose produce. */
+  grams: number | null;
   cost: number;
   product: LiveProduct;
 }
@@ -68,15 +74,24 @@ export interface LiveStoreQuote {
   accent: string;
   total: number;
   lines: LiveLine[];
+  /** Ingredients this shop priced on its own, before the shared comparison. */
+  priced: number;
   /** Lines this shop could not price. */
   missing: number;
-  /** True when the shop could not price every line, so its total is not comparable. */
-  partial: boolean;
 }
 
 export interface UnavailableStore {
   store: SupermarketId;
   name: string;
+  reason: string;
+}
+
+/** A shop left out of the ranking because it prices too little of the basket. */
+export interface NotComparedStore {
+  store: SupermarketId;
+  name: string;
+  priced: number;
+  totalLines: number;
   reason: string;
 }
 
@@ -86,6 +101,8 @@ export interface LivePriceResult {
   perServing: number | null;
   /** Shops that publish no readable online catalogue, with the reason. */
   unavailable: UnavailableStore[];
+  /** Shops that price too few lines for a fair comparison, with the count. */
+  notCompared: NotComparedStore[];
   readAt: string;
   totalLines: number;
   pricedLines: number;
@@ -112,7 +129,7 @@ export function basketForPlan(items: MealPlanItem[]): BasketLine[] {
   const entries = items
     .map((item) => {
       const recipe = RECIPE_BY_ID[item.recipeId];
-      return recipe ? { recipe, servings: item.servings } : null;
+      return recipe ? { recipe, servings: item.servings } : undefined;
     })
     .filter((entry): entry is { recipe: Recipe; servings: number } => Boolean(entry));
   return mergeBasket(entries);
@@ -126,7 +143,7 @@ function mergeBasket(entries: { recipe: Recipe; servings?: number }[]): BasketLi
       if (!quantity || quantity <= 0) continue;
       const category = INGREDIENT_MAP[ingredient.ingredientId]?.category ?? 'other';
       const dimension = dimensionOf(ingredient.unit);
-      const grams = gramsFor(quantity, ingredient.unit, category);
+      const grams = gramsFor(quantity, ingredient.unit, category, ingredient.ingredientId);
       const count = dimension === 'count' ? quantity : null;
       const existing = merged.get(ingredient.ingredientId);
       if (existing) {
@@ -144,7 +161,22 @@ function mergeBasket(entries: { recipe: Recipe; servings?: number }[]): BasketLi
       });
     }
   }
-  return [...merged.values()];
+
+  // Two ingredient ids can be the same shelf product ("spring onions" and
+  // "scallion" both search "cebolinho"). Buying two bunches is wrong, so their
+  // quantities are merged onto the first line.
+  const byTerm = new Map<string, BasketLine>();
+  for (const line of merged.values()) {
+    const term = searchTermFor(line.ingredientId, line.name);
+    const existing = byTerm.get(term);
+    if (!existing) {
+      byTerm.set(term, { ...line });
+      continue;
+    }
+    existing.grams += line.grams;
+    if (line.count != null) existing.count = (existing.count ?? 0) + line.count;
+  }
+  return [...byTerm.values()];
 }
 
 interface ServiceStore {
@@ -152,12 +184,98 @@ interface ServiceStore {
   name: string;
   live: boolean;
   error?: string;
-  items?: Record<string, LiveProduct & { missing?: boolean; error?: string }>;
+  items?: Record<
+    string,
+    Partial<LiveProduct> & { grams?: number | null; missing?: boolean; error?: string }
+  >;
 }
 
 interface ServiceResponse {
   fetchedAt: string;
   stores: Record<string, ServiceStore>;
+}
+
+/** One shop's own priced lines, before any comparison. */
+export interface StorePricing {
+  store: SupermarketId;
+  priced: Map<string, LiveLine>;
+}
+
+export interface Comparison {
+  quotes: LiveStoreQuote[];
+  best: LiveStoreQuote | null;
+  /** Ingredients present in every compared shop's total. */
+  pricedLines: number;
+  notCompared: NotComparedStore[];
+}
+
+/**
+ * Compare shops only on the ingredients they all price.
+ *
+ * A total over a shorter shopping list is not a cheaper basket, so two totals
+ * are only put next to each other on the lines both shops can actually sell.
+ * A shop that prices far less of the basket is left out of the ranking instead
+ * of winning by omission: coverage must be at least 80% of the best-covered
+ * shop (a few exotic items may be missing, half the list may not).
+ */
+export function compareStores(totalLines: number, entries: StorePricing[]): Comparison {
+  const notCompared: NotComparedStore[] = [];
+  if (!entries.length) return { quotes: [], best: null, pricedLines: 0, notCompared };
+
+  const coverage = Math.max(...entries.map((entry) => entry.priced.size));
+  const minimum = Math.max(1, Math.ceil(coverage * 0.8));
+
+  const comparable: StorePricing[] = [];
+  for (const entry of entries) {
+    if (entry.priced.size >= minimum) {
+      comparable.push(entry);
+    } else {
+      const market = SUPERMARKET_BY_ID[entry.store];
+      notCompared.push({
+        store: entry.store,
+        name: market?.name ?? entry.store,
+        priced: entry.priced.size,
+        totalLines,
+        reason: `prices ${entry.priced.size} of ${totalLines} ingredients`,
+      });
+    }
+  }
+
+  const common = [...comparable[0].priced.keys()].filter((id) =>
+    comparable.every((entry) => entry.priced.has(id)),
+  );
+  if (!common.length) {
+    for (const entry of comparable) {
+      const market = SUPERMARKET_BY_ID[entry.store];
+      notCompared.push({
+        store: entry.store,
+        name: market?.name ?? entry.store,
+        priced: entry.priced.size,
+        totalLines,
+        reason: 'no ingredient is priced by every compared shop',
+      });
+    }
+    return { quotes: [], best: null, pricedLines: 0, notCompared };
+  }
+
+  const quotes: LiveStoreQuote[] = comparable.map((entry) => {
+    const market = SUPERMARKET_BY_ID[entry.store];
+    const lines = common
+      .map((id) => entry.priced.get(id)!)
+      .sort((a, b) => b.cost - a.cost);
+    return {
+      store: entry.store,
+      name: market?.name ?? entry.store,
+      accent: market?.accent ?? '#000',
+      total: roundMoney(lines.reduce((sum, line) => sum + line.cost, 0)),
+      lines,
+      priced: entry.priced.size,
+      missing: totalLines - common.length,
+    };
+  });
+
+  quotes.sort((a, b) => a.total - b.total);
+  return { quotes, best: quotes[0] ?? null, pricedLines: common.length, notCompared };
 }
 
 /** Ask the price service for one shelf price per ingredient, per shop. */
@@ -186,7 +304,7 @@ export async function fetchLivePrices(
   const payload = (await response.json()) as ServiceResponse;
 
   const unavailable: UnavailableStore[] = [];
-  const pricedByStore = new Map<SupermarketId, Map<string, LiveLine>>();
+  const pricing: StorePricing[] = [];
 
   for (const storeId of stores) {
     const market = SUPERMARKET_BY_ID[storeId];
@@ -203,39 +321,46 @@ export async function fetchLivePrices(
     const priced = new Map<string, LiveLine>();
     for (const line of lines) {
       const product = served.items?.[line.ingredientId];
-      if (!product || product.missing || product.error || !(product.price > 0)) {
+      if (!product || product.missing || product.error || !((product.price ?? 0) > 0)) {
         continue;
       }
+      const soldByKg = Boolean(product.soldByKg);
       // Buy whole packs: a shop sells a 500 g bag, not 237 g of rice. The service
       // already priced the packs it chose; fall back to our own maths if not.
       let packs: number | null = product.packs ?? null;
-      if (!packs) {
+      if (!packs && !soldByKg) {
         if (line.count && product.packUnits) {
           packs = Math.ceil(line.count / product.packUnits);
         } else if (product.packGrams && line.grams > 0) {
           packs = Math.ceil(line.grams / product.packGrams);
         }
       }
-      if (!packs || packs <= 0) continue;
-      const cost = product.cost ?? roundMoney(packs * product.price);
+      const cost = product.cost ?? (packs ? roundMoney(packs * (product.price ?? 0)) : product.price);
+      if (!(cost != null && cost > 0)) continue;
+      // The service priced it for us but the shop prints no pack count: it is one
+      // pack at that price (a punnet of chives, half a dozen eggs).
+      if (!soldByKg && (!packs || packs <= 0)) packs = 1;
       priced.set(line.ingredientId, {
         ingredientId: line.ingredientId,
         name: line.name,
-        packs,
-        cost,
+        packs: soldByKg ? null : packs,
+        grams: soldByKg ? product.grams ?? Math.round(line.grams) : null,
+        cost: roundMoney(cost),
         product: {
-          id: product.id,
-          name: product.name,
-          brand: product.brand,
-          price: product.price,
-          packGrams: product.packGrams,
-          packUnits: product.packUnits,
-          packLabel: product.packLabel,
-          perKg: product.perKg,
-          perUnit: product.perUnit,
+          id: product.id ?? '',
+          name: product.name ?? line.name,
+          brand: product.brand ?? null,
+          price: product.price ?? 0,
+          packGrams: product.packGrams ?? null,
+          packUnits: product.packUnits ?? null,
+          packLabel: product.packLabel ?? null,
+          perKg: product.perKg ?? null,
+          perUnit: product.perUnit ?? null,
           packs: product.packs ?? null,
           cost: product.cost ?? null,
-          url: product.url,
+          soldByKg,
+          billedGrams: product.grams ?? null,
+          url: product.url ?? '',
         },
       });
     }
@@ -248,45 +373,22 @@ export async function fetchLivePrices(
       });
       continue;
     }
-    pricedByStore.set(storeId, priced);
+    pricing.push({ store: storeId, priced });
   }
 
-  // Compare every shop on the same ingredients: the ones they all price. Totals
-  // over different baskets would be a lie even when each number is real.
-  const live = [...pricedByStore.entries()];
-  const common = live.length
-    ? [...live[0][1].keys()].filter((id) => live.every(([, priced]) => priced.has(id)))
-    : [];
-  const usable = common.length >= Math.min(4, lines.length) ? live : [];
-
-  const quotes: LiveStoreQuote[] = usable.map(([storeId, priced]) => {
-    const market = SUPERMARKET_BY_ID[storeId];
-    const storeLines = common.map((id) => priced.get(id)!).sort((a, b) => b.cost - a.cost);
-    return {
-      store: storeId,
-      name: market?.name ?? storeId,
-      accent: market?.accent ?? '#000',
-      total: roundMoney(storeLines.reduce((sum, line) => sum + line.cost, 0)),
-      lines: storeLines,
-      missing: lines.length - common.length,
-      partial: false,
-    };
-  });
-
-  quotes.sort((a, b) => a.total - b.total);
-  const best = quotes[0] ?? null;
-  const pricedLines = common.length;
+  const comparison = compareStores(lines.length, pricing);
   return {
-    quotes,
-    best,
+    quotes: comparison.quotes,
+    best: comparison.best,
     perServing:
-      options.servings && options.servings > 0 && best
-        ? roundMoney(best.total / options.servings)
+      options.servings && options.servings > 0 && comparison.best
+        ? roundMoney(comparison.best.total / options.servings)
         : null,
     unavailable,
+    notCompared: comparison.notCompared,
     readAt: payload.fetchedAt ?? new Date().toISOString(),
     totalLines: lines.length,
-    pricedLines,
+    pricedLines: comparison.pricedLines,
   };
 }
 
@@ -295,6 +397,7 @@ export const EMPTY_RESULT: LivePriceResult = {
   best: null,
   perServing: null,
   unavailable: [],
+  notCompared: [],
   readAt: '',
   totalLines: 0,
   pricedLines: 0,

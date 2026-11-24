@@ -278,14 +278,21 @@ npm test
   app at a deployed copy of that service; the default is `http://127.0.0.1:8788`.
   - Live: **Pingo Doce, Continente, Lidl, Auchan**. Promotions are included because the shelf price
     is the promoted price.
-  - Baskets are **whole packs** — what you actually pay at the till — not grams × a €/kg rate. That
-    was the bug that made a 39-ingredient basket look like 7,54 €.
+  - Baskets are **whole packs** for packaged goods and **the weight you need** for loose produce —
+    loose peppers are 3,49 €/kg, not a whole kilo — never grams × a rate. That was the bug that made a
+    39-ingredient basket look like 7,54 €.
+  - **Shops are compared only on the ingredients they all price.** A total over a shorter shopping
+    list is not a cheaper basket, so shops are ranked on the shared lines and each chip shows that
+    shop's own coverage (`Continente 41,20 € · 35/39`). A shop pricing less than 80% of the
+    best-covered shop is named with its count (`prices 12 of 39 ingredients`) instead of winning by
+    omission.
   - **Mercadona is not priced.** It has no online shop in Portugal (mercadona.pt's own FAQ: "Atualmente
     não dispomos de um serviço de compra online"), so no honest live price exists to read. The app
     names that on the card and never counts Mercadona as the cheapest shop.
-  - **Lidl rate-limits aggressively.** Its gateway answers HTTP 401 once an IP has asked a few times,
-    so a basket can report Lidl as temporarily unavailable. The service waits it out, caches every
-    lookup for six hours, and says so rather than guessing.
+  - **Lidl rate-limits aggressively.** Its search API answers HTTP 401 once an IP has asked a few
+    times, so a basket can report Lidl as temporarily unavailable. The service retries briefly,
+    bounds how long any one shop can hold the answer (45 s), caches every lookup for six hours, and
+    names the block rather than guessing a price.
 - **No price is invented.** If a shop does not list an ingredient the line is reported as unpriced,
   and a shop that could not price every line is never called cheapest. Recipes also keep a reviewed
   qualitative `budgetTier` (`budget` / `moderate` / `higher`) for discovery.

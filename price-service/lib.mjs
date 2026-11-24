@@ -147,6 +147,9 @@ export function parseUnitPrice(text) {
 /** How many items a pack holds: "12 Un", "6 unid", "10 unidades" -> 12, 6, 10. */
 export function parsePackUnits(text) {
   if (!text) return null;
+  const written = String(text).toLowerCase();
+  if (/meia\s*d[uú]zia/.test(written)) return 6;
+  if (/\bd[uú]zia\b/.test(written)) return 12;
   const match = String(text).match(/(\d+)\s*(?:un|unid|unidade|unidades)\b/i);
   if (!match) return null;
   const count = Number(match[1]);
@@ -165,10 +168,18 @@ export function normalise(value) {
 
 const STOPWORDS = new Set(['de', 'da', 'do', 'e', 'com', 'para', 'the', 'and', 'with', 'fresh', 'fresco', 'fresca']);
 
+/**
+ * Portuguese plural, reduced to the singular the catalogue also uses:
+ * "tortilhas" -> "tortilha", "ovos" -> "ovo", "coentros" -> "coentro".
+ * Words that only look plural ("hummus", "gás") are left alone.
+ */
 export function tokens(value) {
   return normalise(value)
     .split(' ')
-    .filter((token) => token.length > 1 && !STOPWORDS.has(token));
+    .filter((token) => token.length > 1 && !STOPWORDS.has(token))
+    .map((token) =>
+      token.length > 3 && token.endsWith('s') && !/(ss|us|is)$/.test(token) ? token.slice(0, -1) : token,
+    );
 }
 
 /** How well a product name answers a query: shared tokens, order independent. */

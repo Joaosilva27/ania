@@ -72,7 +72,7 @@ export function PriceSummary({
   }
 
   if (!result?.best) {
-    if (result?.quotes?.length) {
+    if (result?.quotes?.length || result?.notCompared?.length) {
       return (
         <View style={[styles.card, compact && styles.compactCard]}>
           <View style={styles.headline}>
@@ -93,7 +93,13 @@ export function PriceSummary({
           <Text style={[type.noteTiny, { color: colors.muted }]}>
             Live shelf prices · read {readTime(result.readAt)}
           </Text>
-          {result.unavailable.length ? (
+          {result.notCompared.length ? (
+        <Text style={[type.noteTiny, { color: colors.faint }]}>
+          Not ranked: {result.notCompared.map((store) => `${store.name} — ${store.reason}`).join('; ')}
+        </Text>
+      ) : null}
+
+      {result.unavailable.length ? (
             <Text style={[type.noteTiny, { color: colors.faint }]}>
               Not compared: {result.unavailable.map((store) => `${store.name} — ${store.reason}`).join('; ')}
             </Text>
@@ -137,7 +143,7 @@ export function PriceSummary({
           {result.quotes.map((quote) => (
             <TagBadge
               key={quote.store}
-              label={`${quote.name} ${formatEuro(quote.total)}`}
+              label={`${quote.name} ${formatEuro(quote.total)} · ${quote.priced}/${result.totalLines}`}
               tone={quote.store === result.best?.store ? 'primary' : 'neutral'}
             />
           ))}
@@ -145,8 +151,8 @@ export function PriceSummary({
       ) : null}
 
       <Text style={[type.noteTiny, { color: colors.muted }]}>
-        Live shelf prices · compared on {result.pricedLines}/{result.totalLines} ingredients · read{' '}
-        {readTime(result.readAt)} · whole packs
+        Live shelf prices · compared on {result.pricedLines}/{result.totalLines} ingredients they all
+        price · read {readTime(result.readAt)} · whole packs
       </Text>
 
       {result.quotes.length ? (
@@ -188,8 +194,11 @@ export function PriceSummary({
                   {line.product.name}
                 </Text>
                 <Text style={[type.noteTiny, { color: colors.muted }]}>
-                  {line.packs} × {formatEuro(line.product.price)}
-                  {line.product.packLabel ? ` · ${line.product.packLabel}` : ''}
+                  {line.product.soldByKg
+                    ? `${Math.round(line.grams ?? 0)} g · ${formatEuro(line.product.perKg ?? line.product.price)}/kg`
+                    : `${line.packs ?? 1} × ${formatEuro(line.product.price)}${
+                        line.product.packLabel ? ` · ${line.product.packLabel}` : ''
+                      }`}
                 </Text>
               </View>
               <Text style={[type.caption, { color: colors.inkSoft }]}>{formatEuro(line.cost)}</Text>
@@ -202,6 +211,12 @@ export function PriceSummary({
             </Text>
           ) : null}
         </View>
+      ) : null}
+
+      {result.notCompared.length ? (
+        <Text style={[type.noteTiny, { color: colors.faint }]}>
+          Not ranked: {result.notCompared.map((store) => `${store.name} — ${store.reason}`).join('; ')}
+        </Text>
       ) : null}
 
       {result.unavailable.length ? (

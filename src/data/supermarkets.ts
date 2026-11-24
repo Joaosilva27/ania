@@ -26,6 +26,10 @@ export const SUPERMARKETS: Supermarket[] = [
   { id: 'auchan', name: 'Auchan', accent: '#C1121F', tint: '#FDECED', note: 'Large stores, competitive own brand' },
 ];
 
+/** Where prices come from, in one sentence, for settings and onboarding. */
+export const PRICE_NOTE =
+  'Prices are live shelf prices read from each shop\u2019s public catalogue; totals are whole packs.';
+
 export const SUPERMARKET_BY_ID: Record<SupermarketId, Supermarket> = SUPERMARKETS.reduce(
   (acc, market) => {
     acc[market.id] = market;

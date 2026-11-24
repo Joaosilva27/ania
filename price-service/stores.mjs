@@ -20,7 +20,14 @@ const round = (value, digits = 2) => {
   return Math.round(value * factor) / factor;
 };
 
-/** Continente (Salesforce Commerce Cloud): tiles carry a JSON impression blob. */
+/**
+ * Continente (Salesforce Commerce Cloud): tiles carry a JSON impression blob.
+ *
+ * Fresh produce is often loose — the tile has a price and a fresh-produce
+ * category but no pack size. That price is per kilo (peppers at 3,49 €/kg, a
+ * cucumber at 1,99 €/kg), so it is billed by weight instead of pretending you
+ * must buy a whole kilo.
+ */
 async function continente(term) {
   const url = `https://www.continente.pt/pesquisa/?q=${encodeURIComponent(term)}&sz=12`;
   const { ok, status, body } = await fetchText(url, { timeout: 25000 });
@@ -48,9 +55,12 @@ async function continente(term) {
     const packMatch = text.match(/emb\.?\s*((?:\d+\s*x\s*)?[\d.,]+\s*(?:kg|g|gr|l|lt|ml|cl|un|unid)\b)/i);
     const hrefMatch = block.match(/href="(https:\/\/www\.continente\.pt\/[^"]+\.html)"/);
     const unitLabel = unitMatch ? `${unitMatch[1]} €/${unitMatch[2]}` : '';
-    const packGrams = parsePackGrams(packMatch ? packMatch[1] : '') ?? parsePackGrams(meta.name);
+    const fresh = /frutas e legumes|legumes|talho|peixaria/i.test(meta.category ?? '');
+    const soldByKg = fresh && !packMatch;
+    const packGrams = soldByKg ? 1000 : parsePackGrams(packMatch ? packMatch[1] : '') ?? parsePackGrams(meta.name);
     let perKg = parseUnitPrice(unitLabel);
-    if (perKg == null && packGrams) perKg = (meta.price / packGrams) * 1000;
+    if (soldByKg) perKg = parseUnitPrice(unitLabel) ?? meta.price;
+    else if (perKg == null && packGrams) perKg = (meta.price / packGrams) * 1000;
 
     products.push({
       id: String(meta.id ?? ''),
@@ -58,9 +68,10 @@ async function continente(term) {
       brand: meta.brand ?? null,
       price: meta.price,
       packGrams: packGrams ?? null,
-      packLabel: packMatch ? packMatch[1].trim() : null,
+      packLabel: soldByKg ? 'por kg' : packMatch ? packMatch[1].trim() : null,
       perKg: perKg == null ? null : round(perKg),
       packUnits: parsePackUnits(packMatch ? packMatch[1] : '') ?? parsePackUnits(meta.name),
+      soldByKg,
       available: true,
       url: hrefMatch ? hrefMatch[1] : url,
     });
@@ -69,7 +80,11 @@ async function continente(term) {
 }
 
 /** Pingo Doce: its catalogue is client-rendered, so we read it through the
- *  public cesta.pt catalogue server (MCP over HTTP, no key, Portuguese prices). */
+ *  public cesta.pt catalogue server (MCP over HTTP, no key, Portuguese prices).
+ *
+ *  cesta prints loose produce as "0.15 Kg · 1,59€" with no €/kg field: the price
+ *  is per kilo and 0.15 kg is the reference piece. Packaged goods always carry a
+ *  €/kg field next to a real pack price. */
 async function pingodoce(term) {
   const endpoint = 'https://cesta.pt/mcp';
   const post = async (payload) => {
@@ -132,8 +147,11 @@ async function pingodoce(term) {
     const sizeField = priceIndex >= 3 ? fields[2] : '';
     const url = lines.slice(index + 1).find((next) => next.trim().startsWith('http'))?.trim() ?? '';
     const slug = url.split('/').pop() ?? '';
-    const packGrams = parsePackGrams(sizeField) ?? parsePackGrams(slug) ?? parsePackGrams(name);
-    let perKg = parseUnitPrice(unitField);
+    const sizeGrams = parsePackGrams(sizeField) ?? parsePackGrams(slug);
+    // No €/kg line and a weight: loose produce, priced by the kilo.
+    const soldByKg = !unitField && sizeGrams != null && !/embalad|pacote|saco/i.test(name);
+    const packGrams = soldByKg ? 1000 : sizeGrams;
+    let perKg = soldByKg ? price : parseUnitPrice(unitField);
     if (perKg == null && packGrams) perKg = (price / packGrams) * 1000;
     products.push({
       id: pid,
@@ -141,9 +159,10 @@ async function pingodoce(term) {
       brand: null,
       price,
       packGrams: packGrams ?? null,
-      packLabel: sizeField || null,
+      packLabel: soldByKg ? 'por kg' : sizeField || null,
       perKg: perKg == null ? null : round(perKg),
       packUnits: parsePackUnits(sizeField) ?? parsePackUnits(name),
+      soldByKg,
       available: true,
       url,
     });
@@ -153,18 +172,23 @@ async function pingodoce(term) {
 
 /** Lidl Portugal: the shop's own search API returns JSON.
  *
- *  Lidl answers HTTP 401 once its gateway decides we are asking too often; it is
- *  a rate limit, not an auth error. We wait it out with a growing backoff and, if
- *  it still says no, report the shop as temporarily unavailable instead of
- *  inventing a price. */
+ *  Its gateway answers HTTP 401 once it has seen a few requests from one IP; that
+ *  is a rate limit, not an auth error. We wait briefly, and if it still says no
+ *  the shop is reported as temporarily unread rather than given a guessed price.
+ *
+ *  lidl.pt's HTML search is not a substitute: it is client-rendered and, for most
+ *  groceries, serves merchandising instead of the product asked for. This JSON
+ *  endpoint is the only place Lidl publishes a shelf price for its food. */
 async function lidl(term) {
   const url = `https://www.lidl.pt/q/api/search?q=${encodeURIComponent(term)}&assortment=PT&locale=pt_PT&version=2.1.0&fetchsize=10`;
   let body = '';
   let lastStatus = 0;
-  const waits = [0, 2500, 6000, 12000];
+  // Short waits: when Lidl is blocking, it blocks for a long time, and a basket
+  // cannot sit waiting for it.
+  const waits = [0, 1200];
   for (const wait of waits) {
-    if (wait) await new Promise((resolve) => setTimeout(resolve, wait + Math.random() * 700));
-    const response = await fetchText(url, { timeout: 20000, headers: { accept: 'application/json' }, attempts: 1 });
+    if (wait) await new Promise((resolve) => setTimeout(resolve, wait + Math.random() * 400));
+    const response = await fetchText(url, { timeout: 8000, headers: { accept: 'application/json' }, attempts: 1 });
     lastStatus = response.status;
     if (response.ok) {
       body = response.body;
@@ -174,7 +198,7 @@ async function lidl(term) {
   }
   if (!body) {
     if (lastStatus === 401 || lastStatus === 403 || lastStatus === 429) {
-      throw new Error('lidl is throttling requests right now — try again in a few minutes');
+      throw new Error('Lidl is rate-limiting requests from this connection — try again in a few minutes');
     }
     throw new Error(`lidl responded ${lastStatus}`);
   }
@@ -194,14 +218,15 @@ async function lidl(term) {
       let perKg = parseUnitPrice(unitLabel);
       if (perKg == null && price && packGrams) perKg = (price / packGrams) * 1000;
       return {
-        id: String(data.productId ?? data.id ?? ''),
+        id: String(data.productId ?? data.erpNumber ?? ''),
         name: fullTitle || data.fullTitle || data.title || '',
-        brand: data.brand?.name ?? null,
+        brand: data.brand?.name && data.brand.name !== '-' ? data.brand.name : null,
         price,
         packGrams: packGrams ?? null,
         packLabel: packaging || null,
         perKg: perKg == null ? null : round(perKg),
         packUnits: parsePackUnits(packaging) ?? parsePackUnits(fullTitle),
+        soldByKg: false,
         available: price != null && data.preventSelling !== true,
         url: data.canonicalUrl ? `https://www.lidl.pt${data.canonicalUrl}` : 'https://www.lidl.pt',
       };
@@ -213,7 +238,8 @@ async function lidl(term) {
  *
  *  The visible price is injected by JavaScript, but every tile still ships a
  *  complete `data-gtm` analytics payload — name, id, brand and the shelf price —
- *  in the HTML. That is what we read. */
+ *  in the HTML. That is what we read. Loose produce carries a `-kg` slug and is
+ *  sold by weight. */
 async function auchan(term) {
   const url = `https://www.auchan.pt/pt/pesquisa?q=${encodeURIComponent(term)}`;
   const { ok, status, body } = await fetchText(url, { timeout: 25000 });
@@ -238,24 +264,26 @@ async function auchan(term) {
 
     const block = body.slice(Math.max(0, body.indexOf(`data-pid="${id}"`)), body.indexOf(`data-pid="${id}"`) + 9000);
     const productUrl = decodeEntities(
-      block.match(/productUrl(?:&quot;|\\?"):(?:&quot;|\\?")([^"&\\]+)/)?.[1] ?? '',
+      block.match(/productUrl(?:&quot;|\\?\"):(?:&quot;|\\?\")([^"&\\]+)/)?.[1] ?? '',
     );
     const unitRaw = block.match(/auc-measures--price-per-unit"[^>]*>([^<]+)</)?.[1] ?? '';
     const slug = productUrl.split('/').filter(Boolean).slice(-2)[0] ?? '';
-    let packGrams = parsePackGrams(slug) ?? parsePackGrams(meta.name);
-    let perKg = parseUnitPrice(decodeEntities(unitRaw));
-    // Loose produce is sold by the kilo: "CEBOLA KG" costs that much per kg.
-    const soldByKg = /(?:^|-)kg(?:$|[-/])/i.test(slug) || /\bKG$/i.test(meta.name.trim());
-    if (soldByKg && !packGrams) packGrams = 1000;
-    if (perKg == null && packGrams) perKg = (price / packGrams) * 1000;
+    const name = decodeEntities(meta.name);
+    const unitPerKg = parseUnitPrice(decodeEntities(unitRaw));
+    // "LIMA KG" is sold by the kilo; "CEBOLA AUCHAN 2 KG" is a 2 kg bag whose
+    // price is twice its €/kg, so it stays a pack.
+    const declaredKg = /\bKG$/i.test(name.trim());
+    const soldByKg = declaredKg && (unitPerKg == null || price <= unitPerKg * 1.05);
+    const packGrams = soldByKg ? 1000 : parsePackGrams(name) ?? parsePackGrams(slug);
+    const perKg = unitPerKg ?? (packGrams ? (price / packGrams) * 1000 : null);
 
     products.push({
       id,
-      name: decodeEntities(meta.name),
+      name,
       brand: meta.brand ? decodeEntities(meta.brand) : null,
       price,
       packGrams: packGrams ?? null,
-      packLabel: packGrams ? `${packGrams >= 1000 ? packGrams / 1000 : packGrams}${packGrams >= 1000 ? ' kg' : ' g'}` : null,
+      packLabel: soldByKg ? 'por kg' : packGrams ? `${packGrams >= 1000 ? packGrams / 1000 : packGrams}${packGrams >= 1000 ? ' kg' : ' g'}` : null,
       soldByKg,
       perKg: perKg == null ? null : round(perKg),
       packUnits: parsePackUnits(meta.name),
@@ -305,108 +333,148 @@ export const STORES = [
 export const STORE_BY_ID = Object.fromEntries(STORES.map((store) => [store.id, store]));
 
 /**
- * Products that answer a word but are a different thing on the shelf.
- * "Leite" must not become chocolate milk, "tomate" must not become tomato
- * purée, "frango" must not become sliced chicken ham.
+ * Words that mean the shelf product is a different thing from the ingredient.
+ * Keys are the head word the shopper searched for (singular).
  */
 const NOT_WHAT_YOU_MEAN = {
-  leite: ['achocolatado', 'chocolate', 'condensado', 'evaporado', 'po', 'batido', 'fermentado', 'kefir', 'iogurte', 'bebida', 'sobremesa', 'gelado', 'creme', 'natas', 'manteiga'],
-  tomate: ['frito', 'polpa', 'pelado', 'concentrado', 'seco', 'desidratado', 'ketchup', 'molho', 'sopa', 'sumo', 'passa', 'conserva', 'esmagado', 'triturado', 'pedacos', 'inteiro', 'cubo', 'seca', 'desidratada'],
-  frango: ['fiambre', 'nuggets', 'hamburguer', 'salsicha', 'caldo', 'panado', 'empanado', 'folhado', 'rissol', 'croquete', 'sopa', 'pate', 'assado', 'grelhado', 'estrogonofe', 'strogonoff', 'marinado', 'cordon', 'bleu', 'almondega', 'almondegas'],
-  batata: ['frita', 'fritas', 'palha', 'chips', 'doce', 'pure', 'flocos', 'congelada', 'assada', 'cozida', 'salada'],
-  arroz: ['bebida', 'bolacha', 'farinha', 'puff', 'tortilha', 'papas', 'doce', 'preparado', 'sopa'],
-  cebola: ['frita', 'desidratada', 'po', 'molho', 'sopa', 'conserva', 'pickle', 'picada', 'picado', 'laminada', 'laminado'],
-  alho: ['po', 'granulado', 'seco', 'pasta', 'molho', 'sopa', 'frances', 'francês', 'cortado', 'moido', 'frasco'],
-  gengibre: ['moido', 'frasco', 'po', 'seco', 'cristalizado', 'pasta'],
-  pimento: ['assado', 'assada', 'conserva', 'frasco'],
+  leite: ['achocolatado', 'chocolate', 'condensado', 'evaporado', 'po', 'batido', 'fermentado', 'kefir', 'iogurte', 'bebida', 'sobremesa', 'gelado', 'creme', 'nata', 'manteiga', 'arroz', 'amendoa', 'aveia', 'soja', 'coco'],
+  tomate: ['frito', 'polpa', 'pelado', 'concentrado', 'seco', 'seca', 'desidratado', 'desidratada', 'ketchup', 'molho', 'sopa', 'sumo', 'passa', 'conserva', 'esmagado', 'triturado', 'pedaco', 'inteiro', 'cubo', 'cherry', 'mini'],
+  frango: ['fiambre', 'nugget', 'hamburguer', 'salsicha', 'caldo', 'panado', 'empanado', 'folhado', 'rissol', 'croquete', 'sopa', 'pate', 'assado', 'grelhado', 'estrogonofe', 'strogonoff', 'marinado', 'cordon', 'bleu', 'almondega', 'bife', 'tira'],
+  batata: ['frito', 'palha', 'chip', 'doce', 'pure', 'floco', 'congelada', 'assada', 'cozida', 'salada', 'rolo', 'rissol'],
+  arroz: ['bebida', 'bolacha', 'farinha', 'puff', 'tortilha', 'tortita', 'papa', 'doce', 'preparado', 'sopa', 'bolo', 'snack', 'salgado', 'pipoca'],
+  cebola: ['frito', 'desidratado', 'po', 'molho', 'sopa', 'conserva', 'pickle', 'picado', 'laminado'],
+  alho: ['picado', 'moido', 'po', 'granulado', 'pasta', 'molho', 'sopa', 'frances', 'cortado', 'laminado', 'frasco', 'pao', 'baguete'],
+  gengibre: ['moido', 'frasco', 'po', 'seco', 'desidratado', 'cristalizado', 'pasta', 'conserva'],
+  pimento: ['assado', 'conserva', 'frasco', 'snack', 'frito'],
   azeite: ['bagaco', 'spray', 'sabao', 'corporal', 'atum', 'sardinha'],
-  manteiga: ['amendoim', 'cacau', 'caju', 'sementes', 'corporal', 'vegetal'],
+  manteiga: ['amendoim', 'cacau', 'caju', 'semente', 'corporal', 'vegetal'],
   farinha: ['amendoa', 'bebe', 'milho', 'batata', 'aveia', 'arroz', 'coco', 'preparado', 'bolo'],
-  ovos: [
-    'chocolate', 'pascoa', 'codorniz', 'moles', 'aveiro', 'pastel', 'folhado', 'recheado', 'batido',
-    'pudim', 'pasteurizado', 'pasteurizados', 'liquido', 'claras', 'gemas',
-  ],
+  ovo: ['chocolate', 'pascoa', 'codorniz', 'mole', 'aveiro', 'pastel', 'folhado', 'recheado', 'batido', 'pudim', 'pasteurizado', 'liquido', 'clara', 'gema', 'salada', 'rissol', 'bolo', 'doce', 'queque', 'tarte', 'producao'],
   queijo: ['creme', 'fresco', 'ralado', 'fatiado', 'amanteigado'],
   iogurte: ['bebivel', 'gelado', 'sobremesa'],
   nata: ['vegetal', 'batido', 'chantilly', 'spray'],
-  atum: ['patê', 'pate', 'salada', 'molho'],
+  atum: ['pate', 'salada', 'molho'],
+  coentro: ['moido', 'moida', 'saqueta', 'frasco', 'desidratado', 'seco', 'pasta', 'molho', 'semente'],
+  salsa: ['moido', 'moida', 'saqueta', 'frasco', 'desidratado', 'seco', 'pasta', 'molho', 'semente'],
+  manjericao: ['moido', 'saqueta', 'frasco', 'desidratado', 'seco', 'pasta', 'molho'],
+  hortela: ['moido', 'saqueta', 'frasco', 'desidratado', 'seco', 'pasta', 'molho', 'cha'],
+  tomilho: ['moido', 'saqueta', 'frasco', 'desidratado', 'seco', 'pasta', 'molho'],
+  pepino: ['vinagre', 'conserva', 'rodela', 'palito', 'pickle', 'snack', 'mocktail'],
+  cenoura: ['ripado', 'ralado', 'conserva', 'molho', 'sopa'],
+  couve: ['roxa', 'bruxelas', 'lombarda', 'flor', 'kale', 'migas', 'semente'],
+  acucar: ['baunilhado', 'coco', 'light', 'zero', 'stick', 'bolacha'],
+  vaca: ['queijo', 'leite', 'hamburguer', 'almondega', 'kebab', 'bolinha', 'tira', 'cao', 'gato', 'noodle', 'ramen', 'sopa', 'caldo', 'preparado'],
+  bife: ['porco', 'frango', 'peru', 'panado', 'caldo', 'molho', 'cordon', 'kebab', 'atum', 'soja', 'seitan', 'tofu', 'vegetal', 'cacao'],
+  bovino: ['porco', 'frango', 'peru', 'hamburguer', 'almondega', 'kebab', 'preparado', 'tira'],
+  pescada: ['panado', 'frito', 'fritar', 'douradinho', 'nugget', 'rissol', 'mimo'],
+  camarao: ['rissol', 'rissoi', 'noodle', 'acorda', 'sopa', 'molho', 'patanisca', 'snack'],
+  cebolinho: ['queijo', 'creme', 'rolo', 'manteiga', 'pao', 'batata', 'snack', 'sopa', 'molho', 'frasco', 'saqueta', 'desidratado', 'arroz', 'frango', 'carne', 'peixe', 'massa', 'refeicao', 'prato'],
+  oleo: ['atum', 'sardinha', 'cavala', 'peixe', 'conserva', 'corporal', 'massagem', 'motor', 'essencial', 'limpeza', 'sabao'],
+  malagueta: ['queijo', 'recheado', 'conserva', 'frasco', 'molho', 'seco', 'desidratado', 'pasta', 'snack'],
+  caril: ['noodle', 'massa', 'sopa', 'refeicao', 'preparado', 'batata', 'mistura', 'express'],
+  limao: ['detergente', 'loica', 'vinagre', 'gelatina', 'ice', 'tea', 'nectar', 'sumo', 'bebida', 'refrigerante', 'bolacha', 'iogurte', 'gelado', 'mousse', 'creme', 'batido', 'smoothie', 'limpeza'],
 };
 
-const PROCESSED = new Set([
-  'frito', 'frita', 'fritos', 'fritas', 'congelado', 'congelada', 'congelados', 'congeladas',
-  'po', 'desidratado', 'desidratada', 'concentrado', 'concentrada', 'molho', 'sopa', 'caldo',
-  'batido', 'achocolatado', 'recheado', 'panado', 'empanado', 'seco', 'seca', 'conserva',
-  'snack', 'bolacha', 'sobremesa', 'gelado', 'preparado', 'temperado', 'marinado',
-  'assado', 'assada', 'assados', 'assadas', 'cozido', 'cozida', 'cozidos', 'cozidas',
-  'grelhado', 'grelhada', 'grelhados', 'grelhadas', 'estrogonofe', 'strogonoff',
-  'pedacos', 'cubo', 'cubos', 'moles', 'desfiado', 'desfiada', 'fumado', 'fumada',
+/**
+ * Preparation words. A fresh ingredient is never the prepared version, but a
+ * query that asks for the preparation ("cominhos moídos", "tomate pelado") keeps
+ * it. Frozen plain produce and fish are not in this list on purpose: frozen
+ * prawns are prawns.
+ */
+const PREPARED = new Set([
+  'frito', 'frita', 'fritar', 'panado', 'panada', 'empanado', 'empanada',
+  'rissol', 'rissoi', 'croquete', 'hamburguer', 'hamburguere', 'almondega', 'bolinha',
+  'kebab', 'temperado', 'temperada', 'marinado', 'marinada', 'recheado', 'recheada',
+  'preparado', 'preparada', 'molho', 'sopa', 'caldo', 'conserva', 'pickle',
+  'snack', 'sobremesa', 'gelado', 'desidratado', 'desidratada',
+  'picado', 'picada', 'ripado', 'ripada', 'ralado', 'ralada', 'tira',
+  'nugget', 'salsicha', 'fiambre', 'bebida', 'sumo', 'batido', 'iogurte',
+  'bolacha', 'biscoito', 'semente', 'acorda', 'patanisca', 'empadao', 'pizza', 'lasanha', 'cubo',
 ]);
+
+function phraseInOrder(words, wanted) {
+  let from = 0;
+  for (const token of wanted) {
+    const at = words.indexOf(token, from);
+    if (at < 0) return false;
+    from = at + 1;
+  }
+  return true;
+}
 
 /**
  * Pick the product that actually is what was asked for.
  *
- * Every word of the query must appear in the product name, the name must not
- * contain a word that makes it a different product, and among the rest the one
- * with the fewest extra words wins (a plain "Tomate" beats "Tomate Coração de
- * Boi Extra"), then the cheaper one per kilo.
+ * Every word of the query must appear in the product name, in order; the head
+ * word has to lead the name (a phrase) or sit in the first few words (a single
+ * distinctive word can follow a brand); and a word that makes it a different
+ * product — prepared, a different cut, a different flour — disqualifies it.
+ * Among what is left, the cheapest thing that covers the amount needed wins,
+ * because that is what you would pay.
  */
 export function bestMatch(term, products, need = {}) {
   const wanted = tokens(term);
   if (!wanted.length) return null;
-  const banned = new Set(NOT_WHAT_YOU_MEAN[wanted[0]] ?? []);
+  const head = wanted[0];
+  const banned = new Set(NOT_WHAT_YOU_MEAN[head] ?? []);
   const grams = Number(need.grams) > 0 ? Number(need.grams) : 0;
   const count = Number(need.count) > 0 ? Number(need.count) : 0;
+  // A phrase has to lead the name; a single distinctive word may follow a brand.
+  const headLimit = wanted.length > 1 ? 0 : 2;
+  const isBanned = (word) => banned.has(word) || banned.has(`${word}s`);
 
-  const candidates = products
-    .filter((product) => product.available !== false && (product.perKg > 0 || product.packUnits > 0))
-    .map((product) => {
-      const words = tokens(`${product.name} ${product.brand ?? ''}`);
-      const set = new Set(words);
-      if (!wanted.every((token) => set.has(token))) return null;
-      if (words.some((word) => banned.has(word))) return null;
-      const extra = words.filter((word) => !wanted.includes(word));
-      // The head noun has to lead the name: "Atum em Azeite" is tuna, "Polpa de
-      // Tomate com Cebola e Alho" is tomato purée, "Massa Ninho de Ovos" is pasta.
-      if (words[0] !== wanted[0]) return null;
-      // A query never means the processed version: no roasted peppers for
-      // "red pepper", no ground ginger in a jar for "ginger".
-      if (extra.some((word) => PROCESSED.has(word))) return null;
-      return { product, extra: extra.length, score: 1 / (1 + extra.length) };
-    })
-    .filter(Boolean);
+  const candidates = [];
+  for (const product of products) {
+    if (product.available === false || !(product.price > 0)) continue;
+    const words = tokens(`${product.name} ${product.brand ?? ''}`);
+    if (!words.length) continue;
+    const set = new Set(words);
+    if (!wanted.every((token) => set.has(token))) continue;
+    if (!phraseInOrder(words, wanted)) continue;
+    const headIndex = words.indexOf(head);
+    if (headIndex < 0 || headIndex > headLimit) continue;
+    if (words.some((word) => isBanned(word) && !wanted.includes(word))) continue;
+    const extra = words.filter((word) => !wanted.includes(word));
+    if (extra.some((word) => PREPARED.has(word))) continue;
+    candidates.push({ product, extra: extra.length });
+  }
 
   // What each product would actually cost for the amount the recipe needs: whole
-  // packs, so an 8 L milk carton is not "cheap" for 200 ml.
+  // packs for packaged goods, exact weight for loose produce, and one pack when
+  // the shop lists no size at all.
   const costed = candidates.map((entry) => {
     const product = entry.product;
+    const loose = Boolean(product.soldByKg) && product.perKg > 0 && grams > 0;
     let packs = null;
-    if (count && product.packUnits) packs = Math.ceil(count / product.packUnits);
-    else if (grams && product.packGrams) packs = Math.ceil(grams / product.packGrams);
-    return { ...entry, packs, cost: packs ? round(packs * product.price) : null };
+    let billedGrams = null;
+    let cost = null;
+    if (loose) {
+      billedGrams = grams;
+      // A gram of salt is a fraction of a cent; the smallest real purchase is
+      // one cent, not a free product.
+      cost = Math.max(round((product.perKg * grams) / 1000, 4), 0.01);
+    } else {
+      if (count && product.packUnits) packs = Math.ceil(count / product.packUnits);
+      else if (grams && product.packGrams) packs = Math.ceil(grams / product.packGrams);
+      cost = packs ? round(packs * product.price) : round(product.price);
+    }
+    return { ...entry, packs, cost, billedGrams, loose };
   });
 
-  const affordable = costed.filter((entry) => entry.cost != null);
-  if (affordable.length) {
-    affordable.sort(
-      (a, b) => a.cost - b.cost || (a.product.perKg || Infinity) - (b.product.perKg || Infinity) || b.score - a.score,
-    );
-  }
+  if (!costed.length) return null;
+  // Weight-billed lines can be fractions of a cent (1 g of salt); keep enough
+  // precision that they do not round away to a free product.
+  costed.forEach((entry) => {
+    if (entry.loose && entry.cost != null) entry.cost = round(entry.cost, 4);
+  });
+  costed.sort(
+    (a, b) =>
+      a.cost - b.cost ||
+      (a.product.perKg || Infinity) - (b.product.perKg || Infinity) ||
+      a.extra - b.extra,
+  );
 
-  // No quantity to cost against (or no pack information): fall back to the
-  // cheapest qualifying product, by kilo and then by item.
-  let pool = affordable;
-  if (!pool.length) {
-    const weighed = costed.filter((entry) => entry.product.perKg > 0);
-    pool = weighed.length ? weighed : costed.filter((entry) => entry.product.packUnits > 0);
-    if (!pool.length) return null;
-    pool.sort((a, b) =>
-      weighed.length
-        ? a.product.perKg - b.product.perKg || b.score - a.score
-        : a.product.price / a.product.packUnits - b.product.price / b.product.packUnits || b.score - a.score,
-    );
-  }
-
-  const top = pool[0];
+  const top = costed[0];
   const perUnit = top.product.packUnits ? round(top.product.price / top.product.packUnits, 3) : null;
   return {
     id: top.product.id,
@@ -416,9 +484,11 @@ export function bestMatch(term, products, need = {}) {
     packGrams: top.product.packGrams,
     packUnits: top.product.packUnits ?? null,
     packLabel: top.product.packLabel,
+    soldByKg: Boolean(top.product.soldByKg),
     perKg: top.product.perKg > 0 ? round(top.product.perKg) : null,
     perUnit,
     packs: top.packs ?? null,
+    grams: top.billedGrams,
     cost: top.cost ?? null,
     url: top.product.url,
   };
@@ -427,7 +497,7 @@ export function bestMatch(term, products, need = {}) {
 /** Fill in the pack weight a shop implies but does not print (price / € per kg). */
 export function normaliseProducts(products) {
   return products.map((product) => {
-    if (product.packGrams || !(product.perKg > 0) || !(product.price > 0)) return product;
+    if (product.soldByKg || product.packGrams || !(product.perKg > 0) || !(product.price > 0)) return product;
     return { ...product, packGrams: Math.round((product.price / product.perKg) * 1000) };
   });
 }

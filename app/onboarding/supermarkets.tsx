@@ -4,10 +4,9 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { OnboardingScaffold } from '@/components/onboarding/OnboardingScaffold';
 import { PrimaryButton } from '@/components/ui/Button';
 import { Heart } from '@/components/cute/Decor';
-import { SUPERMARKETS } from '@/data/supermarkets';
+import { PRICE_NOTE, SUPERMARKETS } from '@/data/supermarkets';
 import { useOnboardingNav } from '@/hooks/useOnboardingNav';
 import { toggleSupermarket } from '@/services/userData';
-import { PRICES_META } from '@/services/pricing';
 import { useUserStore } from '@/store/userStore';
 import { colors, radius, spacing, type } from '@/theme';
 
@@ -65,7 +64,7 @@ export default function SupermarketsScreen() {
           ? 'We compare these shops on every recipe and always quote the cheapest.'
           : 'Choose at least one shop to see prices.'}
       </Text>
-      <Text style={[type.noteTiny, styles.note]}>{PRICES_META.note}</Text>
+      <Text style={[type.noteTiny, styles.note]}>{PRICE_NOTE}</Text>
     </OnboardingScaffold>
   );
 }
