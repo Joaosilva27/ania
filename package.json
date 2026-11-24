@@ -4,7 +4,7 @@
   "private": true,
   "main": "expo-router/entry",
   "scripts": {
-    "build": "expo export:web --output-dir web-build",
+    "build": "expo export --platform web --output-dir web-build",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -21,7 +21,7 @@
     "prices:serve": "node price-service/server.mjs",
     "icons": "node scripts/make-icon.mjs",
     "verify:icons": "tsx scripts/verify-icons.ts",
-    "prebuild": "expo prebuild"
+    "native:prebuild": "expo prebuild"
   },
   "dependencies": {
     "@expo-google-fonts/fredoka": "^0.4.1",
