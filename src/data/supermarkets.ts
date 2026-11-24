@@ -1,9 +1,10 @@
 /**
  * The Portuguese supermarkets this app prices baskets for.
  *
- * Retailers do not publish price APIs, so prices come from the maintained
- * catalogue in `src/data/prices.pt.json` (see `npm run prices:build`). Every
- * price shown in the UI is an estimate from that catalogue and says so.
+ * Baskets are compared with live shelf prices read by `price-service/` from each
+ * chain's own public catalogue (see `npm run prices:serve`). Mercadona is listed
+ * so people can pick it, but it publishes no online catalogue in Portugal: the
+ * app names that instead of giving it a guessed price.
  */
 import type { SupermarketId } from '@/types';
 

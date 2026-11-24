@@ -1,6 +1,6 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Platform, Pressable, Share, StyleSheet, Text, TextInput, View } from 'react-native';
 import { PriceSummary } from '@/components/pricing/PriceSummary';
 import { RecipeImage } from '@/components/recipes/RecipeImage';
@@ -8,9 +8,10 @@ import { ShoppingCategoryBlock, ShoppingProgress } from '@/components/shopping/S
 import { IconButton, PrimaryButton } from '@/components/ui/Button';
 import { EmptyState, ScreenContainer } from '@/components/ui/Screen';
 import { RECIPE_BY_ID } from '@/data/recipes';
+import { useLivePrices } from '@/hooks/useLivePrices';
 import { useShoppingList } from '@/hooks/useShoppingList';
 import { confirmAction, notify } from '@/lib/dialogs';
-import { pricePlan } from '@/services/pricing';
+import { basketForPlan } from '@/services/pricing/live';
 import type { ShoppingList } from '@/services/shopping/aggregate';
 import {
   addManualShoppingItem,
@@ -42,10 +43,14 @@ export default function ShoppingListScreen() {
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
 
+  const planItems = data?.plan.items ?? [];
+  const stores = data?.preferences.supermarkets ?? [];
+  const basket = useMemo(() => basketForPlan(planItems), [planItems]);
+  const live = useLivePrices(basket, stores);
+
   if (!data || !list) return null;
 
   const recipes = data.plan.items.map((item) => RECIPE_BY_ID[item.recipeId]).filter(Boolean);
-  const stores = data.preferences.supermarkets ?? [];
 
   const submitManual = () => {
     if (!name.trim()) return;
@@ -131,9 +136,12 @@ export default function ShoppingListScreen() {
       {data.plan.items.length ? (
         <View style={{ marginTop: spacing.sm }}>
           <PriceSummary
-            result={pricePlan(data.plan, { stores })}
+            result={live.result}
             label="Basket"
             compact
+            loading={live.loading}
+            error={live.error}
+            onRetry={live.refresh}
           />
         </View>
       ) : null}

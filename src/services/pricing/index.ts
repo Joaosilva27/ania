@@ -55,7 +55,7 @@ const UNIT_GRAMS: Record<Unit, number> = {
 };
 
 /** Typical weight of one countable item, by department. */
-const COUNT_GRAMS: Record<string, number> = {
+export const COUNT_GRAMS: Record<string, number> = {
   'fruit-veg': 120,
   'meat-fish': 150,
   'dairy-eggs': 60,
@@ -69,7 +69,7 @@ const COUNT_GRAMS: Record<string, number> = {
   other: 100,
 };
 
-function gramsFor(quantity: number, unit: Unit, category: string): number {
+export function gramsFor(quantity: number, unit: Unit, category: string): number {
   if (!Number.isFinite(quantity) || quantity <= 0) return 0;
   const direct = UNIT_GRAMS[unit] ?? 0;
   if (direct > 0) return quantity * direct;

@@ -7,9 +7,10 @@ import { PrimaryButton } from '@/components/ui/Button';
 import { EmptyState, ScreenContainer } from '@/components/ui/Screen';
 import { RECIPE_BY_ID } from '@/data/recipes';
 import { LEGACY_RECIPE_TITLES } from '@/data/recipes/legacy';
+import { useLivePrices } from '@/hooks/useLivePrices';
 import { useRecipeActions } from '@/hooks/useRecipeActions';
 import { PriceSummary } from '@/components/pricing/PriceSummary';
-import { pricePlan } from '@/services/pricing';
+import { basketForPlan } from '@/services/pricing/live';
 import { countPlanIngredients } from '@/services/shopping/aggregate';
 import { confirmAction } from '@/lib/dialogs';
 import { useUserStore } from '@/store/userStore';
@@ -26,10 +27,8 @@ export default function PlanScreen() {
     [data],
   );
   const stores = data?.preferences.supermarkets ?? [];
-  const pricing = useMemo(
-    () => (data ? pricePlan(data.plan, { stores }) : null),
-    [data, stores.join(',')],
-  );
+  const basket = useMemo(() => basketForPlan(items), [items]);
+  const live = useLivePrices(basket, stores);
 
   const confirmRemove = (recipeId: string, title: string) => {
     void confirmAction({
@@ -77,11 +76,16 @@ export default function PlanScreen() {
             </View>
           </View>
 
-          {pricing ? (
-            <View style={{ marginTop: spacing.sm }}>
-              <PriceSummary result={pricing} label="Your basket" compact />
-            </View>
-          ) : null}
+          <View style={{ marginTop: spacing.sm }}>
+            <PriceSummary
+              result={live.result}
+              label="Your basket"
+              compact
+              loading={live.loading}
+              error={live.error}
+              onRetry={live.refresh}
+            />
+          </View>
 
           <View style={{ gap: spacing.sm, marginTop: spacing.md }}>
             {items.map((item) => {

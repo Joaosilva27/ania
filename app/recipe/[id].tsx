@@ -14,8 +14,9 @@ import { EmptyState, ScreenContainer } from '@/components/ui/Screen';
 import { INGREDIENT_MAP } from '@/data/ingredients';
 import { getRecipeById } from '@/data/recipes';
 import { DIETARY_LABELS, TAG_LABELS } from '@/data/taxonomy';
+import { useLivePrices } from '@/hooks/useLivePrices';
 import { useRecipeActions } from '@/hooks/useRecipeActions';
-import { priceRecipe } from '@/services/pricing';
+import { basketForRecipe } from '@/services/pricing/live';
 import { clampServings, scaledIngredients } from '@/services/recipes/servings';
 import { useUserStore } from '@/store/userStore';
 import { colors, radius, spacing, type } from '@/theme';
@@ -47,10 +48,8 @@ export default function RecipeDetailScreen() {
   const ingredients = scaledIngredients(recipe, servings);
   const isFavorite = Boolean(favorites[recipe.id]);
   const stores = data?.preferences.supermarkets ?? [];
-  const pricing = useMemo(
-    () => priceRecipe(recipe, { stores, servings }),
-    [recipe, servings, stores.join(',')],
-  );
+  const basket = useMemo(() => basketForRecipe(recipe, servings), [recipe, servings]);
+  const live = useLivePrices(basket, stores, servings);
 
   const changeServings = (next: number) => {
     const clamped = clampServings(next);
@@ -111,7 +110,15 @@ export default function RecipeDetailScreen() {
           </View>
 
           <View style={{ marginTop: spacing.sm }}>
-            <PriceSummary result={pricing} label="Basket" perServing compact />
+            <PriceSummary
+              result={live.result}
+              label="Basket"
+              perServing
+              compact
+              loading={live.loading}
+              error={live.error}
+              onRetry={live.refresh}
+            />
           </View>
 
           {recipe.nutrition ? (

@@ -1,0 +1,261 @@
+/**
+ * English ingredient -> the Portuguese words the shops actually use.
+ *
+ * Recipes are written in English but Pingo Doce, Continente, Lidl and Auchan
+ * catalogue in Portuguese, so every live lookup needs a Portuguese search term.
+ * The curated list below covers the ingredients this app's recipes use most; the
+ * word dictionary underneath it handles the long tail of imported recipes.
+ */
+const TERMS: Record<string, string> = {
+  // meat & fish
+  'chicken-breast': 'peito de frango',
+  'chicken-thigh': 'coxas de frango',
+  'chicken-mince': 'frango picado',
+  'beef-mince': 'carne picada',
+  'beef-strips': 'carne de vaca',
+  beef: 'carne de vaca',
+  'streaky-bacon': 'bacon',
+  chorizo: 'chourico',
+  'pork-sausages': 'salsichas',
+  pork: 'carne de porco',
+  'salmon-fillet': 'salmao',
+  'white-fish': 'pescada',
+  'king-prawns': 'camarao',
+  'tinned-tuna': 'atum em lata',
+  'smoked-salmon': 'salmao fumado',
+
+  // fruit & veg
+  onion: 'cebola',
+  'red-onion': 'cebola roxa',
+  garlic: 'alho',
+  ginger: 'gengibre',
+  carrot: 'cenoura',
+  broccoli: 'brocolos',
+  courgette: 'courgette',
+  'red-pepper': 'pimento vermelho',
+  'yellow-pepper': 'pimento amarelo',
+  tomatoes: 'tomate',
+  tomato: 'tomate',
+  'cherry-tomatoes': 'tomate cherry',
+  spinach: 'espinafres',
+  kale: 'couve',
+  lettuce: 'alface',
+  cucumber: 'pepino',
+  avocado: 'abacate',
+  lemon: 'limao',
+  lime: 'lima',
+  potatoes: 'batata',
+  potato: 'batata',
+  'sweet-potato': 'batata doce',
+  mushrooms: 'cogumelos',
+  'spring-onions': 'cebolinho',
+  'red-chilli': 'malagueta',
+  coriander: 'coentros',
+  cilantro: 'coentros',
+  parsley: 'salsa',
+  basil: 'manjericao',
+  thyme: 'tomilho',
+  mint: 'hortela',
+  'green-beans': 'feijao verde',
+  'red-cabbage': 'couve roxa',
+  cabbage: 'couve',
+  banana: 'banana',
+  apple: 'maca',
+  'mixed-berries': 'frutos vermelhos',
+  'frozen-berries': 'frutos vermelhos congelados',
+  'frozen-peas': 'ervilhas congeladas',
+  'frozen-sweetcorn': 'milho congelado',
+  celery: 'aipo',
+  shallot: 'chalota',
+  scallion: 'cebolinho',
+  raisin: 'passas',
+
+  // dairy & eggs
+  eggs: 'ovos',
+  egg: 'ovos',
+  'egg-yolk': 'ovos',
+  milk: 'leite meio gordo',
+  butter: 'manteiga',
+  'double-cream': 'natas',
+  cream: 'natas',
+  'creme-fraiche': 'creme fraiche',
+  'greek-yogurt': 'iogurte grego',
+  cheddar: 'queijo cheddar',
+  parmesan: 'queijo parmesao',
+  mozzarella: 'mussarela',
+  feta: 'queijo feta',
+  halloumi: 'queijo halloumi',
+  'cream-cheese': 'queijo creme',
+  cheese: 'queijo',
+  'oat-milk': 'bebida de aveia',
+
+  // seasoning & baking
+  salt: 'sal',
+  'black-pepper': 'pimenta preta',
+  pepper: 'pimenta preta',
+  'smoked-paprika': 'paprica fumada',
+  paprika: 'paprica',
+  'ground-cumin': 'cominhos',
+  cumin: 'cominhos',
+  'ground-coriander': 'coentros moidos',
+  turmeric: 'acafrao da india',
+  'curry-powder': 'caril',
+  'chilli-flakes': 'flocos de malagueta',
+  'dried-oregano': 'oregãos',
+  oregano: 'oregãos',
+  'ground-cinnamon': 'canela',
+  cinnamon: 'canela',
+  'garam-masala': 'garam masala',
+  'bay-leaves': 'folha de louro',
+  'bay-leaf': 'folha de louro',
+  nutmeg: 'noz moscada',
+  'plain-flour': 'farinha',
+  'all-purpose-flour': 'farinha',
+  flour: 'farinha',
+  'baking-powder': 'fermento em po',
+  yeast: 'fermento de padeiro',
+  'caster-sugar': 'acucar',
+  sugar: 'acucar',
+  'brown-sugar': 'acucar amarelo',
+  cornflour: 'amido de milho',
+  cornstarch: 'amido de milho',
+  'vanilla-extract': 'extrato de baunilha',
+
+  // oils, sauces & pantry
+  'olive-oil': 'azeite',
+  oil: 'oleo',
+  'vegetable-oil': 'oleo vegetal',
+  'sunflower-oil': 'oleo de girassol',
+  'sesame-oil': 'oleo de sésamo',
+  'soy-sauce': 'molho de soja',
+  'fish-sauce': 'molho de peixe',
+  honey: 'mel',
+  'maple-syrup': 'xarope de bordo',
+  mayonnaise: 'maionese',
+  'dijon-mustard': 'mostarda',
+  mustard: 'mostarda',
+  ketchup: 'ketchup',
+  sriracha: 'sriracha',
+  'basil-pesto': 'pesto',
+  'peanut-butter': 'manteiga de amendoim',
+  tahini: 'tahini',
+  vinegar: 'vinagre',
+  'balsamic-vinegar': 'vinagre balsamico',
+  'tomato-puree': 'polpa de tomate',
+  passata: 'polpa de tomate',
+  'sweet-chilli-sauce': 'molho de malagueta doce',
+  'curry-paste': 'pasta de caril',
+  'mango-chutney': 'chutney de manga',
+  water: 'agua',
+
+  // grains, pulses & bakery
+  'long-grain-rice': 'arroz agulha',
+  rice: 'arroz',
+  'basmati-rice': 'arroz basmati',
+  'brown-rice': 'arroz integral',
+  'egg-noodles': 'massa de ovos',
+  'rice-noodles': 'massa de arroz',
+  pasta: 'massa',
+  spaghetti: 'esparguete',
+  orzo: 'orzo',
+  couscous: 'cuscuz',
+  quinoa: 'quinoa',
+  'rolled-oats': 'flocos de aveia',
+  'tinned-chickpeas': 'grao de bico',
+  'tinned-black-beans': 'feijao preto',
+  'tinned-kidney-beans': 'feijao vermelho',
+  'tinned-cannellini-beans': 'feijao branco',
+  bean: 'feijao',
+  'red-lentils': 'lentilhas',
+  'coconut-milk': 'leite de coco',
+  'tinned-tomatoes': 'tomate pelado',
+  'sun-dried-tomatoes': 'tomate seco',
+  'vegetable-stock': 'caldo de legumes',
+  'chicken-stock': 'caldo de galinha',
+  'beef-stock': 'caldo de carne',
+  bread: 'pao',
+  sourdough: 'pao',
+  breadcrumb: 'pao ralado',
+  panko: 'pao ralado',
+  'burger-buns': 'pao de hamburguer',
+  'pitta-breads': 'pao pita',
+  'tortilla-wraps': 'tortilhas',
+  peanuts: 'amendoim',
+  almond: 'amendoa',
+  'flaked-almonds': 'amendoa laminada',
+  'sesame-seeds': 'sementes de sésamo',
+  'pine-nuts': 'pinhoes',
+  'chia-seeds': 'sementes de chia',
+  'pumpkin-seeds': 'sementes de abobora',
+  olives: 'azeitonas',
+  capers: 'alcaparras',
+  'firm-tofu': 'tofu',
+  coconut: 'coco',
+};
+
+/** Word-level fallback for imported recipes whose ingredient id is not curated. */
+const WORDS: Record<string, string> = {
+  chicken: 'frango', beef: 'vaca', pork: 'porco', lamb: 'borrego', turkey: 'peru',
+  bacon: 'bacon', ham: 'presunto', sausage: 'salsicha', chorizo: 'chourico',
+  fish: 'peixe', salmon: 'salmao', tuna: 'atum', prawn: 'camarao', shrimp: 'camarao',
+  cod: 'bacalhau', sardine: 'sardinha', mackerel: 'cavala', anchovy: 'anchova',
+  onion: 'cebola', garlic: 'alho', ginger: 'gengibre', carrot: 'cenoura',
+  potato: 'batata', tomato: 'tomate', pepper: 'pimento', chilli: 'malagueta',
+  chili: 'malagueta', mushroom: 'cogumelos', courgette: 'courgette', zucchini: 'courgette',
+  aubergine: 'beringela', eggplant: 'beringela', broccoli: 'brocolos', cauliflower: 'couve flor',
+  cabbage: 'couve', spinach: 'espinafres', lettuce: 'alface', cucumber: 'pepino',
+  celery: 'aipo', leek: 'alho frances', beetroot: 'beterraba', pumpkin: 'abobora',
+  squash: 'abobora', corn: 'milho', pea: 'ervilhas', bean: 'feijao', lentil: 'lentilhas',
+  chickpea: 'grao de bico', chickpeas: 'grao de bico', avocado: 'abacate',
+  lemon: 'limao', lime: 'lima', orange: 'laranja', apple: 'maca', banana: 'banana',
+  strawberry: 'morango', blueberry: 'mirtilo', raspberry: 'framboesa', grape: 'uva',
+  almond: 'amendoa', walnut: 'noz', hazelnut: 'avelã', peanut: 'amendoim', peanutbutter: 'manteiga de amendoim',
+  milk: 'leite', butter: 'manteiga', cheese: 'queijo', egg: 'ovos', eggs: 'ovos',
+  cream: 'natas', yoghurt: 'iogurte', yogurt: 'iogurte', mozzarella: 'mussarela',
+  parmesan: 'parmesao', cheddar: 'cheddar', feta: 'feta', ricotta: 'ricota',
+  flour: 'farinha', sugar: 'acucar', salt: 'sal', water: 'agua', honey: 'mel',
+  oil: 'oleo', vinegar: 'vinagre', mustard: 'mostarda', mayonnaise: 'maionese',
+  ketchup: 'ketchup', soy: 'soja', sauce: 'molho', paste: 'pasta', stock: 'caldo',
+  rice: 'arroz', pasta: 'massa', noodle: 'massa', noodles: 'massa', bread: 'pao',
+  oat: 'aveia', oats: 'aveia', quinoa: 'quinoa', couscous: 'cuscuz', barley: 'cevada',
+  cinnamon: 'canela', cumin: 'cominhos', paprika: 'paprica', turmeric: 'acafrao da india',
+  coriander: 'coentros', parsley: 'salsa', basil: 'manjericao', thyme: 'tomilho',
+  rosemary: 'alecrim', oregano: 'oregãos', mint: 'hortela', dill: 'endro',
+  bay: 'louro', nutmeg: 'noz moscada', cardamom: 'cardamomo', clove: 'cravinho',
+  ginger_ale: 'gengibre', vanilla: 'baunilha', chocolate: 'chocolate', cocoa: 'cacau',
+  raisin: 'passas', date: 'tamara', coconut: 'coco', tofu: 'tofu', tempeh: 'tempeh',
+  seed: 'sementes', seeds: 'sementes', sesame: 'sésamo', pine: 'pinhoes',
+  greens: 'couve', lentils: 'lentilhas',
+  olive: 'azeitona', olives: 'azeitonas', caper: 'alcaparras', pickle: 'pickle',
+  frozen: '', fresh: '', dried: '', ground: '', chopped: '', sliced: '', diced: '',
+  whole: '', large: '', small: '', medium: '', extra: '', virgin: '', plain: '',
+  mixed: '', red: '', green: '', yellow: '', white: '', black: '', brown: '', light: '',
+  dark: '', sweet: '', hot: '', baby: '', wild: '', smoked: '', raw: '', cooked: '',
+  and: '', with: '', of: '', the: '', in: '', on: '', for: '',
+};
+
+/**
+ * The Portuguese search words for an ingredient. Curated terms win; anything else
+ * is translated word by word so a new imported recipe still gets a real lookup
+ * instead of a fabricated price.
+ */
+export function searchTermFor(ingredientId: string, name?: string): string {
+  const curated = TERMS[ingredientId];
+  if (curated) return curated;
+
+  const source = (name ?? ingredientId).toLowerCase();
+  const translated = source
+    .replace(/-/g, ' ')
+    .split(/[\s]+/)
+    // Shops write plurals, so a bare "lentils" still has to reach "lentilhas".
+    .map((word) => WORDS[word] ?? WORDS[word.replace(/s$/, '')] ?? TERMS[word] ?? word)
+    .filter((word) => /^[a-zà-ÿ]+$/.test(word) && word.length > 1);
+
+  const term = translated.join(' ').trim();
+  // Nothing translatable: fall back to the English name, which the shops often
+  // still match for brands ("Sriracha", "Tahini").
+  return term || source.trim();
+}
+
+/** Exposed for the live-pricing tests. */
+export const CURATED_TERMS = TERMS;
