@@ -20,6 +20,7 @@ import { Banner, EmptyState, ScreenContainer, SectionHeading } from '@/component
 import { RECIPE_BY_ID } from '@/data/recipes';
 import { GOAL_LABELS, INTERESTS, INTEREST_LABELS, TAG_LABELS } from '@/data/taxonomy';
 import { useRecipeActions } from '@/hooks/useRecipeActions';
+import { INTEREST_FILTERS } from '@/services/discovery';
 import { getRecommendedRecipes } from '@/services/recommendations';
 import { countPlanIngredients } from '@/services/shopping/aggregate';
 import { useUserStore } from '@/store/userStore';
@@ -59,17 +60,32 @@ export default function HomeScreen() {
       preferences: data.preferences,
       planRecipeIds: data.plan.items.map((item) => item.recipeId),
       feedback: data.feedback,
-      limit: 30,
+      // A chip searches the whole catalogue, not just your usual top 30.
+      limit: activeInterests.length ? 2000 : 30,
     }).map((entry) => entry.recipe);
-  }, [data]);
+  }, [data, activeInterests.length]);
 
-  const filtered = useMemo(() => {
+  // Chips are hard filters, each with one checkable meaning (services/discovery),
+  // and the chip decides the order — "quick" really does put the fastest first.
+  const matches = useMemo(() => {
     if (!activeInterests.length) return recommendations;
-    const tags = activeInterests.flatMap(
-      (id) => INTERESTS.find((interest) => interest.id === id)?.boostTags ?? [],
-    );
-    return recommendations.filter((recipe) => recipe.tags.some((tag) => tags.includes(tag)));
+    const primary = activeInterests[0];
+    return recommendations
+      .filter((recipe) => activeInterests.every((id) => INTEREST_FILTERS[id]?.(recipe) ?? true))
+      .sort((a, b) => {
+        if (primary === 'quick-healthy-dinner' || primary === 'healthy-breakfasts') {
+          return a.totalTimeMinutes - b.totalTimeMinutes;
+        }
+        if (primary === 'high-protein') {
+          const aProtein = a.nutrition?.proteinGrams ?? 0;
+          const bProtein = b.nutrition?.proteinGrams ?? 0;
+          if (aProtein !== bProtein) return bProtein - aProtein;
+        }
+        return 0;
+      });
   }, [recommendations, activeInterests]);
+
+  const filtered = useMemo(() => matches.slice(0, 20), [matches]);
 
   const planRecipes = (plan?.items ?? [])
     .map((item) => RECIPE_BY_ID[item.recipeId])
@@ -159,7 +175,9 @@ export default function HomeScreen() {
           title="Recommendations for you"
           subtitle={
             activeInterests.length
-              ? `Filtered by ${activeInterests.map((id) => INTEREST_LABELS[id]).join(', ')}`
+              ? `${matches.length} match${matches.length === 1 ? '' : 'es'} · ${activeInterests
+                  .map((id) => INTEREST_LABELS[id])
+                  .join(' + ')}`
               : 'Meals we think you\u2019ll love'
           }
           action={

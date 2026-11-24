@@ -796,7 +796,9 @@ function deriveMeta({ title, instructions, ingredientCount, categories = [], are
   let mealTypes = [];
   const categoryText = `${category ?? ''} ${categories.join(' ')}`.toLowerCase();
   if (/breakfast|brunch/.test(categoryText)) mealTypes = ['breakfast', 'snack'];
-  else if (/dessert|cake|cookie|biscuit|pudding|sweet|confection|ice cream|pastry|brownie|tart/.test(categoryText)) mealTypes = ['snack'];
+  // "Sweet potato" and "sweet and sour" are not desserts — match real sweets only.
+  else if (/dessert|cake|cookie|biscuit|pudding|confection|ice cream|pastry|brownie|tart|cheesecake|mousse|custard|trifle|fudge|candy|sorbet/.test(categoryText))
+    mealTypes = ['snack'];
   else if (/starter|appetis|appetiz|\bside\b|side dish/.test(categoryText)) mealTypes = ['lunch'];
   if (mealTypes.length) {
     return {
@@ -810,9 +812,21 @@ function deriveMeta({ title, instructions, ingredientCount, categories = [], are
     };
   }
   if (/breakfast|brunch|pancake|porridge|oat|toast|waffle|muffin|omelette|frittata|smoothie/.test(haystack)) mealTypes.push('breakfast');
-  if (/dessert|cake|cookie|biscuit|pudding|pie|tart|brownie|sweet|ice cream|fudge|custard|trifle/.test(haystack)) mealTypes.push('snack');
+  if (/dessert|cake|cookie|biscuit|pudding|tart|brownie|ice cream|fudge|custard|trifle|cheesecake|mousse|sorbet|doughnut|donut/.test(haystack)) mealTypes.push('snack');
   if (/salad|sandwich|wrap|soup|starter|side|appetiser|appetizer/.test(haystack)) mealTypes.push('lunch');
-  if (mealTypes.length === 0) mealTypes.push('dinner', 'lunch');
+  if (mealTypes.length === 0) {
+    // Garnishes are not dinner: croutons, dips and sauces belong in snacks so
+    // they never surface as "tonight's meal".
+    if (
+      /crouton|breadstick|dip\b|sauce|dressing|garnish|topping|cracker|popcorn|condiment|spice mix|seasoning|marinade|smoothie|chutney|relish|jam\b|syrup|\btea\b|coffee|juice|lemonade|cocktail|sangria|\bpunch\b|lassi|shake|horchata|kombucha|cider|\bwine\b|\bbeer\b|cordial|espresso|latte/.test(
+        haystack,
+      )
+    ) {
+      mealTypes.push('snack');
+    } else {
+      mealTypes.push('dinner', 'lunch');
+    }
+  }
   if (mealTypes.includes('breakfast') && !mealTypes.includes('lunch')) mealTypes.push('snack');
 
   return {
@@ -880,17 +894,31 @@ function deriveTags({ recipe, origins, ingredientIds }) {
     /bowl|salad|soup|stew|curry|bake|tray ?bake|casserole|chilli|chili|pasta|pie|rice|roast|skillet|sheet ?pan|loaf|muffin|oats|gratin|pilaf|tagine|stir[- ]?fry|noodle/.test(
       titleText,
     );
-  if (prepWords || (recipe.servings >= 4 && portionable)) tags.add('meal-prep');
+  // A dessert is never "meal prep", and never "high protein" just for containing
+  // cream or eggs — the labels have to survive a look at the recipe.
+  const dessertish =
+    /cake|cookie|biscuit|pudding|dessert|tart|brownie|candy|fudge|ice[- ]?cream|alfajor|muffin|doughnut|donut|pastry|crumble|trifle|sorbet|jelly|mousse|flan|cheesecake/i.test(
+      titleText,
+    );
+  if (!dessertish && (prepWords || (recipe.servings >= 4 && portionable))) tags.add('meal-prep');
   if (/air[- ]?fryer/.test(titleText)) {
     tags.add('quick');
     tags.add('low-effort');
   }
   if (/stew|pie|curry|roast|soup|bake|mac|lasagne|risotto|dumpling|pudding|braise/i.test(recipe.title)) tags.add('comfort');
-  if (origins.has('meat') || origins.has('fish') || origins.has('egg') || origins.has('dairy')) tags.add('high-protein');
-  if (ingredientIds.some((id) => /tofu|bean|lentil|chickpea|yogurt|cheese|egg/.test(id)) && !origins.has('meat')) tags.add('high-protein');
+  // "High protein" means the dish is led by a protein, not that a splash of
+  // cream appears somewhere in the list.
+  const proteinSource =
+    /chicken|beef|pork|lamb|turkey|duck|fish|salmon|tuna|cod|prawn|shrimp|seafood|mussel|squid|egg|tofu|tempeh|bean|lentil|chickpea|yogurt|yoghurt|cheese|cottage|ricotta|paneer|chorizo|bacon|ham/;
+  const proteinLead = ingredientIds
+    .slice(0, 5)
+    .findIndex((id) => proteinSource.test(id));
+  if (!dessertish && proteinLead >= 0 && proteinLead <= 3) tags.add('high-protein');
   if (recipe.budgetTier === 'budget') tags.add('budget');
   if (recipe.dietaryClassification.includes('vegetarian')) tags.add('veggie');
   if (recipe.dietaryClassification.includes('vegan')) tags.add('plant-based');
+  // Never leave a recipe untagged: an unfilterable dish is a dead end.
+  if (!tags.size) tags.add('comfort');
   for (const mealType of recipe.mealTypes) {
     if (mealType === 'breakfast') tags.add('breakfast');
     if (mealType === 'lunch') tags.add('lunch');

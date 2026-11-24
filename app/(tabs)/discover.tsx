@@ -1,46 +1,72 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SwipeRecipeCard } from '@/components/recipes/SwipeRecipeCard';
 import { PrimaryButton } from '@/components/ui/Button';
+import { FilterChip } from '@/components/ui/Chip';
 import { EmptyState, ScreenContainer } from '@/components/ui/Screen';
 import { SwipeDeck, type SwipeDeckHandle } from '@/components/swipe/SwipeDeck';
-import { getRecommendedRecipes } from '@/services/recommendations';
+import {
+  DISCOVERY_FILTERS,
+  countDiscoveryMatches,
+  getDiscoveryQueue,
+} from '@/services/discovery';
 import { useRecipeActions } from '@/hooks/useRecipeActions';
 import { recordFeedback } from '@/services/userData';
 import { useUserStore } from '@/store/userStore';
 import { colors, radius, spacing, type } from '@/theme';
 import type { Recipe } from '@/types';
 
-function buildQueue(data: NonNullable<ReturnType<typeof useUserStore.getState>['data']>): Recipe[] {
-  return getRecommendedRecipes({
+type UserData = NonNullable<ReturnType<typeof useUserStore.getState>['data']>;
+
+function buildQueue(data: UserData, filterIds: string[], seed: number): Recipe[] {
+  return getDiscoveryQueue({
     preferences: data.preferences,
     planRecipeIds: data.plan.items.map((item) => item.recipeId),
     feedback: data.feedback,
+    filterIds,
+    seed,
     limit: 60,
-  }).map((entry) => entry.recipe);
+  });
 }
 
 export default function DiscoverScreen() {
   const router = useRouter();
   const data = useUserStore((state) => state.data);
   const mutate = useUserStore((state) => state.mutate);
-  const { addToPlan, inPlan } = useRecipeActions();
+  const { addToPlan } = useRecipeActions();
   const deckRef = useRef<SwipeDeckHandle>(null);
   const [queue, setQueue] = useState<Recipe[]>([]);
-  const [toast, setToast] = useState<string | null>(null);
+  const [filterIds, setFilterIds] = useState<string[]>([]);
   const [round, setRound] = useState(0);
-  const seeded = useRef(false);
+  const [toast, setToast] = useState<string | null>(null);
 
-  // The profile hydrates after the first render, so seed the deck once it lands
-  // (and not again after every decision, which would reshuffle the cards).
+  // Decisions rewrite `data`, but the deck must not reshuffle mid-swipe, so the
+  // queue is rebuilt only when the filters, the round or the profile change.
+  const latestData = useRef(data);
+  latestData.current = data;
+  const preferences = data?.preferences;
+  const deckKey = `${filterIds.join(',')}|${round}`;
+
   useEffect(() => {
-    if (!data || seeded.current) return;
-    seeded.current = true;
-    setQueue(buildQueue(data));
-  }, [data]);
+    const current = latestData.current;
+    if (!current) return;
+    setQueue(buildQueue(current, filterIds, round));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deckKey, preferences]);
+
+  const matchCount = useMemo(() => {
+    if (!data) return 0;
+    return countDiscoveryMatches({
+      preferences: data.preferences,
+      planRecipeIds: data.plan.items.map((item) => item.recipeId),
+      feedback: data.feedback,
+      filterIds,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterIds, preferences, data?.plan.items.length, data?.feedback]);
 
   const handleDecide = useCallback(
     (recipe: Recipe, decision: 'yes' | 'no') => {
@@ -57,16 +83,19 @@ export default function DiscoverScreen() {
     [addToPlan, mutate],
   );
 
-  const refresh = () => {
-    if (!data) return;
-    seeded.current = true;
-    setQueue(buildQueue(data));
-    setRound((value) => value + 1);
+  const toggleFilter = (id: string) => {
+    setFilterIds((current) =>
+      current.includes(id) ? current.filter((item) => item !== id) : [...current, id],
+    );
   };
+
+  const refresh = () => setRound((value) => value + 1);
 
   if (!data) return null;
 
-  const activeIngredientIndex = queue.length;
+  const activeLabels = filterIds
+    .map((id) => DISCOVERY_FILTERS.find((filter) => filter.id === id)?.label)
+    .filter(Boolean);
 
   return (
     <ScreenContainer bottomSpace={104}>
@@ -74,16 +103,33 @@ export default function DiscoverScreen() {
         <View style={{ flex: 1 }}>
           <Text style={[type.noteSmall, { color: colors.primaryDeep }]}>swipe right if it's a yes ♡</Text>
           <Text style={[type.screenTitle, { color: colors.ink, marginTop: -2 }]}>
-            Discover something delicious.
+            Discover something new.
           </Text>
           <Text style={[type.caption, { color: colors.muted, marginTop: 4 }]}>
-            Swipe right to add it to your plan.
+            {matchCount} {matchCount === 1 ? 'dish' : 'dishes'} to explore
+            {activeLabels.length ? ` · ${activeLabels.join(' · ')}` : ''}
           </Text>
         </View>
         <View style={styles.countBadge}>
           <Text style={[type.caption, { color: colors.primaryInk }]}>{data.plan.items.length} planned</Text>
         </View>
       </View>
+
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.chipScroller}
+        contentContainerStyle={styles.chipRow}
+      >
+        {DISCOVERY_FILTERS.map((filter) => (
+          <FilterChip
+            key={filter.id}
+            label={filter.label}
+            active={filterIds.includes(filter.id)}
+            onPress={() => toggleFilter(filter.id)}
+          />
+        ))}
+      </ScrollView>
 
       <View style={styles.deck}>
         <SwipeDeck
@@ -106,10 +152,23 @@ export default function DiscoverScreen() {
           renderEmpty={() => (
             <EmptyState
               icon="compass-outline"
-              title={round > 0 ? 'That\u2019s every fresh match for now' : 'You\u2019ve seen all our matches'}
-              message="We hide recipes you've skipped for two weeks. Refresh to pull in anything new, or relax a filter in your profile."
-              actionLabel="Refresh suggestions"
-              onAction={refresh}
+              title={
+                filterIds.length
+                  ? 'Nothing matches those chips'
+                  : round > 0
+                    ? 'That’s everything for now'
+                    : 'You’ve explored it all'
+              }
+              message={
+                filterIds.length
+                  ? 'Those filters are strict on purpose. Turn one off to widen the deck.'
+                  : 'You have seen every dish we can suggest right now. New recipes get added regularly.'
+              }
+              actionLabel={filterIds.length ? 'Clear filters' : 'Start over'}
+              onAction={() => {
+                if (filterIds.length) setFilterIds([]);
+                else refresh();
+              }}
             />
           )}
         />
@@ -128,7 +187,7 @@ export default function DiscoverScreen() {
         </View>
       ) : null}
 
-      {activeIngredientIndex === 0 ? (
+      {queue.length === 0 ? (
         <View style={{ marginTop: spacing.sm }}>
           <PrimaryButton label="Browse recommendations instead" variant="secondary" onPress={() => router.push('/(tabs)/home')} />
         </View>
@@ -146,15 +205,12 @@ export default function DiscoverScreen() {
 
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Open the current recipe details"
-          onPress={() => {
-            const current = queue[0];
-            if (current) router.push(`/recipe/${current.id}`);
-          }}
+          accessibilityLabel="Shuffle in a different set of dishes"
+          onPress={refresh}
           style={({ pressed }) => [styles.infoButton, { opacity: pressed ? 0.7 : 1 }]}
         >
-          <MaterialCommunityIcons name="information-outline" size={20} color={colors.inkSoft} />
-          <Text style={[type.caption, { color: colors.inkSoft }]}>Details</Text>
+          <MaterialCommunityIcons name="shuffle-variant" size={20} color={colors.inkSoft} />
+          <Text style={[type.caption, { color: colors.inkSoft }]}>Shuffle</Text>
         </Pressable>
 
         <Pressable
@@ -178,7 +234,10 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: radius.pill,
   },
-  deck: { flex: 1, marginTop: spacing.md },
+  // Without a fixed height a horizontal ScrollView swallows the deck's space.
+  chipScroller: { flexGrow: 0, flexShrink: 0 },
+  chipRow: { gap: spacing.xs, paddingVertical: spacing.sm, paddingRight: spacing.lg },
+  deck: { flex: 1, marginTop: spacing.xxs },
   actions: {
     flexDirection: 'row',
     alignItems: 'center',
