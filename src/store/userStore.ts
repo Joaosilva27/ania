@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { getRecipeById } from '@/data/recipes';
 import { persistUserData } from '@/services/persistence/userRepository';
 import type { SyncState, UserData } from '@/types';
 
@@ -66,18 +65,7 @@ export const useUserStore = create<UserState>((set, get) => ({
       saveTimer = null;
     }
     queued = null;
-    // The bundled catalogue can change between sessions (imports), so drop plan
-    // entries that no longer point at a recipe instead of showing phantom meals.
-    const known = data
-      ? {
-          ...data,
-          plan: {
-            ...data.plan,
-            items: data.plan.items.filter((item) => Boolean(getRecipeById(item.recipeId))),
-          },
-        }
-      : null;
-    set({ data: known, hydrated: Boolean(known), syncState: 'idle', error: null });
+    set({ data, hydrated: Boolean(data), syncState: 'idle', error: null });
   },
 
   mutate: (mutator) => {

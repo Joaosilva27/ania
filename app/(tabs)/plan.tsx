@@ -6,6 +6,7 @@ import { RecipeImage } from '@/components/recipes/RecipeImage';
 import { PrimaryButton } from '@/components/ui/Button';
 import { EmptyState, ScreenContainer } from '@/components/ui/Screen';
 import { RECIPE_BY_ID } from '@/data/recipes';
+import { LEGACY_RECIPE_TITLES } from '@/data/recipes/legacy';
 import { useRecipeActions } from '@/hooks/useRecipeActions';
 import { countPlanIngredients } from '@/services/shopping/aggregate';
 import { confirmAction } from '@/lib/dialogs';
@@ -72,7 +73,58 @@ export default function PlanScreen() {
           <View style={{ gap: spacing.sm, marginTop: spacing.md }}>
             {items.map((item) => {
               const recipe = RECIPE_BY_ID[item.recipeId];
-              if (!recipe) return null;
+              if (!recipe) {
+                // Saved before the catalogue was replaced: show it honestly
+                // instead of letting a chosen meal disappear without a word.
+                const legacyTitle = LEGACY_RECIPE_TITLES[item.recipeId];
+                return (
+                  <View key={item.recipeId} style={[styles.card, styles.missingCard]}>
+                    <View style={{ flexDirection: 'row', gap: spacing.sm, alignItems: 'center' }}>
+                      <View style={styles.missingIcon}>
+                        <MaterialCommunityIcons
+                          name="book-remove-outline"
+                          size={24}
+                          color={colors.muted}
+                        />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <Text style={[type.cardTitle, { color: colors.inkSoft }]} numberOfLines={2}>
+                          {legacyTitle ?? 'A saved recipe'}
+                        </Text>
+                        <Text style={[type.caption, { color: colors.muted, marginTop: 2 }]}>
+                          No longer in the catalogue — swap it for another or remove it.
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View style={styles.cardFooter}>
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={`Find a replacement for ${legacyTitle ?? 'this recipe'}`}
+                        onPress={() => router.push('/(tabs)/discover')}
+                        style={styles.swapButton}
+                      >
+                        <MaterialCommunityIcons
+                          name="swap-horizontal"
+                          size={15}
+                          color={colors.primaryInk}
+                        />
+                        <Text style={[type.caption, { color: colors.primaryInk }]}>Replace</Text>
+                      </Pressable>
+
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={`Remove ${legacyTitle ?? 'this recipe'} from the plan`}
+                        onPress={() => confirmRemove(item.recipeId, legacyTitle ?? 'this recipe')}
+                        hitSlop={6}
+                        style={styles.removeButton}
+                      >
+                        <MaterialCommunityIcons name="trash-can-outline" size={18} color={colors.danger} />
+                      </Pressable>
+                    </View>
+                  </View>
+                );
+              }
               return (
                 <View key={item.recipeId} style={styles.card}>
                   <Pressable
@@ -199,4 +251,26 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   removeButton: { padding: spacing.xs },
+  missingCard: {
+    borderStyle: 'dashed',
+    borderColor: colors.borderStrong,
+    backgroundColor: colors.surfaceMuted,
+  },
+  missingIcon: {
+    width: 76,
+    height: 76,
+    borderRadius: radius.md,
+    backgroundColor: colors.surface,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  swapButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    backgroundColor: colors.primarySoft,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 6,
+    borderRadius: radius.pill,
+  },
 });
