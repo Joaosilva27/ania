@@ -91,15 +91,13 @@ describe('scoreRecipe', () => {
   });
 
   it('penalises long recipes when the user lacks time', () => {
-    const quick = scoreRecipe(
-      pick((entry) => entry.totalTimeMinutes <= 20, 'a 20-minute recipe'),
-      prefs({ obstacles: ['lack-of-time'], interests: [] }),
-    );
-    const slow = scoreRecipe(
-      pick((entry) => entry.totalTimeMinutes >= 60, 'a recipe over an hour'),
-      prefs({ obstacles: ['lack-of-time'], interests: [] }),
-    );
-    expect(quick.score).toBeGreaterThan(slow.score);
+    // Same dish, with and without time pressure: the penalty is then the only
+    // difference, so the assertion cannot drift with catalogue changes.
+    const slow = pick((entry) => entry.totalTimeMinutes >= 60, 'a recipe over an hour');
+    const pressured = scoreRecipe(slow, prefs({ obstacles: ['lack-of-time'], interests: [] }));
+    const relaxed = scoreRecipe(slow, prefs({ obstacles: [], interests: [] }));
+    expect(pressured.breakdown.adjustments).toBe(-10);
+    expect(pressured.score).toBeLessThan(relaxed.score);
   });
 
   it('penalises hard recipes for people who find cooking difficult', () => {

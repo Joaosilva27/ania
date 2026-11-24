@@ -17,7 +17,7 @@ import { RecipeImage } from '@/components/recipes/RecipeImage';
 import { PrimaryButton } from '@/components/ui/Button';
 import { FilterChip } from '@/components/ui/Chip';
 import { Banner, EmptyState, ScreenContainer, SectionHeading } from '@/components/ui/Screen';
-import { RECIPE_BY_ID } from '@/data/recipes';
+import { RECIPE_BY_ID, RECIPE_CATALOGUE } from '@/data/recipes';
 import { GOAL_LABELS, INTERESTS, INTEREST_LABELS, TAG_LABELS } from '@/data/taxonomy';
 import { useRecipeActions } from '@/hooks/useRecipeActions';
 import { INTEREST_FILTERS } from '@/services/discovery';
@@ -61,7 +61,7 @@ export default function HomeScreen() {
       planRecipeIds: data.plan.items.map((item) => item.recipeId),
       feedback: data.feedback,
       // A chip searches the whole catalogue, not just your usual top 30.
-      limit: activeInterests.length ? 2000 : 30,
+      limit: activeInterests.length ? RECIPE_CATALOGUE.length : 30,
     }).map((entry) => entry.recipe);
   }, [data, activeInterests.length]);
 

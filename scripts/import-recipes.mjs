@@ -780,6 +780,49 @@ function durationFromText(text) {
   return minutes;
 }
 
+/**
+ * The source category is the only evidence used for meal types. TheMealDB sends
+ * `Category`, the Cookbook sends `{{recipesummary|category=…}}`, and both wikis
+ * also tag pages like `[[Category:Side dish recipes]]`.
+ */
+const DISH_KIND_PATTERNS = [
+  ['drink', /\b(beverages?|drinks?|cocktails?|smoothies?|juice|tea|coffee)\b/i],
+  [
+    'dessert',
+    /\b(desserts?|puddings?|cakes?|cookies?|biscuits?|pastr(?:y|ies)|sweets?|confection(?:ery)?|ice cream|cand(?:y|ies)|brownies?|tarts?|cheesecakes?|mousses?|custards?|trifles?|fudge|sorbets?|doughnuts?|donuts?|muffins?)\b/i,
+  ],
+  ['breakfast', /\b(breakfast|brunch)\b/i],
+  ['main', /\b(main course|main dishes?|mains?|dinner|entr[ée]es?)\b/i],
+  ['snack', /\b(snacks?|finger food|canap[ée]s?)\b/i],
+  ['starter', /\b(starters?|appetis(?:er|ers?)|appetiz(?:er|ers?))\b/i],
+  ['side', /\b(side dishes?|sides?|condiments?|sauces?|dressings?|garnishes?|seasonings?|spice mixes?|marinades?|breads?|croutons?|crackers?|chips|baking)\b/i],
+];
+
+function classifyDish(category, categories = []) {
+  const fromField = DISH_KIND_PATTERNS.find(([, pattern]) => pattern.test(String(category ?? '')));
+  if (fromField) return fromField[0];
+
+  // Category tags can be noisy (Poutine is tagged both "Side dish recipes" and
+  // "Main course recipes"), so an explicit main course wins over the rest.
+  const tags = categories.join(' ');
+  const main = DISH_KIND_PATTERNS.find(([kind, pattern]) => kind === 'main' && pattern.test(tags));
+  if (main) return 'main';
+
+  const fromTags = DISH_KIND_PATTERNS.find(([, pattern]) => pattern.test(tags));
+  return fromTags ? fromTags[0] : 'unknown';
+}
+
+const MEAL_TYPES_BY_KIND = {
+  breakfast: ['breakfast', 'snack'],
+  drink: ['snack'],
+  dessert: ['snack'],
+  snack: ['snack'],
+  side: ['lunch'],
+  starter: ['lunch'],
+  main: ['dinner', 'lunch'],
+  unknown: ['dinner', 'lunch'],
+};
+
 function deriveMeta({ title, instructions, ingredientCount, categories = [], area, category }) {
   const text = instructions.join(' ');
   const stepCount = instructions.length;
@@ -790,44 +833,10 @@ function deriveMeta({ title, instructions, ingredientCount, categories = [], are
   const difficulty = stepCount <= 6 && ingredientCount <= 10 ? 'easy' : stepCount <= 11 ? 'medium' : 'hard';
   const method = METHOD_WORDS.find(([pattern]) => pattern.test(text))?.[1] ?? 'simmer';
 
-  const haystack = `${title} ${categories.join(' ')} ${category ?? ''}`.toLowerCase();
-  // The source's own category is the most reliable signal: a side dish or a
-  // dessert should never be offered as tonight's dinner.
-  let mealTypes = [];
-  const categoryText = `${category ?? ''} ${categories.join(' ')}`.toLowerCase();
-  if (/breakfast|brunch/.test(categoryText)) mealTypes = ['breakfast', 'snack'];
-  // "Sweet potato" and "sweet and sour" are not desserts — match real sweets only.
-  else if (/dessert|cake|cookie|biscuit|pudding|confection|ice cream|pastry|brownie|tart|cheesecake|mousse|custard|trifle|fudge|candy|sorbet/.test(categoryText))
-    mealTypes = ['snack'];
-  else if (/starter|appetis|appetiz|\bside\b|side dish/.test(categoryText)) mealTypes = ['lunch'];
-  if (mealTypes.length) {
-    return {
-      preparationTimeMinutes: prepTime,
-      cookingTimeMinutes: cookingTime,
-      totalTimeMinutes: prepTime + cookingTime,
-      difficulty,
-      cookingMethod: method,
-      mealTypes,
-      area: area ? String(area) : undefined,
-    };
-  }
-  if (/breakfast|brunch|pancake|porridge|oat|toast|waffle|muffin|omelette|frittata|smoothie/.test(haystack)) mealTypes.push('breakfast');
-  if (/dessert|cake|cookie|biscuit|pudding|tart|brownie|ice cream|fudge|custard|trifle|cheesecake|mousse|sorbet|doughnut|donut/.test(haystack)) mealTypes.push('snack');
-  if (/salad|sandwich|wrap|soup|starter|side|appetiser|appetizer/.test(haystack)) mealTypes.push('lunch');
-  if (mealTypes.length === 0) {
-    // Garnishes are not dinner: croutons, dips and sauces belong in snacks so
-    // they never surface as "tonight's meal".
-    if (
-      /crouton|breadstick|dip\b|sauce|dressing|garnish|topping|cracker|popcorn|condiment|spice mix|seasoning|marinade|smoothie|chutney|relish|jam\b|syrup|\btea\b|coffee|juice|lemonade|cocktail|sangria|\bpunch\b|lassi|shake|horchata|kombucha|cider|\bwine\b|\bbeer\b|cordial|espresso|latte/.test(
-        haystack,
-      )
-    ) {
-      mealTypes.push('snack');
-    } else {
-      mealTypes.push('dinner', 'lunch');
-    }
-  }
-  if (mealTypes.includes('breakfast') && !mealTypes.includes('lunch')) mealTypes.push('snack');
+  // What a dish is *for* comes from the source's own category, so a garnish, a
+  // drink or a dessert can never be served as tonight's dinner. Words in the
+  // title are not evidence: "sweet and sour" is not a dessert.
+  const kind = classifyDish(category, categories);
 
   return {
     preparationTimeMinutes: prepTime,
@@ -835,7 +844,7 @@ function deriveMeta({ title, instructions, ingredientCount, categories = [], are
     totalTimeMinutes: prepTime + cookingTime,
     difficulty,
     cookingMethod: method,
-    mealTypes: [...new Set(mealTypes)],
+    mealTypes: MEAL_TYPES_BY_KIND[kind],
     area: area ? String(area) : undefined,
   };
 }
@@ -896,11 +905,10 @@ function deriveTags({ recipe, origins, ingredientIds }) {
     );
   // A dessert is never "meal prep", and never "high protein" just for containing
   // cream or eggs — the labels have to survive a look at the recipe.
-  const dessertish =
-    /cake|cookie|biscuit|pudding|dessert|tart|brownie|candy|fudge|ice[- ]?cream|alfajor|muffin|doughnut|donut|pastry|crumble|trifle|sorbet|jelly|mousse|flan|cheesecake/i.test(
-      titleText,
-    );
-  if (!dessertish && (prepWords || (recipe.servings >= 4 && portionable))) tags.add('meal-prep');
+  // Derived from the category, not from words in the title: a dish that is only
+  // ever a snack (dessert, drink) is never "meal prep" and never "high protein".
+  const snackOnly = recipe.mealTypes.every((mealType) => mealType === 'snack');
+  if (!snackOnly && (prepWords || (recipe.servings >= 4 && portionable))) tags.add('meal-prep');
   if (/air[- ]?fryer/.test(titleText)) {
     tags.add('quick');
     tags.add('low-effort');
@@ -913,7 +921,7 @@ function deriveTags({ recipe, origins, ingredientIds }) {
   const proteinLead = ingredientIds
     .slice(0, 5)
     .findIndex((id) => proteinSource.test(id));
-  if (!dessertish && proteinLead >= 0 && proteinLead <= 3) tags.add('high-protein');
+  if (!snackOnly && proteinLead >= 0 && proteinLead <= 3) tags.add('high-protein');
   if (recipe.budgetTier === 'budget') tags.add('budget');
   if (recipe.dietaryClassification.includes('vegetarian')) tags.add('veggie');
   if (recipe.dietaryClassification.includes('vegan')) tags.add('plant-based');

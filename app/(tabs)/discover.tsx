@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SwipeRecipeCard } from '@/components/recipes/SwipeRecipeCard';
 import { PrimaryButton } from '@/components/ui/Button';
@@ -43,30 +43,33 @@ export default function DiscoverScreen() {
   const [round, setRound] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
 
-  // Decisions rewrite `data`, but the deck must not reshuffle mid-swipe, so the
-  // queue is rebuilt only when the filters, the round or the profile change.
+  // Decisions rewrite `data`, but the deck must not reshuffle mid-swipe. The
+  // builder only changes with the filters or the round, so that is exactly the
+  // effect's dependency; it reads the newest data through a ref (which React
+  // does not treat as a dependency) to seed the very first deck.
   const latestData = useRef(data);
   latestData.current = data;
-  const preferences = data?.preferences;
-  const deckKey = `${filterIds.join(',')}|${round}`;
+  const hasData = Boolean(data);
+  const buildDeck = useCallback(
+    (current: UserData) => buildQueue(current, filterIds, round),
+    [filterIds, round],
+  );
 
   useEffect(() => {
     const current = latestData.current;
-    if (!current) return;
-    setQueue(buildQueue(current, filterIds, round));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deckKey, preferences]);
+    if (current) setQueue(buildDeck(current));
+  }, [buildDeck, hasData]);
 
-  const matchCount = useMemo(() => {
-    if (!data) return 0;
-    return countDiscoveryMatches({
-      preferences: data.preferences,
-      planRecipeIds: data.plan.items.map((item) => item.recipeId),
-      feedback: data.feedback,
-      filterIds,
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterIds, preferences, data?.plan.items.length, data?.feedback]);
+  // Counting ~1k recipes is cheaper than a memo whose dependencies would need
+  // the whole plan and feedback objects to be recreated anyway.
+  const matchCount = data
+    ? countDiscoveryMatches({
+        preferences: data.preferences,
+        planRecipeIds: data.plan.items.map((item) => item.recipeId),
+        feedback: data.feedback,
+        filterIds,
+      })
+    : 0;
 
   const handleDecide = useCallback(
     (recipe: Recipe, decision: 'yes' | 'no') => {

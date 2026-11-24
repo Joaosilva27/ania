@@ -275,6 +275,7 @@
    "one-pan",
    "meal-prep",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -283,9 +284,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "acini-di-pepe",
@@ -376,7 +378,8 @@
    "budget",
    "veggie",
    "plant-based",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -385,10 +388,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "split-red-dal",
@@ -830,7 +833,9 @@
    "simple",
    "one-pan",
    "comfort",
-   "veggie"
+   "veggie",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -838,9 +843,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "akamu-paste-broken-into",
@@ -975,6 +981,7 @@
    "one-pan",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -982,9 +989,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lb-cod-fillet",
@@ -1431,6 +1439,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -1440,9 +1449,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "Algerian",
   "primaryIngredient": "green-pepper",
@@ -1642,7 +1652,6 @@
    "budget",
    "veggie",
    "plant-based",
-   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -1652,10 +1661,9 @@
    "carnivore"
   ],
   "mealTypes": [
-   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": true,
+  "mealPrepSuitable": false,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "flour",
@@ -2047,6 +2055,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -2056,9 +2065,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "carrot-peeled",
@@ -2166,15 +2176,18 @@
   ],
   "tags": [
    "under-30",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lb-elbow-macaroni-cooked",
@@ -2288,6 +2301,7 @@
    "meal-prep",
    "comfort",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -2296,9 +2310,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lb-macaroni-cooked",
@@ -2918,15 +2933,17 @@
   "tags": [
    "one-pan",
    "meal-prep",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "vegetable-oil",
@@ -3222,7 +3239,6 @@
   "tags": [
    "low-effort",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -3337,9 +3353,12 @@
   "tags": [
    "under-30",
    "quick",
+   "meal-prep",
    "budget",
    "veggie",
-   "plant-based"
+   "plant-based",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -3348,9 +3367,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "rice",
@@ -3914,9 +3934,7 @@
    "simple",
    "low-effort",
    "one-pan",
-   "meal-prep",
    "comfort",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -4114,7 +4132,6 @@
   ],
   "tags": [
    "under-30",
-   "meal-prep",
    "comfort",
    "veggie"
   ],
@@ -4343,16 +4360,19 @@
   "tags": [
    "under-30",
    "quick",
-   "one-pan"
+   "one-pan",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "apricot-fruit-spread",
@@ -4434,8 +4454,7 @@
    "one-pan",
    "budget",
    "veggie",
-   "plant-based",
-   "breakfast"
+   "plant-based"
   ],
   "dietaryClassification": [
    "vegan",
@@ -4444,7 +4463,6 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
    "snack"
   ],
   "mealPrepSuitable": false,
@@ -5819,13 +5837,14 @@
    }
   ],
   "tags": [
-   "comfort"
+   "comfort",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -5985,6 +6004,7 @@
    "one-pan",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -5992,9 +6012,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "artichoke",
@@ -6312,15 +6333,17 @@
    "one-pan",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "cooked-chicken-skin-removed",
@@ -6449,15 +6472,18 @@
    }
   ],
   "tags": [
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "duck-breast",
@@ -6579,6 +6605,7 @@
    "one-pan",
    "meal-prep",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -6587,9 +6614,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "mushrooms",
@@ -7022,6 +7050,7 @@
    "one-pan",
    "meal-prep",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -7030,9 +7059,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Turkish",
   "primaryIngredient": "aubergine",
@@ -7453,7 +7483,6 @@
    "under-30",
    "simple",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -7562,7 +7591,9 @@
    "low-effort",
    "one-pan",
    "high-protein",
-   "veggie"
+   "veggie",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -7570,9 +7601,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Australian",
   "primaryIngredient": "avocado",
@@ -7688,6 +7720,7 @@
    "one-pan",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -7695,9 +7728,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "boston-butterhead-lettuce-torn",
@@ -8203,7 +8237,6 @@
   ],
   "tags": [
    "one-pan",
-   "high-protein",
    "budget",
    "veggie"
   ],
@@ -9219,7 +9252,8 @@
    "one-pan",
    "meal-prep",
    "comfort",
-   "veggie"
+   "veggie",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -9227,7 +9261,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -9341,15 +9375,17 @@
    "meal-prep",
    "comfort",
    "budget",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "flour",
@@ -9567,15 +9603,18 @@
    "one-pan",
    "meal-prep",
    "comfort",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken",
@@ -11052,8 +11091,7 @@
    }
   ],
   "tags": [
-   "low-effort",
-   "high-protein"
+   "low-effort"
   ],
   "dietaryClassification": [
    "carnivore"
@@ -13048,15 +13086,18 @@
   ],
   "tags": [
    "one-pan",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "butter",
@@ -14679,9 +14720,7 @@
   ],
   "tags": [
    "one-pan",
-   "meal-prep",
-   "comfort",
-   "high-protein"
+   "comfort"
   ],
   "dietaryClassification": [
    "carnivore"
@@ -15605,15 +15644,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Ukrainian",
   "primaryIngredient": "beetroot",
@@ -15824,15 +15865,18 @@
   ],
   "tags": [
    "one-pan",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "World",
   "primaryIngredient": "beef",
@@ -16535,6 +16579,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -16544,9 +16589,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "10-lettuce-leave",
@@ -17499,13 +17545,14 @@
    "low-effort",
    "one-pan",
    "meal-prep",
-   "comfort"
+   "comfort",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "higher",
@@ -18024,15 +18071,17 @@
    "one-pan",
    "meal-prep",
    "comfort",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "butter",
@@ -18712,9 +18761,7 @@
   "tags": [
    "simple",
    "one-pan",
-   "meal-prep",
-   "veggie",
-   "breakfast"
+   "veggie"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -18722,7 +18769,6 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
    "snack"
   ],
   "mealPrepSuitable": false,
@@ -19039,16 +19085,17 @@
   ],
   "tags": [
    "one-pan",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "green-onion-cut-into",
@@ -19155,16 +19202,17 @@
    "low-effort",
    "one-pan",
    "high-protein",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Irish",
   "primaryIngredient": "potatoes",
@@ -19299,7 +19347,9 @@
    "comfort",
    "budget",
    "veggie",
-   "plant-based"
+   "plant-based",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -19308,9 +19358,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "mushrooms",
@@ -20690,8 +20741,7 @@
   "tags": [
    "one-pan",
    "budget",
-   "veggie",
-   "breakfast"
+   "veggie"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -20699,7 +20749,6 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
    "snack"
   ],
   "mealPrepSuitable": false,
@@ -20945,7 +20994,8 @@
    "one-pan",
    "meal-prep",
    "comfort",
-   "veggie"
+   "veggie",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -20953,7 +21003,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -21821,7 +21871,6 @@
    "simple",
    "low-effort",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -22208,15 +22257,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "butter",
@@ -22621,13 +22672,14 @@
   ],
   "tags": [
    "one-pan",
-   "meal-prep"
+   "meal-prep",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -22758,15 +22810,17 @@
   "tags": [
    "under-30",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "World",
   "primaryIngredient": "beef",
@@ -22891,6 +22945,7 @@
    "meal-prep",
    "comfort",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -22899,9 +22954,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Russian",
   "primaryIngredient": "butter",
@@ -23659,15 +23715,13 @@
    }
   ],
   "tags": [
-   "low-effort",
-   "meal-prep",
-   "lunch"
+   "low-effort"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -23753,15 +23807,17 @@
   "tags": [
    "simple",
    "low-effort",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "envelope-onion-soup-mix",
@@ -24108,16 +24164,19 @@
    "quick",
    "simple",
    "low-effort",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "World",
   "primaryIngredient": "prawn",
@@ -26056,7 +26115,6 @@
    "simple",
    "low-effort",
    "one-pan",
-   "meal-prep",
    "budget",
    "veggie"
   ],
@@ -26192,15 +26250,18 @@
   ],
   "tags": [
    "one-pan",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "vegetable-oil",
@@ -26532,7 +26593,7 @@
    "low-effort",
    "high-protein",
    "veggie",
-   "breakfast"
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -26540,8 +26601,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -27048,15 +27108,17 @@
   ],
   "tags": [
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "United States",
   "primaryIngredient": "chicken-breast",
@@ -27915,15 +27977,18 @@
    "under-30",
    "quick",
    "simple",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lbs-chicken-breast",
@@ -29389,15 +29454,18 @@
   "tags": [
    "low-effort",
    "one-pan",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken-leg",
@@ -30366,15 +30434,17 @@
    "under-30",
    "low-effort",
    "meal-prep",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Greek",
   "primaryIngredient": "quinoa",
@@ -30534,15 +30604,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken",
@@ -30661,15 +30733,17 @@
   "tags": [
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken",
@@ -30783,15 +30857,17 @@
    "under-30",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken-breast",
@@ -30923,15 +30999,18 @@
    }
   ],
   "tags": [
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Saudi Arabian",
   "primaryIngredient": "chicken-breast",
@@ -31136,15 +31215,17 @@
   "tags": [
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken",
@@ -31486,15 +31567,18 @@
   ],
   "tags": [
    "one-pan",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "oil",
@@ -31713,15 +31797,17 @@
    "one-pan",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "water",
@@ -33203,17 +33289,14 @@
   "tags": [
    "simple",
    "low-effort",
-   "one-pan",
-   "meal-prep",
-   "high-protein",
-   "lunch"
+   "one-pan"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "higher",
@@ -33980,15 +34063,18 @@
   "tags": [
    "low-effort",
    "one-pan",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lbs-pork-country-style-rib",
@@ -34241,15 +34327,17 @@
   "tags": [
    "low-effort",
    "one-pan",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "Uruguayan",
   "primaryIngredient": "milk",
@@ -34468,9 +34556,7 @@
   "tags": [
    "low-effort",
    "one-pan",
-   "meal-prep",
    "comfort",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -35159,7 +35245,6 @@
   "tags": [
    "low-effort",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -35367,7 +35452,6 @@
    "simple",
    "low-effort",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -35479,7 +35563,6 @@
   "tags": [
    "under-30",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -35992,15 +36075,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "Algerian",
   "primaryIngredient": "freekeh",
@@ -36089,15 +36174,17 @@
    "low-effort",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Spanish",
   "primaryIngredient": "potatoes",
@@ -36191,16 +36278,17 @@
    "under-30",
    "quick",
    "high-protein",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Spanish",
   "primaryIngredient": "potatoes",
@@ -36571,8 +36659,7 @@
   ],
   "tags": [
    "one-pan",
-   "veggie",
-   "breakfast"
+   "veggie"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -36580,7 +36667,6 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
    "snack"
   ],
   "mealPrepSuitable": false,
@@ -37012,15 +37098,18 @@
   ],
   "tags": [
    "low-effort",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "pork-chop",
@@ -37244,7 +37333,6 @@
    "budget",
    "veggie",
    "plant-based",
-   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -37254,10 +37342,9 @@
    "carnivore"
   ],
   "mealTypes": [
-   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": true,
+  "mealPrepSuitable": false,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "flour",
@@ -37648,13 +37735,14 @@
    "under-30",
    "low-effort",
    "one-pan",
-   "high-protein"
+   "high-protein",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -38028,6 +38116,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -38037,9 +38126,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "olive-oil",
@@ -38309,15 +38399,18 @@
   "tags": [
    "low-effort",
    "one-pan",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "Canadian",
   "primaryIngredient": "oil",
@@ -38421,15 +38514,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "semolina",
@@ -38760,7 +38855,9 @@
    "under-30",
    "one-pan",
    "high-protein",
-   "veggie"
+   "veggie",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -38768,9 +38865,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "desiccated-coconut",
@@ -38850,7 +38948,6 @@
    "simple",
    "low-effort",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -39053,15 +39150,18 @@
   ],
   "tags": [
    "low-effort",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Irish",
   "primaryIngredient": "butter",
@@ -39347,11 +39447,9 @@
   ],
   "tags": [
    "under-30",
-   "meal-prep",
    "budget",
    "veggie",
-   "plant-based",
-   "lunch"
+   "plant-based"
   ],
   "dietaryClassification": [
    "vegan",
@@ -39360,7 +39458,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "budget",
@@ -39436,6 +39534,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -39445,9 +39544,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "mayonnaise-or-2-dl",
@@ -39736,13 +39836,14 @@
    }
   ],
   "tags": [
-   "comfort"
+   "comfort",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "higher",
@@ -41026,6 +41127,7 @@
    "one-pan",
    "high-protein",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -41034,9 +41136,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lbs-hamburger",
@@ -41170,15 +41273,18 @@
   ],
   "tags": [
    "under-30",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken-poached",
@@ -41460,8 +41566,10 @@
   ],
   "tags": [
    "one-pan",
+   "high-protein",
    "budget",
-   "veggie"
+   "veggie",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -41469,7 +41577,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "budget",
@@ -41579,15 +41687,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "corn-on-cob",
@@ -41937,7 +42047,8 @@
    "low-effort",
    "meal-prep",
    "comfort",
-   "veggie"
+   "veggie",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -41945,7 +42056,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -42727,16 +42838,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Croatian",
   "primaryIngredient": "tinned-cannellini-beans",
@@ -42912,16 +43024,17 @@
   ],
   "tags": [
    "one-pan",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Croatian",
   "primaryIngredient": "potatoes",
@@ -43343,15 +43456,17 @@
   "tags": [
    "one-pan",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "World",
   "primaryIngredient": "pork-chop",
@@ -43736,15 +43851,18 @@
   "tags": [
    "one-pan",
    "meal-prep",
-   "comfort"
+   "comfort",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "vegetable",
@@ -44279,7 +44397,6 @@
   ],
   "tags": [
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -44922,7 +45039,8 @@
    "one-pan",
    "meal-prep",
    "comfort",
-   "veggie"
+   "veggie",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -44930,7 +45048,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -45644,9 +45762,7 @@
   ],
   "tags": [
    "one-pan",
-   "meal-prep",
    "comfort",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -45848,6 +45964,7 @@
   "tags": [
    "low-effort",
    "one-pan",
+   "high-protein",
    "budget",
    "veggie",
    "breakfast"
@@ -46700,6 +46817,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -46709,9 +46827,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "tinned-cannellini-beans",
@@ -47082,15 +47201,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Chinese",
   "primaryIngredient": "chicken-stock",
@@ -47839,13 +47960,10 @@
   ],
   "tags": [
    "one-pan",
-   "meal-prep",
    "comfort",
-   "high-protein",
    "budget",
    "veggie",
-   "plant-based",
-   "lunch"
+   "plant-based"
   ],
   "dietaryClassification": [
    "vegan",
@@ -47854,7 +47972,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "budget",
@@ -48563,8 +48681,7 @@
   "tags": [
    "simple",
    "low-effort",
-   "one-pan",
-   "high-protein"
+   "one-pan"
   ],
   "dietaryClassification": [
    "carnivore"
@@ -49299,6 +49416,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -49308,9 +49426,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "Syrian",
   "primaryIngredient": "falafel",
@@ -49493,15 +49612,17 @@
    "one-pan",
    "meal-prep",
    "comfort",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "olive-oil",
@@ -50036,6 +50157,7 @@
   "tags": [
    "under-30",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -50044,9 +50166,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "spaghetti",
@@ -50640,13 +50763,14 @@
    }
   ],
   "tags": [
-   "one-pan"
+   "one-pan",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -51122,6 +51246,7 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -51129,9 +51254,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Russian",
   "primaryIngredient": "olive-oil",
@@ -51420,6 +51546,7 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -51427,9 +51554,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Norway",
   "primaryIngredient": "fish-fillet",
@@ -51774,9 +51902,7 @@
   "tags": [
    "under-30",
    "one-pan",
-   "meal-prep",
    "comfort",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -51904,8 +52030,7 @@
    }
   ],
   "tags": [
-   "one-pan",
-   "high-protein"
+   "one-pan"
   ],
   "dietaryClassification": [
    "carnivore"
@@ -52390,7 +52515,8 @@
    "low-effort",
    "high-protein",
    "veggie",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -52398,10 +52524,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "France",
   "primaryIngredient": "eggs",
@@ -52773,6 +52899,7 @@
    "meal-prep",
    "high-protein",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -52781,9 +52908,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "hazelnut",
@@ -52892,15 +53020,17 @@
   "tags": [
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "prepared-vinaigrette-salad-dressing",
@@ -53003,15 +53133,14 @@
    }
   ],
   "tags": [
-   "one-pan",
-   "lunch"
+   "one-pan"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -53419,7 +53548,6 @@
   "tags": [
    "under-30",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -55360,7 +55488,8 @@
    "one-pan",
    "budget",
    "veggie",
-   "plant-based"
+   "plant-based",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -55369,7 +55498,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "budget",
@@ -56206,7 +56335,6 @@
   "tags": [
    "simple",
    "one-pan",
-   "high-protein",
    "budget",
    "veggie"
   ],
@@ -56471,16 +56599,17 @@
    "low-effort",
    "one-pan",
    "high-protein",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken",
@@ -56648,6 +56777,7 @@
    "meal-prep",
    "high-protein",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -56656,9 +56786,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "mayonnaise",
@@ -56974,7 +57105,9 @@
   "tags": [
    "under-30",
    "low-effort",
-   "veggie"
+   "veggie",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -56982,9 +57115,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Turkish",
   "primaryIngredient": "olive-oil",
@@ -57089,15 +57223,18 @@
    }
   ],
   "tags": [
-   "comfort"
+   "comfort",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lbs-flank-steak",
@@ -57309,15 +57446,17 @@
    "under-30",
    "low-effort",
    "meal-prep",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "vinegar",
@@ -57600,15 +57739,18 @@
    }
   ],
   "tags": [
-   "meal-prep"
+   "meal-prep",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chili-powder",
@@ -57980,6 +58122,7 @@
    "one-pan",
    "comfort",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -57988,9 +58131,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "United States",
   "primaryIngredient": "macaroni",
@@ -58295,7 +58439,8 @@
    "quick",
    "meal-prep",
    "comfort",
-   "veggie"
+   "veggie",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -58303,7 +58448,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -58451,7 +58596,6 @@
   ],
   "tags": [
    "under-30",
-   "meal-prep",
    "comfort"
   ],
   "dietaryClassification": [
@@ -59036,10 +59180,7 @@
    "simple",
    "low-effort",
    "one-pan",
-   "meal-prep",
-   "high-protein",
-   "veggie",
-   "lunch"
+   "veggie"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -59047,7 +59188,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -59693,13 +59834,14 @@
   ],
   "tags": [
    "one-pan",
-   "high-protein"
+   "high-protein",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -59887,15 +60029,18 @@
   ],
   "tags": [
    "low-effort",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken",
@@ -60046,15 +60191,17 @@
    "one-pan",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken",
@@ -60280,7 +60427,8 @@
    "low-effort",
    "one-pan",
    "veggie",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -60288,10 +60436,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "rolled-oats",
@@ -60464,7 +60612,6 @@
    }
   ],
   "tags": [
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -61168,15 +61315,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "Chinese",
   "primaryIngredient": "mushrooms",
@@ -61311,15 +61460,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken-broth",
@@ -61541,15 +61692,17 @@
    "low-effort",
    "one-pan",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Turkish",
   "primaryIngredient": "lamb-leg",
@@ -61674,7 +61827,6 @@
   ],
   "tags": [
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -62280,8 +62432,7 @@
   ],
   "tags": [
    "one-pan",
-   "veggie",
-   "breakfast"
+   "veggie"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -62289,7 +62440,6 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
    "snack"
   ],
   "mealPrepSuitable": false,
@@ -62413,9 +62563,7 @@
   ],
   "tags": [
    "one-pan",
-   "meal-prep",
-   "comfort",
-   "high-protein"
+   "comfort"
   ],
   "dietaryClassification": [
    "carnivore"
@@ -62639,7 +62787,8 @@
    "meal-prep",
    "budget",
    "veggie",
-   "plant-based"
+   "plant-based",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -62648,7 +62797,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "budget",
@@ -63179,6 +63328,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -63188,9 +63338,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "pumpkin",
@@ -64484,16 +64635,17 @@
    "one-pan",
    "meal-prep",
    "comfort",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Jamaican",
   "primaryIngredient": "goat-meat",
@@ -65863,15 +66015,18 @@
    "under-30",
    "simple",
    "low-effort",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lb-chicken-drummette",
@@ -65964,13 +66119,14 @@
    "under-30",
    "quick",
    "simple",
-   "high-protein"
+   "high-protein",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -68811,9 +68967,7 @@
    "simple",
    "low-effort",
    "one-pan",
-   "meal-prep",
    "comfort",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -68949,16 +69103,17 @@
   "tags": [
    "under-30",
    "budget",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "flour",
@@ -69941,15 +70096,18 @@
   "tags": [
    "simple",
    "low-effort",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lbs-beef-chunk-any",
@@ -70154,15 +70312,17 @@
    "under-30",
    "meal-prep",
    "comfort",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "spinach",
@@ -71599,7 +71759,9 @@
   "tags": [
    "budget",
    "veggie",
-   "plant-based"
+   "plant-based",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -71608,9 +71770,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "semolina",
@@ -73353,7 +73516,6 @@
   ],
   "tags": [
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -73867,15 +74029,17 @@
   ],
   "tags": [
    "low-effort",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "United States",
   "primaryIngredient": "sour-cream",
@@ -74305,6 +74469,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -74314,9 +74479,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "Tunisian",
   "primaryIngredient": "olive-oil",
@@ -74393,7 +74559,6 @@
    "simple",
    "low-effort",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -74926,15 +75091,17 @@
    "one-pan",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "potatoes",
@@ -75017,15 +75184,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "cheap-cut-lamb-or",
@@ -75697,7 +75866,9 @@
   "tags": [
    "one-pan",
    "comfort",
-   "veggie"
+   "veggie",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -75705,9 +75876,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "macaroni",
@@ -75832,6 +76004,7 @@
    "under-30",
    "meal-prep",
    "comfort",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -75839,9 +76012,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "macaroni",
@@ -76603,7 +76777,9 @@
   "tags": [
    "under-30",
    "one-pan",
-   "veggie"
+   "veggie",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -76611,9 +76787,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "milk",
@@ -76957,16 +77134,19 @@
    "under-30",
    "simple",
    "low-effort",
-   "meal-prep"
+   "meal-prep",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "vegetable-oil",
@@ -77075,7 +77255,9 @@
    "one-pan",
    "budget",
    "veggie",
-   "plant-based"
+   "plant-based",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -77084,9 +77266,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "firm-under-ripe-mango-cubed",
@@ -77390,13 +77573,14 @@
   ],
   "tags": [
    "comfort",
-   "high-protein"
+   "high-protein",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -77517,16 +77701,19 @@
   ],
   "tags": [
    "one-pan",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "soy-sauce",
@@ -78402,16 +78589,17 @@
    "one-pan",
    "meal-prep",
    "comfort",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Kenyan",
   "primaryIngredient": "goat-meat",
@@ -79016,6 +79204,7 @@
    "under-30",
    "one-pan",
    "meal-prep",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -79023,9 +79212,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Italian",
   "primaryIngredient": "mozzarella-ball",
@@ -79636,7 +79826,6 @@
   "tags": [
    "under-30",
    "one-pan",
-   "meal-prep",
    "comfort",
    "veggie"
   ],
@@ -80229,6 +80418,7 @@
    "one-pan",
    "meal-prep",
    "comfort",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -80236,9 +80426,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "oil",
@@ -80752,6 +80943,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -80761,9 +80953,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "Moroccan",
   "primaryIngredient": "carrot",
@@ -81080,7 +81273,9 @@
    "one-pan",
    "budget",
    "veggie",
-   "plant-based"
+   "plant-based",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -81089,9 +81284,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "pumpkin",
@@ -81354,15 +81550,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "pound-butter-divided",
@@ -81830,7 +82028,6 @@
   "tags": [
    "low-effort",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -82274,15 +82471,13 @@
    }
   ],
   "tags": [
-   "under-30",
-   "meal-prep",
-   "lunch"
+   "under-30"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -82917,7 +83112,8 @@
    "low-effort",
    "high-protein",
    "veggie",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -82925,10 +83121,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "eggs",
@@ -83179,15 +83375,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "water",
@@ -83308,6 +83506,7 @@
    "low-effort",
    "one-pan",
    "meal-prep",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -83315,9 +83514,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Vietnamese",
   "primaryIngredient": "rice-noodles",
@@ -83581,7 +83781,6 @@
   ],
   "tags": [
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -83942,6 +84141,7 @@
    }
   ],
   "tags": [
+   "meal-prep",
    "budget",
    "veggie",
    "plant-based",
@@ -84234,15 +84434,17 @@
   "tags": [
    "one-pan",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "baguette",
@@ -84603,6 +84805,7 @@
   "tags": [
    "under-30",
    "low-effort",
+   "high-protein",
    "veggie",
    "breakfast"
   ],
@@ -84734,15 +84937,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "1-2-bitterleaf",
@@ -85110,15 +85315,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken-breast-cooked",
@@ -85436,15 +85643,17 @@
    "one-pan",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "oil",
@@ -85674,15 +85883,17 @@
   "tags": [
    "under-30",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "potatoes",
@@ -85800,8 +86011,7 @@
   "tags": [
    "budget",
    "veggie",
-   "plant-based",
-   "lunch"
+   "plant-based"
   ],
   "dietaryClassification": [
    "vegan",
@@ -85810,7 +86020,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "budget",
@@ -85935,6 +86145,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -85944,9 +86155,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "pasta",
@@ -86653,7 +86865,8 @@
    "one-pan",
    "meal-prep",
    "comfort",
-   "veggie"
+   "veggie",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -86661,7 +86874,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -87302,15 +87515,17 @@
    "under-30",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken-stock",
@@ -87536,7 +87751,6 @@
   ],
   "tags": [
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -87807,7 +88021,6 @@
   ],
   "tags": [
    "one-pan",
-   "meal-prep",
    "comfort",
    "veggie"
   ],
@@ -88261,15 +88474,18 @@
   ],
   "tags": [
    "low-effort",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "potatoes",
@@ -88370,6 +88586,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -88379,9 +88596,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "green-papaya",
@@ -88455,7 +88673,8 @@
    "comfort",
    "budget",
    "veggie",
-   "plant-based"
+   "plant-based",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -88464,7 +88683,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "budget",
@@ -88979,7 +89198,6 @@
   "tags": [
    "under-30",
    "one-pan",
-   "meal-prep",
    "comfort",
    "veggie"
   ],
@@ -89261,15 +89479,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "olive-oil",
@@ -89523,15 +89743,18 @@
    "one-pan",
    "meal-prep",
    "high-protein",
-   "budget"
+   "budget",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "pasta",
@@ -90614,15 +90837,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "macaroni",
@@ -91188,7 +91413,9 @@
    "meal-prep",
    "budget",
    "veggie",
-   "plant-based"
+   "plant-based",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -91197,9 +91424,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "pasta",
@@ -91505,7 +91733,9 @@
    "one-pan",
    "budget",
    "veggie",
-   "plant-based"
+   "plant-based",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -91514,9 +91744,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "flour",
@@ -91620,15 +91851,17 @@
    "low-effort",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "miracle-whip-salad-dressing",
@@ -91713,7 +91946,8 @@
    "simple",
    "low-effort",
    "one-pan",
-   "veggie"
+   "veggie",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -91721,7 +91955,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -91940,7 +92174,6 @@
   "tags": [
    "low-effort",
    "one-pan",
-   "meal-prep",
    "comfort",
    "veggie"
   ],
@@ -92435,8 +92668,7 @@
    }
   ],
   "tags": [
-   "one-pan",
-   "high-protein"
+   "one-pan"
   ],
   "dietaryClassification": [
    "carnivore"
@@ -93618,16 +93850,19 @@
   ],
   "tags": [
    "under-30",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "salmon-fillet",
@@ -94677,7 +94912,6 @@
    "budget",
    "veggie",
    "plant-based",
-   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -94687,10 +94921,9 @@
    "carnivore"
   ],
   "mealTypes": [
-   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": true,
+  "mealPrepSuitable": false,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "flour",
@@ -95914,7 +96147,6 @@
   "tags": [
    "low-effort",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -96041,7 +96273,6 @@
   ],
   "tags": [
    "one-pan",
-   "meal-prep",
    "comfort",
    "veggie"
   ],
@@ -96507,15 +96738,17 @@
   "tags": [
    "one-pan",
    "meal-prep",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Russian",
   "primaryIngredient": "potatoes",
@@ -96633,13 +96866,10 @@
   ],
   "tags": [
    "one-pan",
-   "meal-prep",
    "comfort",
    "budget",
    "veggie",
-   "plant-based",
-   "dinner",
-   "lunch"
+   "plant-based"
   ],
   "dietaryClassification": [
    "vegan",
@@ -96648,10 +96878,9 @@
    "carnivore"
   ],
   "mealTypes": [
-   "dinner",
-   "lunch"
+   "snack"
   ],
-  "mealPrepSuitable": true,
+  "mealPrepSuitable": false,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "all-purpose-flour",
@@ -96758,15 +96987,17 @@
    "one-pan",
    "meal-prep",
    "comfort",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "potato-peeled",
@@ -97039,7 +97270,6 @@
   ],
   "tags": [
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -97281,15 +97511,18 @@
   ],
   "tags": [
    "under-30",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "pork",
@@ -97546,6 +97779,7 @@
    "low-effort",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -97553,9 +97787,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "Vietnamese",
   "primaryIngredient": "rice-noodles",
@@ -97817,16 +98052,19 @@
   ],
   "tags": [
    "under-30",
-   "low-effort"
+   "low-effort",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Spanish",
   "primaryIngredient": "red-pepper",
@@ -98051,6 +98289,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -98060,9 +98299,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "lentil-picked-over-rinsed",
@@ -98183,8 +98423,10 @@
    "under-30",
    "low-effort",
    "one-pan",
+   "high-protein",
    "veggie",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -98192,10 +98434,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "France",
   "primaryIngredient": "eggs",
@@ -98576,7 +98818,6 @@
   "tags": [
    "low-effort",
    "one-pan",
-   "meal-prep",
    "comfort",
    "veggie"
   ],
@@ -99001,9 +99242,7 @@
   ],
   "tags": [
    "one-pan",
-   "meal-prep",
    "comfort",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -99243,6 +99482,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -99252,9 +99492,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "oil",
@@ -99474,8 +99715,7 @@
   "tags": [
    "one-pan",
    "budget",
-   "veggie",
-   "breakfast"
+   "veggie"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -99483,7 +99723,6 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
    "snack"
   ],
   "mealPrepSuitable": false,
@@ -99680,15 +99919,17 @@
    "low-effort",
    "one-pan",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "World",
   "primaryIngredient": "lamb",
@@ -100524,7 +100765,8 @@
    "meal-prep",
    "high-protein",
    "veggie",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -100532,10 +100774,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "water",
@@ -101066,15 +101308,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "Jamaican",
   "primaryIngredient": "tinned-kidney-beans",
@@ -101719,15 +101963,18 @@
    }
   ],
   "tags": [
-   "low-effort"
+   "low-effort",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "Italian",
   "primaryIngredient": "olive-oil",
@@ -101943,7 +102190,8 @@
    "meal-prep",
    "comfort",
    "veggie",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -101951,10 +102199,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Turkish",
   "primaryIngredient": "aubergine",
@@ -102506,15 +102754,18 @@
    "one-pan",
    "meal-prep",
    "comfort",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Turkish",
   "primaryIngredient": "chicken-thigh",
@@ -102774,15 +103025,18 @@
    "one-pan",
    "meal-prep",
    "comfort",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "beer",
@@ -103631,15 +103885,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Polish",
   "primaryIngredient": "chicken-leg",
@@ -104423,15 +104679,17 @@
    "one-pan",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lemon-juice",
@@ -104542,6 +104800,7 @@
    "under-30",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -104549,9 +104808,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "British",
   "primaryIngredient": "salmon",
@@ -104675,6 +104935,7 @@
    "one-pan",
    "high-protein",
    "budget",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -104682,9 +104943,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "bread",
@@ -104874,6 +105136,7 @@
   "tags": [
    "simple",
    "one-pan",
+   "high-protein",
    "lunch"
   ],
   "dietaryClassification": [
@@ -104989,15 +105252,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Vietnamese",
   "primaryIngredient": "chicken-stock",
@@ -105085,6 +105350,7 @@
    "low-effort",
    "one-pan",
    "meal-prep",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -105092,9 +105358,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Vietnamese",
   "primaryIngredient": "rice-noodles",
@@ -105446,15 +105713,18 @@
   ],
   "tags": [
    "under-30",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "pound-salmon-steak-about",
@@ -105543,7 +105813,6 @@
    "budget",
    "veggie",
    "plant-based",
-   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -105553,10 +105822,9 @@
    "carnivore"
   ],
   "mealTypes": [
-   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": true,
+  "mealPrepSuitable": false,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "tomatoes",
@@ -106781,17 +107049,15 @@
   ],
   "tags": [
    "under-30",
-   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": true,
+  "mealPrepSuitable": false,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "canola-oil-divided",
@@ -106924,7 +107190,6 @@
   ],
   "tags": [
    "one-pan",
-   "meal-prep",
    "comfort",
    "veggie"
   ],
@@ -107319,6 +107584,7 @@
    "one-pan",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -107326,9 +107592,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "sauerkraut",
@@ -108389,15 +108656,18 @@
   ],
   "tags": [
    "low-effort",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "chicken-drumette",
@@ -109028,13 +109298,14 @@
   "tags": [
    "simple",
    "low-effort",
-   "high-protein"
+   "high-protein",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -109435,15 +109706,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Saudi Arabian",
   "primaryIngredient": "chuck-roast",
@@ -109766,6 +110039,7 @@
    "one-pan",
    "meal-prep",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -109774,9 +110048,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "cucumber",
@@ -110091,16 +110366,14 @@
    }
   ],
   "tags": [
-   "meal-prep",
-   "high-protein",
-   "lunch"
+   "comfort"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -110509,7 +110782,9 @@
    "high-protein",
    "budget",
    "veggie",
-   "plant-based"
+   "plant-based",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -110518,9 +110793,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "Chinese",
   "primaryIngredient": "firm-tofu",
@@ -110605,7 +110881,8 @@
    "meal-prep",
    "budget",
    "veggie",
-   "plant-based"
+   "plant-based",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -110614,7 +110891,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "budget",
@@ -110897,13 +111174,14 @@
    }
   ],
   "tags": [
-   "high-protein"
+   "high-protein",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -111407,15 +111685,18 @@
   "tags": [
    "under-30",
    "meal-prep",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "250g-chicken-thigh",
@@ -111518,7 +111799,6 @@
   "tags": [
    "low-effort",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -111720,15 +112000,17 @@
   "tags": [
    "one-pan",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "pound-turkey-thigh-skin",
@@ -112426,6 +112708,7 @@
    "meal-prep",
    "high-protein",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -112434,9 +112717,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "marinated-artichoke-heart",
@@ -112569,6 +112853,7 @@
   "tags": [
    "one-pan",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -112576,9 +112861,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "quinoa-grain-cooked",
@@ -113092,7 +113378,6 @@
    "budget",
    "veggie",
    "plant-based",
-   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -113102,10 +113387,9 @@
    "carnivore"
   ],
   "mealTypes": [
-   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": true,
+  "mealPrepSuitable": false,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "flour",
@@ -115260,16 +115544,13 @@
   "tags": [
    "simple",
    "low-effort",
-   "one-pan",
-   "meal-prep",
-   "high-protein",
-   "lunch"
+   "one-pan"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -115527,6 +115808,7 @@
    "one-pan",
    "meal-prep",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -115535,9 +115817,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Moroccan",
   "primaryIngredient": "potatoes",
@@ -115786,15 +116069,14 @@
    }
   ],
   "tags": [
-   "low-effort",
-   "lunch"
+   "low-effort"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -116050,7 +116332,6 @@
    "one-pan",
    "high-protein",
    "veggie",
-   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -116059,10 +116340,9 @@
    "carnivore"
   ],
   "mealTypes": [
-   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": true,
+  "mealPrepSuitable": false,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "greek-yogurt",
@@ -116162,15 +116442,17 @@
    "low-effort",
    "one-pan",
    "meal-prep",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "ounce-fettucine",
@@ -116582,7 +116864,6 @@
   "tags": [
    "simple",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -116808,16 +117089,19 @@
   "tags": [
    "under-30",
    "low-effort",
-   "meal-prep"
+   "meal-prep",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "pound-head-on-or-shell-on",
@@ -116915,15 +117199,17 @@
    "low-effort",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Australian",
   "primaryIngredient": "red-pepper",
@@ -117179,15 +117465,17 @@
    "under-30",
    "low-effort",
    "meal-prep",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Vietnamese",
   "primaryIngredient": "noodle",
@@ -117330,15 +117618,18 @@
    "one-pan",
    "meal-prep",
    "comfort",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "good-beef-stewing-steak",
@@ -117754,7 +118045,6 @@
    "under-30",
    "quick",
    "one-pan",
-   "meal-prep",
    "budget",
    "veggie"
   ],
@@ -118368,15 +118658,18 @@
   ],
   "tags": [
    "under-30",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lb-beef-tenderloin",
@@ -118822,7 +119115,6 @@
   ],
   "tags": [
    "one-pan",
-   "meal-prep",
    "comfort",
    "budget",
    "veggie"
@@ -119492,9 +119784,7 @@
    "simple",
    "low-effort",
    "one-pan",
-   "meal-prep",
    "comfort",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -121174,15 +121464,18 @@
   "tags": [
    "under-30",
    "one-pan",
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "vegetable",
@@ -121794,8 +122087,7 @@
    "one-pan",
    "budget",
    "veggie",
-   "plant-based",
-   "lunch"
+   "plant-based"
   ],
   "dietaryClassification": [
    "vegan",
@@ -121804,7 +122096,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "budget",
@@ -122994,6 +123286,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -123003,9 +123296,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "Vietnamese",
   "primaryIngredient": "carrot",
@@ -123630,15 +123924,17 @@
    "under-30",
    "simple",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "eggs",
@@ -123988,15 +124284,18 @@
   "tags": [
    "one-pan",
    "meal-prep",
-   "comfort"
+   "comfort",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "unsweetened-apple-juice",
@@ -124130,16 +124429,19 @@
    }
   ],
   "tags": [
-   "high-protein"
+   "high-protein",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "pound-salmon-fillet",
@@ -124237,15 +124539,17 @@
    "under-30",
    "simple",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "pound-beef-cut-into",
@@ -124819,15 +125123,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Thai",
   "primaryIngredient": "sunflower-oil",
@@ -125300,6 +125606,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -125309,9 +125616,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "Thai",
   "primaryIngredient": "pumpkin",
@@ -125444,15 +125752,17 @@
    "low-effort",
    "meal-prep",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "Thai",
   "primaryIngredient": "noodle",
@@ -125625,15 +125935,18 @@
   "tags": [
    "meal-prep",
    "high-protein",
-   "budget"
+   "budget",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "rice",
@@ -125870,15 +126183,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lb-chicken-meat-cubed",
@@ -127995,16 +128310,17 @@
   ],
   "tags": [
    "high-protein",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "Croatian",
   "primaryIngredient": "beef",
@@ -128499,17 +128815,14 @@
    }
   ],
   "tags": [
-   "one-pan",
-   "meal-prep",
-   "high-protein",
-   "lunch"
+   "one-pan"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -128866,17 +129179,14 @@
    }
   ],
   "tags": [
-   "one-pan",
-   "meal-prep",
-   "high-protein",
-   "lunch"
+   "one-pan"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -128965,6 +129275,7 @@
    "low-effort",
    "one-pan",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -128972,9 +129283,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "miracle-whip-salad-dressing",
@@ -129054,9 +129366,7 @@
    "simple",
    "low-effort",
    "one-pan",
-   "high-protein",
-   "veggie",
-   "lunch"
+   "veggie"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -129064,7 +129374,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "lunch"
+   "snack"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -129186,15 +129496,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Tunisian",
   "primaryIngredient": "lamb-mince",
@@ -130460,7 +130772,8 @@
    "one-pan",
    "budget",
    "veggie",
-   "plant-based"
+   "plant-based",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegan",
@@ -130469,7 +130782,7 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "budget",
@@ -131102,16 +131415,17 @@
   ],
   "tags": [
    "one-pan",
-   "breakfast"
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "breakfast",
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lb-firm-mori-nu-lite",
@@ -132151,6 +132465,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -132160,9 +132475,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "guacamole",
@@ -133948,15 +134264,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lbs-beef-bone-with",
@@ -134514,15 +134832,17 @@
    "low-effort",
    "one-pan",
    "meal-prep",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "higher",
   "cuisine": "Vietnamese",
   "primaryIngredient": "sugar",
@@ -135198,13 +135518,14 @@
   "tags": [
    "under-30",
    "one-pan",
-   "budget"
+   "budget",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "budget",
@@ -135546,6 +135867,7 @@
    "budget",
    "veggie",
    "plant-based",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -135555,9 +135877,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "quinoa",
@@ -135659,15 +135982,17 @@
    "one-pan",
    "meal-prep",
    "comfort",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "Australian",
   "primaryIngredient": "asparagus",
@@ -135909,14 +136234,15 @@
   ],
   "tags": [
    "under-30",
-   "one-pan"
+   "one-pan",
+   "lunch"
   ],
   "dietaryClassification": [
    "pescatarian",
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "lunch"
   ],
   "mealPrepSuitable": false,
   "budgetTier": "moderate",
@@ -136127,7 +136453,6 @@
    "simple",
    "low-effort",
    "one-pan",
-   "high-protein",
    "veggie"
   ],
   "dietaryClassification": [
@@ -136528,15 +136853,18 @@
    "meal-prep",
    "comfort",
    "high-protein",
-   "budget"
+   "budget",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "World",
   "primaryIngredient": "rice",
@@ -136679,15 +137007,17 @@
    "meal-prep",
    "comfort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "lb-country-style-pork-rib",
@@ -137072,6 +137402,7 @@
    "one-pan",
    "high-protein",
    "veggie",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -137080,9 +137411,10 @@
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "tortilla",
@@ -137388,8 +137720,11 @@
   "tags": [
    "one-pan",
    "comfort",
+   "high-protein",
    "budget",
-   "veggie"
+   "veggie",
+   "dinner",
+   "lunch"
   ],
   "dietaryClassification": [
    "vegetarian",
@@ -137397,9 +137732,10 @@
    "carnivore"
   ],
   "mealTypes": [
-   "snack"
+   "dinner",
+   "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "budget",
   "cuisine": "British",
   "primaryIngredient": "flour",
@@ -138017,7 +138353,6 @@
    "simple",
    "high-protein",
    "veggie",
-   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
@@ -138026,10 +138361,9 @@
    "carnivore"
   ],
   "mealTypes": [
-   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": true,
+  "mealPrepSuitable": false,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "salt",
@@ -138134,15 +138468,17 @@
   ],
   "tags": [
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "mushrooms",
@@ -138251,15 +138587,17 @@
    "under-30",
    "low-effort",
    "high-protein",
+   "dinner",
    "lunch"
   ],
   "dietaryClassification": [
    "carnivore"
   ],
   "mealTypes": [
+   "dinner",
    "lunch"
   ],
-  "mealPrepSuitable": false,
+  "mealPrepSuitable": true,
   "budgetTier": "moderate",
   "cuisine": "World",
   "primaryIngredient": "sausage",
