@@ -17,12 +17,16 @@ export interface UserProfile {
   isPreview: boolean;
 }
 
+export type SupermarketId = 'pingo-doce' | 'continente' | 'mercadona' | 'lidl' | 'auchan';
+
 export interface UserPreferences {
   primaryGoal: GoalId | null;
   obstacles: ObstacleId[];
   interests: InterestId[];
   dietaryPattern: DietaryPattern;
   statements: StatementResponses | null;
+  /** Shops the person actually uses; prices are compared only between these. */
+  supermarkets?: SupermarketId[];
   updatedAt: string;
 }
 
@@ -33,6 +37,7 @@ export type OnboardingStep =
   | 'statements'
   | 'preferences'
   | 'dietary'
+  | 'supermarkets'
   | 'recipe-discovery'
   | 'initial-plan'
   | 'shopping-preview'

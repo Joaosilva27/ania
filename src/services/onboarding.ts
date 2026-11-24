@@ -8,6 +8,7 @@ export const ONBOARDING_STEPS: OnboardingStep[] = [
   'statements',
   'preferences',
   'dietary',
+  'supermarkets',
   'recipe-discovery',
   'initial-plan',
   'shopping-preview',
@@ -20,6 +21,7 @@ export const ONBOARDING_ROUTE: Record<OnboardingStep, string> = {
   statements: '/onboarding/statements',
   preferences: '/onboarding/preferences',
   dietary: '/onboarding/dietary',
+  supermarkets: '/onboarding/supermarkets',
   'recipe-discovery': '/onboarding/recipe-discovery',
   'initial-plan': '/onboarding/initial-plan',
   'shopping-preview': '/onboarding/shopping-preview',
@@ -82,6 +84,8 @@ export function canAdvanceFrom(step: OnboardingStep, draft: OnboardingDraft): bo
       return preferences.interests.length > 0;
     case 'dietary':
       return Boolean(preferences.dietaryPattern);
+    case 'supermarkets':
+      return (preferences.supermarkets ?? []).length > 0;
     case 'recipe-discovery':
       return selectedRecipeIds.length === INITIAL_PLAN_SIZE;
     case 'initial-plan':
@@ -113,6 +117,10 @@ export const ONBOARDING_TITLES: Record<OnboardingStep, { title: string; subtitle
   statements: { title: 'Which statements do you relate to?' },
   preferences: { title: 'What do you like?', subtitle: 'Let us know to personalize your experience.' },
   dietary: { title: 'Any dietary requirements?' },
+  supermarkets: {
+    title: 'Where do you shop?',
+    subtitle: 'Pick every shop you use — we price each dish at the cheapest one.',
+  },
   'recipe-discovery': {
     title: "Let's find your first three meals.",
     subtitle: 'Swipe through delicious recipes picked just for you.',

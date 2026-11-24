@@ -11,6 +11,7 @@ import {
   type RecipeFeedbackEntry,
   type ShoppingCategory,
   type StatementResponses,
+  type SupermarketId,
   type UserData,
   type UserPreferences,
   type UserProfile,
@@ -32,6 +33,7 @@ export function defaultPreferences(): UserPreferences {
     interests: [],
     dietaryPattern: 'none',
     statements: null,
+    supermarkets: [],
     updatedAt: new Date(0).toISOString(),
   };
 }
@@ -93,6 +95,18 @@ export function toggleInterest(data: UserData, interest: InterestId): UserData {
 
 export function setInterests(data: UserData, interests: InterestId[]): UserData {
   return { ...data, preferences: touch({ ...data.preferences, interests }) };
+}
+
+export function setSupermarkets(data: UserData, supermarkets: SupermarketId[]): UserData {
+  return { ...data, preferences: touch({ ...data.preferences, supermarkets }) };
+}
+
+export function toggleSupermarket(data: UserData, supermarket: SupermarketId): UserData {
+  const current = data.preferences.supermarkets ?? [];
+  const next = current.includes(supermarket)
+    ? current.filter((item) => item !== supermarket)
+    : [...current, supermarket];
+  return setSupermarkets(data, next);
 }
 
 export function setDietaryPattern(data: UserData, pattern: DietaryPattern): UserData {

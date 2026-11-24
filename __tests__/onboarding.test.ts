@@ -19,6 +19,7 @@ import {
   setOnboardingStep,
   setDisplayName,
   setPrimaryGoal,
+  setSupermarkets,
   setStatements,
   setInterests,
   toggleObstacle,
@@ -62,8 +63,8 @@ describe('onboarding progression', () => {
     const data = createUserData(profile);
     expect(data.onboarding.currentStep).toBe('name');
     expect(resumeStep(data.onboarding)).toBe('name');
-    expect(progressFor('name')).toEqual({ index: 1, total: 9 });
-    expect(progressFor('goals')).toEqual({ index: 2, total: 9 });
+    expect(progressFor('name')).toEqual({ index: 1, total: 10 });
+    expect(progressFor('goals')).toEqual({ index: 2, total: 10 });
   });
 
   it('walks forward and backward through every step', () => {
@@ -73,6 +74,18 @@ describe('onboarding progression', () => {
     expect(previousStep('goals')).toBe('name');
     expect(previousStep('obstacles')).toBe('goals');
     expect(previousStep('name')).toBeNull();
+  });
+
+  it('needs at least one supermarket before pricing can work', () => {
+    const data = createUserData(profile);
+    const draft = { preferences: data.preferences, selectedRecipeIds: [], displayName: 'Mia' };
+    expect(canAdvanceFrom('supermarkets', draft)).toBe(false);
+    expect(
+      canAdvanceFrom('supermarkets', {
+        ...draft,
+        preferences: setSupermarkets(data, ['lidl', 'continente']).preferences,
+      }),
+    ).toBe(true);
   });
 
   it('needs a name before the first question', () => {

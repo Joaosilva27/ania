@@ -8,6 +8,8 @@ import { EmptyState, ScreenContainer } from '@/components/ui/Screen';
 import { RECIPE_BY_ID } from '@/data/recipes';
 import { LEGACY_RECIPE_TITLES } from '@/data/recipes/legacy';
 import { useRecipeActions } from '@/hooks/useRecipeActions';
+import { PriceSummary } from '@/components/pricing/PriceSummary';
+import { pricePlan } from '@/services/pricing';
 import { countPlanIngredients } from '@/services/shopping/aggregate';
 import { confirmAction } from '@/lib/dialogs';
 import { useUserStore } from '@/store/userStore';
@@ -22,6 +24,11 @@ export default function PlanScreen() {
   const ingredientCount = useMemo(
     () => (data ? countPlanIngredients(data.plan) : 0),
     [data],
+  );
+  const stores = data?.preferences.supermarkets ?? [];
+  const pricing = useMemo(
+    () => (data ? pricePlan(data.plan, { stores }) : null),
+    [data, stores.join(',')],
   );
 
   const confirmRemove = (recipeId: string, title: string) => {
@@ -69,6 +76,12 @@ export default function PlanScreen() {
               <Text style={[type.caption, { color: colors.inkSoft }]}>servings</Text>
             </View>
           </View>
+
+          {pricing ? (
+            <View style={{ marginTop: spacing.sm }}>
+              <PriceSummary result={pricing} label="Your basket" compact />
+            </View>
+          ) : null}
 
           <View style={{ gap: spacing.sm, marginTop: spacing.md }}>
             {items.map((item) => {

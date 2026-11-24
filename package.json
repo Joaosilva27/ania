@@ -17,6 +17,7 @@
     "recipes:import": "node scripts/import-recipes.mjs --refresh",
     "recipes:images": "node scripts/import-recipes.mjs --images-only",
     "images:build": "node scripts/build-image-registry.mjs",
+    "prices:build": "node scripts/build-price-book.mjs",
     "icons": "node scripts/make-icon.mjs",
     "verify:icons": "tsx scripts/verify-icons.ts",
     "prebuild": "expo prebuild"

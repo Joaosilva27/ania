@@ -2,6 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Platform, Pressable, Share, StyleSheet, Text, TextInput, View } from 'react-native';
+import { PriceSummary } from '@/components/pricing/PriceSummary';
 import { RecipeImage } from '@/components/recipes/RecipeImage';
 import { ShoppingCategoryBlock, ShoppingProgress } from '@/components/shopping/ShoppingList';
 import { IconButton, PrimaryButton } from '@/components/ui/Button';
@@ -9,6 +10,7 @@ import { EmptyState, ScreenContainer } from '@/components/ui/Screen';
 import { RECIPE_BY_ID } from '@/data/recipes';
 import { useShoppingList } from '@/hooks/useShoppingList';
 import { confirmAction, notify } from '@/lib/dialogs';
+import { pricePlan } from '@/services/pricing';
 import type { ShoppingList } from '@/services/shopping/aggregate';
 import {
   addManualShoppingItem,
@@ -43,6 +45,7 @@ export default function ShoppingListScreen() {
   if (!data || !list) return null;
 
   const recipes = data.plan.items.map((item) => RECIPE_BY_ID[item.recipeId]).filter(Boolean);
+  const stores = data.preferences.supermarkets ?? [];
 
   const submitManual = () => {
     if (!name.trim()) return;
@@ -124,6 +127,16 @@ export default function ShoppingListScreen() {
           <ShoppingProgress checked={list.checkedCount} total={list.totalCount} />
         </View>
       </View>
+
+      {data.plan.items.length ? (
+        <View style={{ marginTop: spacing.sm }}>
+          <PriceSummary
+            result={pricePlan(data.plan, { stores })}
+            label="Basket"
+            compact
+          />
+        </View>
+      ) : null}
 
       <View style={styles.toolbar}>
         <Pressable

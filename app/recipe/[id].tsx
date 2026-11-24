@@ -1,12 +1,13 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Heart, Sparkle } from '@/components/cute/Decor';
 import { IngredientIcon } from '@/components/shopping/IngredientIcon';
 import { RecipeImage } from '@/components/recipes/RecipeImage';
 import { RecipeStatsGrid } from '@/components/recipes/RecipeMeta';
+import { PriceSummary } from '@/components/pricing/PriceSummary';
 import { IconButton, PrimaryButton } from '@/components/ui/Button';
 import { TagBadge } from '@/components/ui/Chip';
 import { EmptyState, ScreenContainer } from '@/components/ui/Screen';
@@ -14,6 +15,7 @@ import { INGREDIENT_MAP } from '@/data/ingredients';
 import { getRecipeById } from '@/data/recipes';
 import { DIETARY_LABELS, TAG_LABELS } from '@/data/taxonomy';
 import { useRecipeActions } from '@/hooks/useRecipeActions';
+import { priceRecipe } from '@/services/pricing';
 import { clampServings, scaledIngredients } from '@/services/recipes/servings';
 import { useUserStore } from '@/store/userStore';
 import { colors, radius, spacing, type } from '@/theme';
@@ -44,6 +46,11 @@ export default function RecipeDetailScreen() {
   const servings = planItem ? planItem.servings : localServings;
   const ingredients = scaledIngredients(recipe, servings);
   const isFavorite = Boolean(favorites[recipe.id]);
+  const stores = data?.preferences.supermarkets ?? [];
+  const pricing = useMemo(
+    () => priceRecipe(recipe, { stores, servings }),
+    [recipe, servings, stores.join(',')],
+  );
 
   const changeServings = (next: number) => {
     const clamped = clampServings(next);
@@ -101,6 +108,10 @@ export default function RecipeDetailScreen() {
 
           <View style={{ marginTop: spacing.md }}>
             <RecipeStatsGrid recipe={recipe} />
+          </View>
+
+          <View style={{ marginTop: spacing.sm }}>
+            <PriceSummary result={pricing} label="Basket" perServing compact />
           </View>
 
           {recipe.nutrition ? (

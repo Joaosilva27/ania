@@ -6,14 +6,17 @@ import { PrimaryButton, TextButton } from '@/components/ui/Button';
 import { FilterChip, SelectableCard } from '@/components/ui/Chip';
 import { Banner, ScreenContainer } from '@/components/ui/Screen';
 import { getRecipesByIds } from '@/data/recipes';
+import { SUPERMARKETS } from '@/data/supermarkets';
 import { DIETARY_OPTIONS, GOALS, INTERESTS } from '@/data/taxonomy';
 import { confirmAction } from '@/lib/dialogs';
 import { isRecipeAllowedForDiet } from '@/services/dietary';
+import { PRICES_META } from '@/services/pricing';
 import {
   removeRecipeFromPlan,
   setDietaryPattern,
   setPrimaryGoal,
   toggleInterest,
+  toggleSupermarket,
 } from '@/services/userData';
 import { useAuthStore } from '@/store/authStore';
 import { useUserStore } from '@/store/userStore';
@@ -106,6 +109,21 @@ export default function SettingsScreen() {
           />
         ))}
       </ScrollView>
+
+      <Text style={[type.label, styles.sectionLabel]}>Supermarkets</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: spacing.xs }}>
+        {SUPERMARKETS.map((market) => (
+          <FilterChip
+            key={market.id}
+            label={market.name}
+            active={(preferences.supermarkets ?? []).includes(market.id)}
+            onPress={() => mutate((current) => toggleSupermarket(current, market.id))}
+          />
+        ))}
+      </ScrollView>
+      <Text style={[type.caption, { color: colors.muted, marginTop: 4 }]}>
+        Prices compare only these shops. {PRICES_META.note}
+      </Text>
 
       <Text style={[type.label, styles.sectionLabel]}>Dietary requirement</Text>
       <View style={{ gap: spacing.xs }}>
